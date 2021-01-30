@@ -1,0 +1,16 @@
+{
+  "works": {
+    "photos": [
+      {
+        "name": "Some photo",
+        "poster": "//via.placeholder.com/550x450"
+      }
+    ],
+    "videos": [
+      {
+        "name": "Some video",
+        "poster": "//via.placeholder.com/550x450"
+      }
+    ]
+  }
+}

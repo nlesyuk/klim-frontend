@@ -1,0 +1,25 @@
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+    @content;
+  }
+  &:-moz-placeholder {
+    @content;
+  }
+  &::-moz-placeholder {
+    @content;
+  }
+  &:-ms-input-placeholder {
+    @content;
+  }
+}
+/*
+& + placeholder{}
+@include placeholder {
+    font-style:italic;
+    color: white;
+    font-weight:100;
+} */
+
+@mixin transition-default {
+  transition: all 0.25s;
+}
