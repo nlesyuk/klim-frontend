@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <ul class="footer__social">
+    <!-- <ul class="footer__social">
       <li>
         <a href="#"
           ><svg width="24" height="24" viewBox="0 0 24 24">
@@ -25,7 +25,7 @@
             <use xlink:href="#svg-sprite--vimeo"></use></svg
         ></a>
       </li>
-    </ul>
+    </ul> -->
 
     <p class="footer__text">
       Klim Stepan. Ukraine based cinematogapher / director of photography

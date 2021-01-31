@@ -18,6 +18,7 @@ body {
 
 .container {
   width: 90%;
+  max-width: 1800px;
   margin: 0 auto;
 }
 // put footer in the bottom of page
@@ -88,13 +89,14 @@ body {
   &__posts {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-row-gap: 2px;
-    grid-column-gap: 2px;
+    grid-gap: 4px;
   }
   &__post {
     width: 100%;
+    min-height: 200px;
+    // background: $base-gradient;
+    background-color: red;
   }
-
   &__img {
     display: block;
     width: 100%;
@@ -108,9 +110,16 @@ body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   align-items: center;
+  &__figure {
+    width: 457px;
+    height: 509px;
+    max-width: 100%;
+    max-height: 100%;
+    margin-left: auto;
+    background: $base-gradient;
+  }
   &__img {
     display: block;
-    margin-left: auto;
   }
   &__info {
     width: 200px;
@@ -158,10 +167,14 @@ body {
 //
 .photos {
   &__gallery {
+    display: block;
+  }
+  &__row {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(8, 5vw);
+    grid-template-rows: repeat(8, 1fr);
     grid-gap: 0.2rem;
+    margin-bottom: 0.2rem;
   }
   &__item {
     &--1 {
@@ -173,7 +186,20 @@ body {
       grid-row: 5 / span 4;
     }
     &--3 {
-      grid-column: 4 / span 8;
+      grid-column: 4 / span 5;
+      grid-row: 1 / span 8;
+    }
+
+    &--4 {
+      grid-column: 6 / span 3;
+      grid-row: 1 / span 4;
+    }
+    &--5 {
+      grid-column: 6 / span 3;
+      grid-row: 5 / span 4;
+    }
+    &--6 {
+      grid-column: 1 / span 5;
       grid-row: 1 / span 8;
     }
   }
@@ -185,6 +211,7 @@ body {
     display: block;
   }
 }
+
 //
 .footer {
   padding: 50px 0 20px 0;

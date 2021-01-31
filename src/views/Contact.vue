@@ -1,6 +1,12 @@
 <template>
   <div class="contact">
-    <img src="@/assets/contact-image.jpg" class="contact__img" loading="lazy" />
+    <figure class="contact__figure">
+      <img
+        src="@/assets/contact-image.jpg"
+        class="contact__img"
+        loading="lazy"
+      />
+    </figure>
     <div class="contact__info">
       <span class="contact__text">
         Email
