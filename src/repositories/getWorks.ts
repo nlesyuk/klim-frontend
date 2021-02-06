@@ -1,15 +1,15 @@
-import Repository from './Repository'
+import Repository from "./Repository";
 
-const resources = 'works'
+const resources = "works";
 
 export default {
-  get () {
-    return Repository.get(`${resources}`)
+  get() {
+    return Repository.get(`${resources}`);
   },
-  getPhotos () {
-    return Repository.get(`${resources}/photos`)
+  getPhotos() {
+    return Repository.get(`${resources}/photos`);
   },
-  getVideos () {
-    return Repository.get(`${resources}/videos`)
-  },
-}
+  getVideos() {
+    return Repository.get(`${resources}/videos`);
+  }
+};

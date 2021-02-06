@@ -1,5 +1,6 @@
 @import "./variables";
 @import "./mixins";
+@import "./animations";
 @import "reset-css";
 
 // general
@@ -64,22 +65,84 @@ body {
     display: flex;
     justify-content: flex-end;
     align-self: center;
-    a {
-      font-family: $font;
-      font-size: 1.1rem;
-      text-transform: uppercase;
-      text-decoration: none;
+  }
+  &__nav-item {
+    font-family: $font;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: $grey;
+    margin-right: 30px;
+    @include transition-default;
+    &:last-child {
+      margin-right: 0;
+    }
+    &.active {
       color: $primary;
-      margin-right: 30px;
       @include transition-default;
-      &:last-child {
-        margin-right: 0;
-      }
-      &.active,
       &:hover {
-        color: $accent;
+        color: $accent-bright;
         @include transition-default;
       }
+    }
+    &:hover {
+      color: $primary;
+      @include transition-default;
+    }
+
+    &.main {
+    }
+  }
+  &__has-submenu {
+    position: relative;
+    &:hover {
+      .header__dropdown {
+        display: block;
+        // transform: translateY(0px);
+        // opacity: 1;
+        height: auto;
+        animation-delay: 0.2s;
+        animation-name: manegaOpacity;
+        animation-duration: 0.1s;
+        animation-fill-mode: forwards;
+      }
+    }
+  }
+  &__dropdown {
+    display: block;
+    opacity: 0;
+    // transform: translateY(-200px);
+    position: absolute;
+    left: -10px;
+    width: calc(100% + 20px);
+    height: 0;
+    height: auto;
+    padding: 8px 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color: white;
+    @include transition-default;
+    &:hover {
+      display: block;
+      // transform: translateY(0px);
+      // opacity: 1;
+      height: auto;
+    }
+  }
+  &__nav-subitem {
+    display: block;
+    font-family: $font;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: $primary;
+    margin-bottom: 8px;
+    &:hover {
+      color: $accent-bright;
+      @include transition-default;
+    }
+    &:last-child {
+      margin-bottom: 0;
     }
   }
 }
@@ -101,6 +164,15 @@ body {
     display: block;
     width: 100%;
     object-fit: cover;
+  }
+}
+
+//
+.shots {
+  display: block;
+  &__tags {
+    display: flex;
+    justify-content: center;
   }
 }
 
@@ -250,6 +322,7 @@ body {
   }
 }
 
+// additional
 .dev-author {
   display: block;
   width: 120px;
