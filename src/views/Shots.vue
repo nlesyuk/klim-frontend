@@ -18,7 +18,7 @@
         <img
           src="//via.placeholder.com/3584x1342"
           :alt="item"
-          class="home__img"
+          class="home__post-img"
         />
       </figure>
     </div>

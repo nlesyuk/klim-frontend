@@ -7,8 +7,13 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: "/",
-    name: "home",
-    component: Works
+    name: "works",
+    component: Works,
+  },
+  {
+    path: '/work/:id',
+    name: 'work',
+    component: () => import("../views/Work.vue")
   },
   {
     path: "/shots",
@@ -33,9 +38,5 @@ const router = new VueRouter({
   routes
 });
 
-router.beforeEach((to, from, next) => {
-  console.log(to, from)
-  next()
-})
 
 export default router;

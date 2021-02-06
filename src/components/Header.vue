@@ -26,68 +26,74 @@
     </a>
 
     <nav class="header__nav">
-      <router-link
-        exact-path
-        exact-active-class="active"
-        to="/"
-        class="header__nav-item"
-        >Works</router-link
-      >
-
-      <div class="header__has-submenu">
-        <router-link
-          exact-path
-          exact-active-class="active"
-          to="/shots"
-          class="header__nav-item main"
-          >Shots</router-link
-        >
-        <div class="header__dropdown">
-          <router-link
-            exact
-            exact-active-class="active"
-            :to="{ path: 'shots', query: { filter: 'all' } }"
-            class="header__nav-subitem"
-            >all</router-link
-          >
+      <ul>
+        <li>
           <router-link
             exact-path
             exact-active-class="active"
-            :to="{ path: 'shots', query: { filter: 'portrait' } }"
-            class="header__nav-subitem"
-            >portrait</router-link
+            to="/"
+            class="header__nav-item"
+            >Works</router-link
           >
+        </li>
+        <li>
           <router-link
             exact-path
             exact-active-class="active"
-            :to="{ path: 'shots', query: { filter: 'landscape' } }"
-            class="header__nav-subitem"
-            >landscape</router-link
+            to="/shots"
+            class="header__nav-item main"
+            >Shots</router-link
           >
+          <div class="header__dropdown">
+            <router-link
+              exact
+              exact-active-class="active"
+              :to="{ path: 'shots', query: { filter: 'all' } }"
+              class="header__nav-subitem"
+              >all</router-link
+            >
+            <router-link
+              exact-path
+              exact-active-class="active"
+              :to="{ path: 'shots', query: { filter: 'portrait' } }"
+              class="header__nav-subitem"
+              >portrait</router-link
+            >
+            <router-link
+              exact-path
+              exact-active-class="active"
+              :to="{ path: 'shots', query: { filter: 'landscape' } }"
+              class="header__nav-subitem"
+              >landscape</router-link
+            >
+            <router-link
+              exact-path
+              exact-active-class="active"
+              :to="{ path: 'shots', query: { filter: 'mood' } }"
+              class="header__nav-subitem"
+              >mood</router-link
+            >
+          </div>
+        </li>
+        <li>
           <router-link
             exact-path
             exact-active-class="active"
-            :to="{ path: 'shots', query: { filter: 'mood' } }"
-            class="header__nav-subitem"
-            >mood</router-link
+            to="/photo"
+            class="header__nav-item"
+            >Photo</router-link
           >
-        </div>
-      </div>
-
-      <router-link
-        exact-path
-        exact-active-class="active"
-        to="/photo"
-        class="header__nav-item"
-        >Photo</router-link
-      >
-      <router-link
-        exact-path
-        exact-active-class="active"
-        to="/contact"
-        class="header__nav-item"
-        >Contact</router-link
-      >
+        </li>
+        <li>
+          <router-link
+            exact-path
+            exact-active-class="active"
+            to="/contact"
+            class="header__nav-item"
+            >Contact</router-link
+          >
+        </li>
+      </ul>
     </nav>
   </header>
 </template>
