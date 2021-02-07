@@ -29,7 +29,12 @@ const routes: Array<RouteConfig> = [
     path: "/contact",
     name: "contact",
     component: () => import("../views/Contact.vue")
-  }
+  },
+  {
+    path: "/calendar",
+    name: "calendar",
+    component: () => import("../views/Calendar.vue")
+  },
 ];
 
 const router = new VueRouter({
