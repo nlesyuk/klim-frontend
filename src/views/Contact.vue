@@ -66,6 +66,7 @@ export default {
     };
   },
   mounted() {
+    // /contact/?calendar=on
     if (this.$route.query.calendar === "on") {
       this.isActivateCalendar = true;
     }

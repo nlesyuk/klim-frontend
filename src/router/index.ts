@@ -8,11 +8,11 @@ const routes: Array<RouteConfig> = [
   {
     path: "/",
     name: "works",
-    component: Works,
+    component: () => import("../views/Works.vue")
   },
   {
-    path: '/work/:id',
-    name: 'work',
+    path: "/work/:id",
+    name: "work",
     component: () => import("../views/Work.vue")
   },
   {
@@ -34,7 +34,7 @@ const routes: Array<RouteConfig> = [
     path: "/calendar",
     name: "calendar",
     component: () => import("../views/Calendar.vue")
-  },
+  }
 ];
 
 const router = new VueRouter({
@@ -42,6 +42,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
-
 
 export default router;

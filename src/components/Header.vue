@@ -25,6 +25,9 @@
       <img src="@/assets/logo.png" alt="logo" />
     </a>
 
+    <Menu class="header__nav" />
+
+    <!--
     <nav class="header__nav">
       <ul>
         <li>
@@ -94,12 +97,17 @@
           >
         </li>
       </ul>
-    </nav>
+    </nav> -->
   </header>
 </template>
 
 <script lang="ts">
+import Menu from "./menu.vue";
+
 export default {
-  name: "Header"
+  name: "Header",
+  components: {
+    Menu
+  }
 };
 </script>
