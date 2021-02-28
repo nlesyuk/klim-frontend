@@ -1,45 +1,35 @@
 <template>
   <div class="home">
-    <div class="home__posts" v-if="posts.length">
-      <Post
-        v-for="(post, idx) in posts"
+    <div class="works" v-if="works.length">
+      <WorkPreview
+        v-for="(work, idx) in works"
         :key="idx"
-        :src="post.src"
-        :id="post.id"
-        :title="post.title"
-      ></Post>
+        :work="work"
+      ></WorkPreview>
     </div>
   </div>
 </template>
 
 <script>
-import Post from "../components/Post";
+import WorkPreview from "../components/WorkPreview";
+
 export default {
   name: "Works",
   components: {
-    Post
+    WorkPreview
   },
   data() {
     return {
-      posts: []
+      works: []
     };
   },
   mounted() {
-    const p = {
-      src: "http://via.placeholder.com/550x250",
-      title: "Title",
-      id: 1
-    };
-    this.posts.push(p);
-    this.posts.push(p);
-    this.posts.push(p);
-    this.posts.push(p);
-    this.posts.push(p);
-    this.posts.push(p);
-    this.posts.push(p);
-    this.posts.push(p);
-    this.posts.push(p);
-    this.posts.push(p);
+    fetch("http://localhost:3000/works")
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.works = data;
+      });
   }
 };
 </script>
