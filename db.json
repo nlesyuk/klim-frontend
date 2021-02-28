@@ -1,39 +1,108 @@
 {
-  "works": {
-    "photos": [
-      {
-        "name": "Some photo",
-        "poster": "//via.placeholder.com/550x450"
-      }
-    ],
-    "videos": [
-      {
-        "name": "Some video",
-        "poster": "//via.placeholder.com/550x450"
-      }
-    ]
-  },
+  "works": [
+    {
+      "id": 1,
+      "title": "Title1",
+      "preview_img": "http://localhost:8080/img/galery/girl.png",
+      "photos": [
+        {
+          "src": "http://localhost:8080/img/galery/girl.png"
+        },
+        {
+          "src": "http://localhost:8080/img/galery/girl.png"
+        },
+        {
+          "src": "http://localhost:8080/img/galery/girl.png"
+        },
+        {
+          "src": "http://localhost:8080/img/galery/girl.png"
+        },
+        {
+          "src": "http://localhost:8080/img/galery/girl.png"
+        }
+      ],
+      "videos": [
+        {
+          "name": "Some video",
+          "src": "//via.placeholder.com/550x450"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Title2",
+      "preview_img": "http://localhost:8080/img/galery/wide1.jpg",
+      "photos": [
+        {
+          "src": "http://localhost:8080/img/galery/wide2.jpg",
+          "category": ["landscape"]
+        },
+        {
+          "src": "http://localhost:8080/img/galery/wide1.jpg",
+          "category": ["portrait"]
+        },
+        {
+          "src": "http://localhost:8080/img/galery/wide2.jpg",
+          "category": ["mood"]
+        }
+      ],
+      "videos": [
+        {
+          "name": "Some video",
+          "src": "//via.placeholder.com/550x450"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Title3",
+      "preview_img": "http://localhost:8080/img/galery/girl.png",
+      "photos": [
+        {
+          "name": "Some photo",
+          "src": "//via.placeholder.com/550x450"
+        }
+      ],
+      "videos": [
+        {
+          "name": "Some video",
+          "src": "//via.placeholder.com/550x450"
+        }
+      ]
+    }
+  ],
   "photos": [
     {
-      "src": "http://localhost:8080/img/galery/girl.png"
+      "src": "http://localhost:8080/img/galery/girl.png",
+      "category": ["commerce"]
     },
     {
-      "src": "http://localhost:8080/img/galery/girl.png"
+      "src": "http://localhost:8080/img/galery/girl.png",
+      "category": ["commerce"]
     },
     {
-      "src": "http://localhost:8080/img/galery/girl.png"
+      "src": "http://localhost:8080/img/galery/girl.png",
+      "category": ["commerce"]
     },
     {
-      "src": "http://localhost:8080/img/galery/girl.png"
+      "src": "http://localhost:8080/img/galery/girl.png",
+      "category": ["commerce"]
     },
     {
-      "src": "http://localhost:8080/img/galery/girl.png"
+      "src": "http://localhost:8080/img/galery/girl.png",
+      "category": []
     },
     {
-      "src": "http://localhost:8080/img/galery/girl.png"
+      "src": "http://localhost:8080/img/galery/girl.png",
+      "category": []
     },
     {
-      "src": "http://localhost:8080/img/galery/girl.png"
+      "src": "http://localhost:8080/img/galery/girl.png",
+      "category": []
+    },
+    {
+      "src": "http://localhost:8080/img/galery/girl.png",
+      "category": []
     }
   ],
   "shots": [
