@@ -33,9 +33,9 @@
               ></a>
             </li>
             <li>
-              <a href="#"
+              <a href="//t.me/StepanKlim"
                 ><svg width="24" height="24" viewBox="0 0 24 24">
-                  <use xlink:href="#svg-sprite--email"></use></svg
+                  <use xlink:href="#svg-sprite--telegram"></use></svg
               ></a>
             </li>
             <li>
