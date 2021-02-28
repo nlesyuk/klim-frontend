@@ -34,6 +34,7 @@ export default {
           },
           listeners: {
             click: () => {
+              if (this.$route.path === "/") return;
               this.$router.push("/");
             }
           }
@@ -46,6 +47,7 @@ export default {
           },
           listeners: {
             click: () => {
+              if (this.$route.path === "/shots") return;
               this.$router.push("/shots");
             }
           },
@@ -60,6 +62,7 @@ export default {
           },
           listeners: {
             click: () => {
+              if (this.$route.path === "/photo") return;
               this.$router.push("/photo");
             }
           }
@@ -72,6 +75,7 @@ export default {
           },
           listeners: {
             click: () => {
+              if (this.$route.path === "/contact") return;
               this.$router.push("/contact");
             }
           }
