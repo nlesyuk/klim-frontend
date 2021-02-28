@@ -12,5 +12,58 @@
         "poster": "//via.placeholder.com/550x450"
       }
     ]
-  }
+  },
+  "photos": [
+    {
+      "src": "http://localhost:8080/img/galery/girl.png"
+    },
+    {
+      "src": "http://localhost:8080/img/galery/girl.png"
+    },
+    {
+      "src": "http://localhost:8080/img/galery/girl.png"
+    },
+    {
+      "src": "http://localhost:8080/img/galery/girl.png"
+    },
+    {
+      "src": "http://localhost:8080/img/galery/girl.png"
+    },
+    {
+      "src": "http://localhost:8080/img/galery/girl.png"
+    },
+    {
+      "src": "http://localhost:8080/img/galery/girl.png"
+    }
+  ],
+  "shots": [
+    {
+      "src": "http://localhost:8080/img/galery/wide1.jpg",
+      "category": ["portrait"]
+    },
+    {
+      "src": "http://localhost:8080/img/galery/wide2.jpg",
+      "category": ["landscape"]
+    },
+    {
+      "src": "http://localhost:8080/img/galery/wide1.jpg",
+      "category": ["portrait"]
+    },
+    {
+      "src": "http://localhost:8080/img/galery/wide2.jpg",
+      "category": ["mood"]
+    },
+    {
+      "src": "http://localhost:8080/img/galery/wide1.jpg",
+      "category": ["mood"]
+    },
+    {
+      "src": "http://localhost:8080/img/galery/wide2.jpg",
+      "category": ["landscape"]
+    },
+    {
+      "src": "http://localhost:8080/img/galery/wide1.jpg",
+      "category": ["mood", "landscape"]
+    }
+  ]
 }
