@@ -1,0 +1,44 @@
+// general
+html,
+body {
+  min-width: 320px;
+  height: 100%;
+  font-family: $font;
+  font-size: 10px;
+  line-height: 1;
+  background: white;
+  overflow-x: hidden;
+  position: relative;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $grey;
+  }
+}
+
+.video-responsive {
+  height: 0;
+  overflow: hidden;
+  padding-bottom: 56.25%;
+  position: relative;
+  margin: 0px auto;
+  width: 100%;
+  iframe {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+}
+
+.container {
+  width: 90%;
+  max-width: 1800px;
+  margin: 0 auto;
+}

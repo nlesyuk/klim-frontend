@@ -1,49 +1,11 @@
+@import "reset-css";
 @import "./variables";
 @import "./mixins";
 @import "./animations";
-@import "reset-css";
+@import "./general";
+@import "./uikit";
+@import "./modules";
 
-// general
-html,
-body {
-  min-width: 320px;
-  height: 100%;
-  font: 10px/1 $font;
-  background: white;
-  overflow-x: hidden;
-  position: relative;
-
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
-  &::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: $grey;
-  }
-}
-.video-responsive {
-  height: 0;
-  overflow: hidden;
-  padding-bottom: 56.25%;
-  position: relative;
-  margin: 0px auto;
-  width: 100%;
-  iframe {
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-  }
-}
-
-.container {
-  width: 90%;
-  max-width: 1800px;
-  margin: 0 auto;
-}
 // put footer in the bottom of page
 #app {
   display: flex;
@@ -156,64 +118,6 @@ body {
 
 //
 .home {
-  &__posts {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 4px;
-  }
-  &__post {
-    width: 100%;
-    min-height: 200px;
-    background: $base-gradient;
-    position: relative;
-    overflow: hidden;
-    @include transition-default;
-    &:hover {
-      @include transition-default;
-      cursor: pointer;
-      .home__post-title {
-        @include transition-default;
-        transform: translateY(0px);
-      }
-    }
-
-    &-img {
-      display: block;
-      width: 100%;
-      object-fit: cover;
-    }
-    &-title {
-      display: block;
-      box-sizing: border-box;
-      width: 100%;
-      height: auto;
-      padding: 10px 10px 10px 40px;
-      background-color: #eee;
-      font: 1.5rem/1.5rem $font;
-      text-decoration: none;
-      text-transform: uppercase;
-      color: $primary;
-      position: absolute;
-      bottom: 0;
-
-      transform: translateY(50px);
-      word-wrap: break-word;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-
-      @include transition-default;
-
-      svg {
-        display: block;
-        fill: $grey;
-        width: 24px;
-        position: absolute;
-        left: 10px;
-        top: calc(50% - 12px);
-      }
-    }
-  }
 }
 
 //
@@ -222,6 +126,18 @@ body {
   &__tags {
     display: flex;
     justify-content: center;
+    margin-bottom: 16px;
+    .btn {
+      margin: 0 2px;
+      padding: 3px 4px;
+      &.active {
+        color: black;
+      }
+      &:hover {
+        color: black;
+        background-color: $grey-light;
+      }
+    }
   }
 }
 

@@ -1,0 +1,17 @@
+.btn {
+  display: block;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border-radius: 2px;
+  cursor: pointer;
+  @include transition-default;
+  &:hover {
+    @include transition-default;
+  }
+
+  &-primary {
+    background-color: rgba($grey-light, 0.5);
+    color: $grey;
+  }
+}

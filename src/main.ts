@@ -4,10 +4,13 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 
+// global components
+import Spiner from "./components/Spiner.vue";
+Vue.component("Spiner", Spiner);
 // plugins
-import VueStripeMenu from 'vue-stripe-menu';
-Vue.use(VueStripeMenu)
-import 'vue-stripe-menu/dist/vue-stripe-menu.css';
+import VueStripeMenu from "vue-stripe-menu";
+Vue.use(VueStripeMenu);
+import "vue-stripe-menu/dist/vue-stripe-menu.css";
 
 // styles
 import "@/scss/style.scss";

@@ -1,40 +1,79 @@
 <template>
   <div class="shots">
-    <ul class="shots__tags">
-      <li><button type="button" @click="applyFilter('all')">all</button></li>
-      <li>
-        <button type="button" @click="applyFilter('portrait')">portrait</button>
-      </li>
-      <li>
-        <button type="button" @click="applyFilter('landscape')">
-          landscape
-        </button>
-      </li>
-      <li><button type="button" @click="applyFilter('mood')">mood</button></li>
-    </ul>
-
-    <div class="home__posts">
-      <figure class="home__post" v-for="(idx, item) in 12" :key="idx">
-        <img
-          src="//via.placeholder.com/3584x1342"
-          :alt="item"
-          class="home__post-img"
-        />
-      </figure>
+    <div class="shots__tags">
+      <button
+        type="button"
+        @click="changeFilter('all')"
+        :class="['btn', 'btn-primary', { active: filter === 'all' }]"
+      >
+        all
+      </button>
+      <button
+        type="button"
+        @click="changeFilter('portrait')"
+        :class="['btn', 'btn-primary', { active: filter === 'portrait' }]"
+      >
+        portrait
+      </button>
+      <button
+        type="button"
+        @click="changeFilter('landscape')"
+        :class="['btn', 'btn-primary', { active: filter === 'landscape' }]"
+      >
+        landscape
+      </button>
+      <button
+        type="button"
+        @click="changeFilter('mood')"
+        :class="['btn', 'btn-primary', { active: filter === 'mood' }]"
+      >
+        mood
+      </button>
     </div>
+    <Spiner v-if="!photos.length" />
+    <GridPhotos v-else :images="photos" />
   </div>
 </template>
 <script>
+import GridPhotos from "../components/grids/GridPhotos";
+
 export default {
-  mounted() {
-    console.log(this.$route.params.category);
+  components: {
+    GridPhotos
+  },
+  computed: {
+    filter() {
+      return this.$route.query.filter;
+    }
   },
   methods: {
-    applyFilter(filter) {
+    changeFilter(filter) {
       if (this.$route.query.filter !== filter) {
         this.$router.replace({ name: "shots", query: { filter } });
+        this.applyFilter(filter);
       }
+    },
+    applyFilter(key) {
+      this.photos =
+        key === "all"
+          ? this.allPhotos
+          : this.allPhotos.filter(item => item.category.includes(key));
     }
+  },
+  data() {
+    return {
+      allPhotos: [],
+      photos: []
+    };
+  },
+  mounted() {
+    fetch("http://localhost:3000/shots")
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.allPhotos = data;
+        this.photos = data;
+      });
   }
 };
 </script>
