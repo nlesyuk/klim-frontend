@@ -21,13 +21,13 @@
           sociale media
           <ul class="contact__social">
             <li>
-              <a href="#"
+              <a href="//www.facebook.com/stepan.klim/"
                 ><svg width="24" height="24" viewBox="0 0 24 24">
                   <use xlink:href="#svg-sprite--facebook"></use></svg
               ></a>
             </li>
             <li>
-              <a href="#"
+              <a href="//www.instagram.com/s.klim/"
                 ><svg width="24" height="24" viewBox="0 0 24 24">
                   <use xlink:href="#svg-sprite--instagram"></use></svg
               ></a>
