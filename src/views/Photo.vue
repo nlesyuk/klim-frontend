@@ -14,15 +14,26 @@ export default {
   },
   data() {
     return {
-      photos: []
+      allPhotos: []
     };
+  },
+  computed: {
+    photos() {
+      if (this.$route.path.includes("commerce")) {
+        const res = this.allPhotos.filter(v => v.category.includes("commerce"));
+        if (res.length) {
+          return res;
+        }
+      }
+      return this.allPhotos;
+    }
   },
   mounted() {
     fetch("http://localhost:3000/photos")
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        this.photos = data;
+        this.allPhotos = data;
       });
   }
 };

@@ -21,6 +21,7 @@
 
 <script>
 import ShotsSubmenu from "./dropdowns/ShotsSubmenu.vue";
+import PhotosSubmenu from "./dropdowns/PhotosSubmenu.vue";
 
 export default {
   data() {
@@ -65,7 +66,9 @@ export default {
               if (this.$route.path === "/photo") return;
               this.$router.push("/photo");
             }
-          }
+          },
+          dropdown: "PhotosSubmenu",
+          content: PhotosSubmenu
         },
         // 4
         {
