@@ -6,10 +6,10 @@
       "preview_img": "http://localhost:8080/img/galery/girl.png",
       "photos": [
         {
-          "src": "http://localhost:8080/img/galery/girl.png"
+          "src": "http://pronazvo.beget.tech/photos/video/default/default-1.jpg"
         },
         {
-          "src": "http://localhost:8080/img/galery/girl.png"
+          "src": "http://pronazvo.beget.tech/photos/video/wide/wide-1.jpg"
         },
         {
           "src": "http://localhost:8080/img/galery/girl.png"
@@ -73,7 +73,7 @@
   ],
   "photos": [
     {
-      "src": "http://localhost:8080/img/galery/girl.png",
+      "src": "http://pronazvo.beget.tech/photos/photo/photo-1.jpg",
       "category": ["commerce"]
     },
     {
