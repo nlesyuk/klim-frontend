@@ -46,6 +46,12 @@ export default {
       return this.$route.query.filter;
     }
   },
+  watch: {
+    $route(route) {
+      const filter = route.query.filter;
+      this.applyFilter(filter);
+    }
+  },
   methods: {
     changeFilter(filter) {
       if (this.$route.query.filter !== filter) {
@@ -70,7 +76,7 @@ export default {
     fetch("http://localhost:3000/shots")
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        console.log("shots", data);
         this.allPhotos = data;
         this.photos = data;
       });
