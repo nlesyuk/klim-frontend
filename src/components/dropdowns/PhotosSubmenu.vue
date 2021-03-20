@@ -5,7 +5,7 @@
         <router-link
           exact
           exact-active-class="active"
-          :to="{ path: 'photo/commerce' }"
+          :to="{ path: '/photo/commerce' }"
           class="header__nav-submenu-item"
         >
           Commerce

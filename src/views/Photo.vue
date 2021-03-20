@@ -8,7 +8,6 @@
 import GridPhotos from "../components/grids/GridPhotos";
 
 export default {
-  name: "Home",
   components: {
     GridPhotos
   },
@@ -19,13 +18,13 @@ export default {
   },
   computed: {
     photos() {
+      let res;
       if (this.$route.path.includes("commerce")) {
-        const res = this.allPhotos.filter(v => v.category.includes("commerce"));
-        if (res.length) {
-          return res;
-        }
+        res = this.allPhotos.filter(v => v.category.includes("commerce"));
+      } else {
+        res = this.allPhotos.filter(v => !v.category.includes("commerce"));
       }
-      return this.allPhotos;
+      return res.length ? res : this.allPhotos;
     }
   },
   mounted() {
