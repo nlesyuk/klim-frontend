@@ -1,0 +1,57 @@
+// preview works
+.work {
+  width: 100%;
+  min-height: 200px;
+  background: $base-gradient;
+  position: relative;
+  overflow: hidden;
+  @include transition-default;
+  &:hover {
+    @include transition-default;
+    cursor: pointer;
+    .work__title {
+      @include transition-default;
+      transform: translateY(0px);
+    }
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  &__title {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    padding: 10px 10px 10px 40px;
+    background-color: rgba(white, 0.5);
+    font: 1.5rem/1.5rem $font;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: $primary;
+    color: white;
+    position: absolute;
+    bottom: 0;
+
+    transform: translateY(50px);
+    word-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @include transition-default;
+
+    svg {
+      display: block;
+      fill: $grey;
+      fill: white;
+      width: 24px;
+      position: absolute;
+      left: 10px;
+      top: calc(50% - 12px);
+    }
+  }
+}
