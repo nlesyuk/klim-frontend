@@ -77,32 +77,44 @@
       "category": ["commerce"]
     },
     {
-      "src": "http://localhost:8080/img/galery/girl.png",
+      "src": "http://pronazvo.beget.tech/photos/photo/photo-2.jpg",
       "category": ["commerce"]
     },
     {
-      "src": "http://localhost:8080/img/galery/girl.png",
+      "src": "http://pronazvo.beget.tech/photos/photo/photo-3.jpg",
       "category": ["commerce"]
     },
     {
-      "src": "http://localhost:8080/img/galery/girl.png",
+      "src": "http://pronazvo.beget.tech/photos/photo/photo-4.jpg",
       "category": ["commerce"]
     },
     {
-      "src": "http://localhost:8080/img/galery/girl.png",
+      "src": "http://pronazvo.beget.tech/photos/photo/photo-5.jpg",
       "category": []
     },
     {
-      "src": "http://localhost:8080/img/galery/girl.png",
+      "src": "http://pronazvo.beget.tech/photos/photo/photo-6.jpg",
       "category": []
     },
     {
-      "src": "http://localhost:8080/img/galery/girl.png",
+      "src": "http://pronazvo.beget.tech/photos/photo/photo-7.jpg",
       "category": []
     },
     {
-      "src": "http://localhost:8080/img/galery/girl.png",
+      "src": "http://pronazvo.beget.tech/photos/photo/photo-8.jpg",
       "category": []
+    },
+    {
+      "src": "http://pronazvo.beget.tech/photos/photo/photo-9.jpg",
+      "category": ["commerce"]
+    },
+    {
+      "src": "http://pronazvo.beget.tech/photos/photo/photo-1.jpg",
+      "category": ["commerce"]
+    },
+    {
+      "src": "http://pronazvo.beget.tech/photos/photo/photo-1.jpg",
+      "category": ["commerce"]
     }
   ],
   "shots": [
@@ -115,24 +127,40 @@
       "category": ["landscape"]
     },
     {
-      "src": "http://localhost:8080/img/galery/wide1.jpg",
+      "src": "http://localhost:8080/img/galery/wide3.jpg",
       "category": ["portrait"]
     },
     {
-      "src": "http://localhost:8080/img/galery/wide2.jpg",
+      "src": "http://localhost:8080/img/galery/wide4.jpg",
       "category": ["mood"]
     },
     {
-      "src": "http://localhost:8080/img/galery/wide1.jpg",
+      "src": "http://localhost:8080/img/galery/wide5.jpg",
       "category": ["mood"]
     },
     {
-      "src": "http://localhost:8080/img/galery/wide2.jpg",
+      "src": "http://localhost:8080/img/galery/wide6.jpg",
       "category": ["landscape"]
     },
     {
-      "src": "http://localhost:8080/img/galery/wide1.jpg",
+      "src": "http://localhost:8080/img/galery/wide7.jpg",
       "category": ["mood", "landscape"]
+    },
+    {
+      "src": "http://localhost:8080/img/galery/wide8.jpg",
+      "category": ["landscape"]
+    },
+    {
+      "src": "http://localhost:8080/img/galery/wide9.jpg",
+      "category": ["landscape"]
+    },
+    {
+      "src": "http://localhost:8080/img/galery/wide10.jpg",
+      "category": ["landscape"]
+    },
+    {
+      "src": "http://localhost:8080/img/galery/wide11.jpg",
+      "category": ["landscape"]
     }
   ]
 }
