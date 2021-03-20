@@ -5,8 +5,8 @@
   }
   &-type {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(8, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
     grid-gap: 0.2rem;
     margin-bottom: 0.2rem;
     &--big-on-left,
@@ -15,63 +15,63 @@
         &:nth-child(1),
         &:nth-child(2) {
           .grid__img {
-            max-height: 320px;
+            // max-height: 320px;
           }
         }
       }
     }
     &--big-on-left {
-      grid-template-rows: repeat(8, 1fr);
+      grid-template-rows: repeat(2, 1fr);
       .grid__item {
         &:nth-child(1) {
-          grid-column: 1 / span 3;
-          grid-row: 1 / span 4;
+          grid-column: 1 / span 1;
+          grid-row: 1 / span 1;
         }
         &:nth-child(2) {
-          grid-column: 1 / span 3;
-          grid-row: 5 / span 4;
+          grid-column: 1 / span 1;
+          grid-row: 2 / span 1;
         }
         &:nth-child(3) {
-          grid-column: 4 / span 5;
-          grid-row: 1 / span 8;
+          grid-column: 2 / span 3;
+          grid-row: 1 / span 2;
         }
       }
     }
     &--big-on-right {
-      grid-template-rows: repeat(8, 1fr);
+      grid-template-rows: repeat(2, 1fr);
       .grid__item {
         &:nth-child(1) {
-          grid-column: 6 / span 3;
-          grid-row: 1 / span 4;
+          grid-column: 3 / span 1;
+          grid-row: 1 / span 1;
         }
         &:nth-child(2) {
-          grid-column: 6 / span 3;
-          grid-row: 5 / span 4;
+          grid-column: 3 / span 1;
+          grid-row: 2 / span 2;
         }
         &:nth-child(3) {
-          grid-column: 1 / span 5;
-          grid-row: 1 / span 8;
+          grid-column: 1 / span 2;
+          grid-row: 1 / span 2;
         }
       }
     }
     &--two {
-      grid-template-rows: repeat(4, 1fr);
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(1, 1fr);
       .grid__item {
         &:nth-child(1) {
-          grid-column: 1 / span 4;
-          grid-row: 1 / span 4;
+          grid-column: 1 / span 1;
         }
         &:nth-child(2) {
-          grid-column: 5 / span 4;
-          grid-row: 1 / span 4;
+          grid-column: 2 / span 1;
         }
       }
     }
     &--one {
-      grid-template-rows: repeat(4, 1fr);
+      grid-template-columns: repeat(1, 1fr);
+      grid-template-rows: repeat(1, 1fr);
       .grid__item {
-        grid-column: 1 / span 8;
-        grid-row: 1 / span 4;
+        grid-column: 1 / span 1;
+        grid-row: 1 / span 1;
       }
     }
   }
