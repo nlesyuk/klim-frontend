@@ -5,7 +5,7 @@
         <router-link
           exact
           exact-active-class="active"
-          :to="{ path: 'shots', query: { filter: 'all' } }"
+          :to="{ path: '/shots', query: { filter: 'all' } }"
           class="header__nav-submenu-item"
         >
           all
@@ -15,7 +15,7 @@
         <router-link
           exact-path
           exact-active-class="active"
-          :to="{ path: 'shots', query: { filter: 'portrait' } }"
+          :to="{ path: '/shots', query: { filter: 'portrait' } }"
           class="header__nav-submenu-item"
         >
           portrait
@@ -25,7 +25,7 @@
         <router-link
           exact-path
           exact-active-class="active"
-          :to="{ path: 'shots', query: { filter: 'landscape' } }"
+          :to="{ path: '/shots', query: { filter: 'landscape' } }"
           class="header__nav-submenu-item"
         >
           landscape
@@ -35,7 +35,7 @@
         <router-link
           exact-path
           exact-active-class="active"
-          :to="{ path: 'shots', query: { filter: 'mood' } }"
+          :to="{ path: '/shots', query: { filter: 'mood' } }"
           class="header__nav-submenu-item"
         >
           mood
