@@ -1,15 +1,20 @@
 <template>
   <div class="photos">
     <Spiner v-if="!photos.length" />
-    <GridPhotos v-else :images="photos" />
+    <PhotoPreview
+      v-else
+      v-for="(idx, photo) in photos"
+      :key="idx"
+      :collection="photo"
+    />
   </div>
 </template>
 <script>
-import GridPhotos from "../components/grids/GridPhotos";
+import PhotoPreview from "../components/PhotoPreview";
 
 export default {
   components: {
-    GridPhotos
+    PhotoPreview
   },
   data() {
     return {
@@ -31,6 +36,7 @@ export default {
     fetch("http://localhost:3000/photos")
       .then(response => response.json())
       .then(data => {
+        /* eslint-disable */
         console.log(data);
         this.allPhotos = data;
       });

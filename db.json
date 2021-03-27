@@ -3,22 +3,22 @@
     {
       "id": 1,
       "title": "Title1",
-      "preview_img": "http://localhost:8080/img/galery/girl.png",
+      "preview_img": "http://pronazvo.beget.tech/photos/video/default/default-1.jpg",
       "photos": [
-        {
-          "src": "http://pronazvo.beget.tech/photos/video/default/default-1.jpg"
-        },
         {
           "src": "http://pronazvo.beget.tech/photos/video/wide/wide-1.jpg"
         },
         {
-          "src": "http://localhost:8080/img/galery/girl.png"
+          "src": "http://pronazvo.beget.tech/photos/video/wide/wide-2.jpg"
         },
         {
-          "src": "http://localhost:8080/img/galery/girl.png"
+          "src": "http://pronazvo.beget.tech/photos/video/wide/wide-3.jpg"
         },
         {
-          "src": "http://localhost:8080/img/galery/girl.png"
+          "src": "http://pronazvo.beget.tech/photos/video/wide/wide-4.jpg"
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/video/wide/wide-5.jpg"
         }
       ],
       "videos": [
@@ -31,36 +31,22 @@
     {
       "id": 2,
       "title": "Title2",
-      "preview_img": "http://localhost:8080/img/galery/wide1.jpg",
+      "preview_img": "http://pronazvo.beget.tech/photos/video/default/default-2.jpg",
       "photos": [
         {
-          "src": "http://localhost:8080/img/galery/wide2.jpg",
-          "category": ["landscape"]
+          "src": "http://pronazvo.beget.tech/photos/video/wide/wide-1.jpg"
         },
         {
-          "src": "http://localhost:8080/img/galery/wide1.jpg",
-          "category": ["portrait"]
+          "src": "http://pronazvo.beget.tech/photos/video/wide/wide-2.jpg"
         },
         {
-          "src": "http://localhost:8080/img/galery/wide2.jpg",
-          "category": ["mood"]
-        }
-      ],
-      "videos": [
+          "src": "http://pronazvo.beget.tech/photos/video/wide/wide-3.jpg"
+        },
         {
-          "name": "Some video",
-          "src": "//via.placeholder.com/550x450"
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "title": "Title3",
-      "preview_img": "http://localhost:8080/img/galery/girl.png",
-      "photos": [
+          "src": "http://pronazvo.beget.tech/photos/video/wide/wide-4.jpg"
+        },
         {
-          "name": "Some photo",
-          "src": "//via.placeholder.com/550x450"
+          "src": "http://pronazvo.beget.tech/photos/video/wide/wide-5.jpg"
         }
       ],
       "videos": [
@@ -71,7 +57,7 @@
       ]
     }
   ],
-  "photos": [
+  "photos1": [
     {
       "src": "http://pronazvo.beget.tech/photos/photo/photo-1.jpg",
       "category": ["commerce"]
@@ -117,49 +103,97 @@
       "category": ["commerce"]
     }
   ],
+  "photos": [
+    {
+      "id": 1,
+      "category": ["commerce"],
+      "photos": [
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-1.jpg",
+          "category": ["commerce"],
+          "isPreview": true
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-2.jpg",
+          "category": ["commerce"],
+          "isPreview": true
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-3.jpg",
+          "category": ["commerce"],
+          "isPreview": true
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-4.jpg",
+          "category": ["commerce"],
+          "isPreview": false
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-5.jpg",
+          "category": [],
+          "isPreview": false
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-6.jpg",
+          "category": [],
+          "isPreview": false
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-7.jpg",
+          "category": [],
+          "isPreview": false
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-8.jpg",
+          "category": [],
+          "isPreview": false
+        }
+      ]
+    }
+  ],
   "shots": [
     {
-      "src": "http://localhost:8080/img/galery/wide1.jpg",
+      "src": "http://pronazvo.beget.tech/photos/video/wide/wide-1.jpg",
       "category": ["portrait"]
     },
     {
-      "src": "http://localhost:8080/img/galery/wide2.jpg",
+      "src": "http://pronazvo.beget.tech/photos/video/wide/wide-2.jpg",
       "category": ["landscape"]
     },
     {
-      "src": "http://localhost:8080/img/galery/wide3.jpg",
+      "src": "http://pronazvo.beget.tech/photos/video/wide/wide-3.jpg",
       "category": ["portrait"]
     },
     {
-      "src": "http://localhost:8080/img/galery/wide4.jpg",
+      "src": "http://pronazvo.beget.tech/photos/video/wide/wide-4.jpg",
       "category": ["mood"]
     },
     {
-      "src": "http://localhost:8080/img/galery/wide5.jpg",
+      "src": "http://pronazvo.beget.tech/photos/video/wide/wide-5.jpg",
       "category": ["mood"]
     },
     {
-      "src": "http://localhost:8080/img/galery/wide6.jpg",
+      "src": "http://pronazvo.beget.tech/photos/video/wide/wide-6.jpg",
       "category": ["landscape"]
     },
     {
-      "src": "http://localhost:8080/img/galery/wide7.jpg",
+      "src": "http://pronazvo.beget.tech/photos/video/wide/wide-7.jpg",
       "category": ["mood", "landscape"]
     },
     {
-      "src": "http://localhost:8080/img/galery/wide8.jpg",
+      "src": "http://pronazvo.beget.tech/photos/video/wide/wide-8.jpg",
       "category": ["landscape"]
     },
     {
-      "src": "http://localhost:8080/img/galery/wide9.jpg",
+      "src": "http://pronazvo.beget.tech/photos/video/wide/wide-9.png",
       "category": ["landscape"]
     },
     {
-      "src": "http://localhost:8080/img/galery/wide10.jpg",
+      "src": "http://pronazvo.beget.tech/photos/video/wide/wide-10.png",
       "category": ["landscape"]
     },
     {
-      "src": "http://localhost:8080/img/galery/wide11.jpg",
+      "src": "http://pronazvo.beget.tech/photos/video/wide/wide-11.png",
       "category": ["landscape"]
     }
   ]

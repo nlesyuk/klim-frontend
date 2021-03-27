@@ -16,9 +16,15 @@ import "vue-stripe-menu/dist/vue-stripe-menu.css";
 import "@/scss/style.scss";
 
 Vue.config.productionTip = false;
+const mixin = {
+  created: function() {
+    console.log("mixin hook called");
+  }
+};
 
 new Vue({
   router,
   store,
+  mixins: [mixin],
   render: h => h(App)
 }).$mount("#app");

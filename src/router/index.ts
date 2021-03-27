@@ -22,12 +22,12 @@ const routes: Array<RouteConfig> = [
   {
     path: "/photo",
     name: "photo",
-    component: () => import("../views/Photo.vue"),
+    component: () => import("../views/Photos.vue"),
     children: [
       {
         path: "commerce",
         name: "commerce",
-        component: () => import("../views/Photo.vue")
+        component: () => import("../views/Photos.vue")
       }
     ]
   },
