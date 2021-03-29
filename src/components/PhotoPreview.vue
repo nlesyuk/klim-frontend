@@ -1,20 +1,39 @@
 <template>
-  <div class="photos">
-    <Spiner v-if="!photos.length" />
-    <GridPhotos v-else :images="photos" />
+  <div>
+    <!-- grid module -->
+    <div class="grid-container">
+      <div
+        :class="[
+          'grid-type',
+          { 'grid-type--big-on-left': collectionType === 'left' },
+          { 'grid-type--big-on-right': collectionType === 'right' }
+        ]"
+      >
+        <figure
+          class="grid__item"
+          v-for="(image, index) in photos"
+          :key="index"
+        >
+          <img :src="image.src" class="grid__img" />
+        </figure>
+      </div>
+    </div>
+    <!-- preview part -->
+    <h3 v-if="collection.title" class="photo-preview__title" v-link="{}">
+      {{ collection.title }}
+    </h3>
   </div>
 </template>
 <script>
-import GridPhotos from "./grids/GridPhotos";
-
 export default {
-  components: {
-    GridPhotos
-  },
   props: {
     collection: {
-      type: Array,
+      type: Object,
       required: true
+    },
+    collectionType: {
+      type: String,
+      default: "left"
     }
   },
   data() {
@@ -24,22 +43,8 @@ export default {
   },
   computed: {
     photos() {
-      let res;
-      if (this.$route.path.includes("commerce")) {
-        res = this.allPhotos.filter(v => v.category.includes("commerce"));
-      } else {
-        res = this.allPhotos.filter(v => !v.category.includes("commerce"));
-      }
-      return res.length ? res : this.allPhotos;
+      return this.collection.photos.filter(v => v.isPreview);
     }
-  },
-  mounted() {
-    fetch("http://localhost:3000/photos")
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        this.allPhotos = data;
-      });
   }
 };
 </script>

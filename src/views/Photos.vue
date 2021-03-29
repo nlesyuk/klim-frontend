@@ -3,9 +3,10 @@
     <Spiner v-if="!photos.length" />
     <PhotoPreview
       v-else
-      v-for="(idx, photo) in photos"
+      v-for="(photo, idx) in photos"
       :key="idx"
       :collection="photo"
+      :collectionType="idx % 2 ? 'left' : 'right'"
     />
   </div>
 </template>
@@ -29,6 +30,7 @@ export default {
       } else {
         res = this.allPhotos.filter(v => !v.category.includes("commerce"));
       }
+      console.log("photos", res);
       return res.length ? res : this.allPhotos;
     }
   },

@@ -119,10 +119,6 @@
 }
 
 //
-.home {
-}
-
-//
 .shots {
   display: block;
   &__tags {
@@ -233,6 +229,15 @@
       margin-bottom: 16px;
     }
   }
+}
+
+//
+.photo-preview__title {
+  padding: 20px 0;
+  font: bold 2rem/1 $font;
+  text-transform: uppercase;
+  color: $primary;
+  margin-bottom: 30px;
 }
 
 //

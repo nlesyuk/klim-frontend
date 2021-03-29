@@ -106,6 +106,7 @@
   "photos": [
     {
       "id": 1,
+      "title": "title",
       "category": ["commerce"],
       "photos": [
         {
@@ -146,6 +147,114 @@
         {
           "src": "http://pronazvo.beget.tech/photos/photo/photo-8.jpg",
           "category": [],
+          "isPreview": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "title",
+      "category": [],
+      "photos": [
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-1.jpg",
+          "category": ["commerce"],
+          "isPreview": true
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-2.jpg",
+          "category": ["commerce"],
+          "isPreview": true
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-3.jpg",
+          "category": ["commerce"],
+          "isPreview": true
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-4.jpg",
+          "category": ["commerce"],
+          "isPreview": false
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "title",
+      "category": [],
+      "photos": [
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-1.jpg",
+          "category": ["commerce"],
+          "isPreview": true
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-2.jpg",
+          "category": ["commerce"],
+          "isPreview": true
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-3.jpg",
+          "category": ["commerce"],
+          "isPreview": true
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-4.jpg",
+          "category": ["commerce"],
+          "isPreview": false
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "title",
+      "category": [],
+      "photos": [
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-1.jpg",
+          "category": ["commerce"],
+          "isPreview": true
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-2.jpg",
+          "category": ["commerce"],
+          "isPreview": true
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-3.jpg",
+          "category": ["commerce"],
+          "isPreview": true
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-4.jpg",
+          "category": ["commerce"],
+          "isPreview": false
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "title",
+      "category": [],
+      "photos": [
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-1.jpg",
+          "category": ["commerce"],
+          "isPreview": true
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-2.jpg",
+          "category": ["commerce"],
+          "isPreview": true
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-3.jpg",
+          "category": ["commerce"],
+          "isPreview": true
+        },
+        {
+          "src": "http://pronazvo.beget.tech/photos/photo/photo-4.jpg",
+          "category": ["commerce"],
           "isPreview": false
         }
       ]
