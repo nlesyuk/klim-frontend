@@ -19,9 +19,13 @@
       </div>
     </div>
     <!-- preview part -->
-    <h3 v-if="collection.title" class="photo-preview__title" v-link="{}">
+    <router-link
+      v-if="collection.title"
+      class="photo-preview__title"
+      :to="{ path: '/photo/' + collection.id }"
+    >
       {{ collection.title }}
-    </h3>
+    </router-link>
   </div>
 </template>
 <script>
@@ -44,6 +48,11 @@ export default {
   computed: {
     photos() {
       return this.collection.photos.filter(v => v.isPreview);
+    }
+  },
+  methods: {
+    goToWork() {
+      this.$router.push("/work/" + this.collection.id);
     }
   }
 };

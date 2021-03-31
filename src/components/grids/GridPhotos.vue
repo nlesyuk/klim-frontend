@@ -15,7 +15,7 @@
           :key="index"
           class="grid__item"
         >
-          <img :src="image.src" alt="Gallery image 1" class="grid__img" />
+          <img :src="image.src" alt="" class="grid__img" />
         </figure>
       </div>
       <div
@@ -27,7 +27,7 @@
           :key="index"
           class="grid__item"
         >
-          <img :src="image.src" alt="Gallery image 1" class="grid__img" />
+          <img :src="image.src" alt="" class="grid__img" />
         </figure>
       </div>
       <!-- 3 -->
@@ -37,7 +37,7 @@
           :key="index"
           class="grid__item"
         >
-          <img :src="image.src" alt="Gallery image 1" class="grid__img" />
+          <img :src="image.src" alt="" class="grid__img" />
         </figure>
       </div>
       <!-- 4 -->
@@ -47,7 +47,7 @@
           :key="index"
           class="grid__item"
         >
-          <img :src="image.src" alt="Gallery image 1" class="grid__img" />
+          <img :src="image.src" alt="" class="grid__img" />
         </figure>
       </div>
     </div>
@@ -66,9 +66,9 @@ export default {
   },
   computed: {
     chunkedImages() {
-      const img = this.images;
-      if (!img.length) return;
-      return chunk(img, 3);
+      console.log("chunkedImages", this.images);
+      if (!this.images.length) return;
+      return chunk(this.images, 3);
     }
   }
 };

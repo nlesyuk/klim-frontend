@@ -32,6 +32,11 @@ const routes: Array<RouteConfig> = [
     ]
   },
   {
+    path: "/photo/:id",
+    name: "collage",
+    component: () => import("../views/Photo.vue")
+  },
+  {
     path: "/contact",
     name: "contact",
     component: () => import("../views/Contact.vue")
