@@ -3,7 +3,9 @@
     <SvgSprite></SvgSprite>
     <Header></Header>
     <section class="content">
-      <router-view />
+      <transition name="fade" mode="out-in">
+        <router-view />
+      </transition>
     </section>
     <Footer></Footer>
   </main>
