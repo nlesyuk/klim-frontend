@@ -66,7 +66,6 @@ export default {
   },
   computed: {
     chunkedImages() {
-      console.log("chunkedImages", this.images);
       if (!this.images.length) return;
       return chunk(this.images, 3);
     }

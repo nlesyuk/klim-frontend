@@ -18,7 +18,6 @@
         </figure>
       </div>
     </div>
-    <!-- preview part -->
     <router-link
       v-if="collection.title"
       class="photo-preview__title"
@@ -48,11 +47,6 @@ export default {
   computed: {
     photos() {
       return this.collection.photos.filter(v => v.isPreview);
-    }
-  },
-  methods: {
-    goToWork() {
-      this.$router.push("/work/" + this.collection.id);
     }
   }
 };
