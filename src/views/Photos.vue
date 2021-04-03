@@ -12,6 +12,8 @@
 </template>
 <script>
 import PhotoPreview from "../components/PhotoPreview";
+import { RepositoryFactory } from "./../repositories/RepositoryFactory";
+const PhotosRepository = RepositoryFactory.get("photos");
 
 export default {
   components: {
@@ -33,16 +35,10 @@ export default {
       return res.length ? res : this.allPhotos;
     }
   },
-  mounted() {
+  async mounted() {
     this.setTitle("Photos");
-
-    fetch("http://localhost:3000/photos")
-      .then(response => response.json())
-      .then(data => {
-        /* eslint-disable */
-        console.log(data);
-        this.allPhotos = data;
-      });
+    const { data } = await PhotosRepository.getAll();
+    this.allPhotos = data;
   }
 };
 </script>

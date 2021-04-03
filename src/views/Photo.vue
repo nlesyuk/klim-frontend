@@ -1,11 +1,13 @@
 <template>
   <div class="photos">
-    <GridPhotos v-if="photos.length" :images="photos[0].photos" />
+    <GridPhotos v-if="photo" :images="photo.photos" />
     <Spiner v-else />
   </div>
 </template>
 <script>
 import GridPhotos from "../components/grids/GridPhotos";
+import { RepositoryFactory } from "./../repositories/RepositoryFactory";
+const PhotosRepository = RepositoryFactory.get("photos");
 
 export default {
   components: {
@@ -13,19 +15,13 @@ export default {
   },
   data() {
     return {
-      photos: []
+      photo: null
     };
   },
-  mounted() {
+  async mounted() {
     this.setTitle("Photo");
-
-    fetch("http://localhost:3000/photos")
-      .then(response => response.json())
-      .then(data => {
-        /* eslint-disable */
-        // console.log(data);
-        this.photos = data.filter(v => v.id === +this.$route.params.id);
-      });
+    const { data } = await PhotosRepository.getPhoto(+this.$route.params.id);
+    this.photo = data;
   }
 };
 </script>
