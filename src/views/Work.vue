@@ -43,11 +43,13 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$route.params.id);
+    this.setTitle("Work");
+
+    // console.log(this.$route.params.id);
     fetch("http://localhost:3000/works/1")
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        // console.log(data);
         this.work = data;
       });
   }

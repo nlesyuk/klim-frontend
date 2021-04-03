@@ -73,6 +73,8 @@ export default {
     };
   },
   mounted() {
+    this.setTitle("Shots");
+
     fetch("http://localhost:3000/shots")
       .then(response => response.json())
       .then(data => {

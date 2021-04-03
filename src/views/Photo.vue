@@ -17,12 +17,13 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$route);
+    this.setTitle("Photo");
+
     fetch("http://localhost:3000/photos")
       .then(response => response.json())
       .then(data => {
         /* eslint-disable */
-        console.log(data);
+        // console.log(data);
         this.photos = data.filter(v => v.id === +this.$route.params.id);
       });
   }

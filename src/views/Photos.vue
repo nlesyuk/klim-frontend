@@ -30,11 +30,12 @@ export default {
       } else {
         res = this.allPhotos.filter(v => !v.category.includes("commerce"));
       }
-      console.log("photos", res);
       return res.length ? res : this.allPhotos;
     }
   },
   mounted() {
+    this.setTitle("Photos");
+
     fetch("http://localhost:3000/photos")
       .then(response => response.json())
       .then(data => {

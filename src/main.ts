@@ -7,6 +7,7 @@ import store from "./store";
 // global components
 import Spiner from "./components/Spiner.vue";
 Vue.component("Spiner", Spiner);
+
 // plugins
 import VueStripeMenu from "vue-stripe-menu";
 Vue.use(VueStripeMenu);
@@ -15,16 +16,19 @@ import "vue-stripe-menu/dist/vue-stripe-menu.css";
 // styles
 import "@/scss/style.scss";
 
-Vue.config.productionTip = false;
-const mixin = {
-  created: function() {
-    console.log("mixin hook called");
+// global mixins
+Vue.mixin({
+  methods: {
+    setTitle(title) {
+      const el = document.querySelector("title");
+      if (el) el.innerText = `${process.env.VUE_APP_NAME} | ${title}`;
+    }
   }
-};
+});
 
+Vue.config.productionTip = false;
 new Vue({
   router,
   store,
-  mixins: [mixin],
   render: h => h(App)
 }).$mount("#app");

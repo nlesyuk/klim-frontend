@@ -24,6 +24,8 @@ export default {
     };
   },
   mounted() {
+    this.setTitle("Works");
+
     fetch("http://localhost:3000/works")
       .then(response => response.json())
       .then(data => {

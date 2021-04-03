@@ -66,9 +66,11 @@ export default {
     };
   },
   mounted() {
+    this.setTitle("Contact");
     // /contact/?calendar=on
     if (this.$route.query.calendar === "on") {
       this.isActivateCalendar = true;
+      this.setTitle("Calendar");
     }
   }
 };
