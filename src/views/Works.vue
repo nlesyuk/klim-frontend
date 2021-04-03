@@ -13,6 +13,9 @@
 <script>
 import WorkPreview from "../components/WorkPreview";
 
+import { RepositoryFactory } from "./../repositories/RepositoryFactory";
+const VideosRepository = RepositoryFactory.get("videos");
+
 export default {
   name: "Works",
   components: {
@@ -23,15 +26,10 @@ export default {
       works: []
     };
   },
-  mounted() {
+  async mounted() {
     this.setTitle("Works");
-
-    fetch("http://localhost:3000/works")
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        this.works = data;
-      });
+    const { data } = await VideosRepository.getAllVideos();
+    this.works = data;
   }
 };
 </script>

@@ -31,6 +31,8 @@
 
 <script>
 import GridPhotos from "../components/grids/GridPhotos";
+import { RepositoryFactory } from "./../repositories/RepositoryFactory";
+const VideosRepository = RepositoryFactory.get("videos");
 
 export default {
   name: "Work",
@@ -42,16 +44,10 @@ export default {
       work: null
     };
   },
-  mounted() {
+  async mounted() {
     this.setTitle("Work");
-
-    // console.log(this.$route.params.id);
-    fetch("http://localhost:3000/works/1")
-      .then(response => response.json())
-      .then(data => {
-        // console.log(data);
-        this.work = data;
-      });
+    const { data } = await VideosRepository.getVideo(this.$route.params.id);
+    this.work = data;
   }
 };
 </script>
