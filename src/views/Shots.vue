@@ -30,12 +30,14 @@
         mood
       </button>
     </div>
-    <Spiner v-if="!photos.length" />
-    <GridPhotos v-else :images="photos" />
+    <GridPhotos v-if="filteredPhotos.length" :images="filteredPhotos" />
+    <Spiner v-else />
   </div>
 </template>
 <script>
 import GridPhotos from "../components/grids/GridPhotos";
+import { RepositoryFactory } from "./../repositories/RepositoryFactory";
+const ShotsRepository = RepositoryFactory.get("shots");
 
 export default {
   components: {
@@ -60,7 +62,7 @@ export default {
       }
     },
     applyFilter(key) {
-      this.photos =
+      this.filteredPhotos =
         key === "all"
           ? this.allPhotos
           : this.allPhotos.filter(item => item.category.includes(key));
@@ -69,19 +71,14 @@ export default {
   data() {
     return {
       allPhotos: [],
-      photos: []
+      filteredPhotos: []
     };
   },
-  mounted() {
+  async mounted() {
     this.setTitle("Shots");
-
-    fetch("http://localhost:3000/shots")
-      .then(response => response.json())
-      .then(data => {
-        console.log("shots", data);
-        this.allPhotos = data;
-        this.photos = data;
-      });
+    const { data } = await ShotsRepository.get();
+    this.allPhotos = data;
+    this.filteredPhotos = data;
   }
 };
 </script>
