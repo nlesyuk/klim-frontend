@@ -7,12 +7,12 @@
         :work="work"
       ></WorkPreview>
     </div>
+    <Spiner v-else />
   </div>
 </template>
 
 <script>
 import WorkPreview from "../components/WorkPreview";
-
 import { RepositoryFactory } from "./../repositories/RepositoryFactory";
 const VideosRepository = RepositoryFactory.get("videos");
 

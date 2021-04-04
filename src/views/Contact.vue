@@ -8,38 +8,38 @@
           loading="lazy"
         />
       </figure>
-      <div class="contact__info">
+      <div class="contact__info" v-if="contacts">
         <span class="contact__text">
           Email
-          <a href="mailto:klimstepan@gmail.com">klimstepan@gmail.com</a>
+          <a :href="`mailto:${contacts.email}`">{{ contacts.email }}</a>
         </span>
         <span class="contact__text">
           phone number
-          <a href="tel:+30992650001">+3(099) 265 00 01</a>
+          <a :href="`tel:${phone}`">{{ contacts.phone }}</a>
         </span>
         <div class="contact__text">
           sociale media
           <ul class="contact__social">
             <li>
-              <a href="//www.facebook.com/stepan.klim/"
+              <a :href="contacts.facebook"
                 ><svg width="24" height="24" viewBox="0 0 24 24">
                   <use xlink:href="#svg-sprite--facebook"></use></svg
               ></a>
             </li>
             <li>
-              <a href="//www.instagram.com/s.klim/"
+              <a :href="contacts.instagram"
                 ><svg width="24" height="24" viewBox="0 0 24 24">
                   <use xlink:href="#svg-sprite--instagram"></use></svg
               ></a>
             </li>
             <li>
-              <a href="//t.me/StepanKlim"
+              <a :href="contacts.telegram"
                 ><svg width="24" height="24" viewBox="0 0 24 24">
                   <use xlink:href="#svg-sprite--telegram"></use></svg
               ></a>
             </li>
             <li>
-              <a href="#"
+              <a :href="contacts.vimeo"
                 ><svg width="24" height="24" viewBox="0 0 24 24">
                   <use xlink:href="#svg-sprite--vimeo"></use></svg
               ></a>
@@ -62,8 +62,15 @@
 export default {
   data() {
     return {
-      isActivateCalendar: false
+      isActivateCalendar: false,
+      contacts: null
     };
+  },
+  computed: {
+    phone() {
+      if (!this.contacts) return null;
+      return this.contacts.phone.replace(/[^\w\s]/gi, "").replace(/\s/gi, "");
+    }
   },
   mounted() {
     this.setTitle("Contact");
@@ -72,6 +79,13 @@ export default {
       this.isActivateCalendar = true;
       this.setTitle("Calendar");
     }
+
+    fetch("http://localhost:3000/contact")
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        this.contacts = data;
+      });
   }
 };
 </script>

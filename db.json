@@ -305,5 +305,13 @@
       "src": "http://pronazvo.beget.tech/photos/video/wide/wide-11.png",
       "category": ["landscape"]
     }
-  ]
+  ],
+  "contact": {
+    "phone": "+3(099) 265 00 01",
+    "email": "klimstepan@gmail.com",
+    "facebook": "//www.facebook.com/stepan.klim/",
+    "instagram": "//www.instagram.com/s.klim/",
+    "telegram": "//t.me/StepanKlim",
+    "vimeo": "#"
+  }
 }
