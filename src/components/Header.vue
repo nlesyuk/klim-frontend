@@ -21,9 +21,9 @@
       </li>
     </ul>
 
-    <a href="/" class="header__logo">
+    <router-link class="header__logo" :to="{ path: '/' }">
       <img src="@/assets/logo.png" alt="logo" />
-    </a>
+    </router-link>
 
     <Nav class="header__nav" />
   </header>

@@ -13,8 +13,22 @@
       {{ data.item.title }}
     </template>
     <template #after-nav>
-      <!--Mobile Burger, buttons, etc-->
-      <vsm-mob>Mobile Content</vsm-mob>
+      <vsm-mob ref="mobile">
+        <div class="vsm-mob-content__mob-menu">
+          <router-link class="vsm-link" :to="{ path: '/' }">
+            Works
+          </router-link>
+          <router-link class="vsm-link" :to="{ path: '/shots' }">
+            Shots
+          </router-link>
+          <router-link class="vsm-link" :to="{ path: '/photo' }">
+            Photo
+          </router-link>
+          <router-link class="vsm-link" :to="{ path: '/contact' }">
+            Contact
+          </router-link>
+        </div>
+      </vsm-mob>
     </template>
   </vsm-menu>
 </template>
@@ -85,6 +99,19 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    closeMobMenu(e) {
+      if (e.target.closest(".vsm-link")) {
+        this.$refs["mobile"].closeDropdown();
+      }
+    }
+  },
+  mounted() {
+    document.addEventListener("click", this.closeMobMenu);
+  },
+  beforeDestroy() {
+    document.removeEventListener("click", this.closeMobMenu);
   }
 };
 </script>
