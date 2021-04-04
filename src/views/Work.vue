@@ -3,7 +3,7 @@
     <Spiner v-if="!work" />
     <template v-else>
       <div class="work-page__video">
-        <div class="video-responsive ">
+        <!-- <div class="video-responsive ">
           <iframe
             width="100%"
             height="315"
@@ -12,7 +12,8 @@
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
           ></iframe>
-        </div>
+        </div> -->
+        <VimeoVideoPlayer />
       </div>
       <div class="work-page__text">
         <h1>
@@ -31,13 +32,15 @@
 
 <script>
 import GridPhotos from "../components/grids/GridPhotos";
+import VimeoVideoPlayer from "../components/VimeoVideoPlayer";
 import { RepositoryFactory } from "./../repositories/RepositoryFactory";
 const VideosRepository = RepositoryFactory.get("videos");
 
 export default {
   name: "Work",
   components: {
-    GridPhotos
+    GridPhotos,
+    VimeoVideoPlayer
   },
   data() {
     return {
