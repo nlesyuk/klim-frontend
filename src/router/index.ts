@@ -10,6 +10,11 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/Works.vue")
   },
   {
+    path: "/works-commercial",
+    name: "works-commercial",
+    component: () => import("../views/Works.vue")
+  },
+  {
     path: "/work/:id",
     name: "work",
     component: () => import("../views/Work.vue")

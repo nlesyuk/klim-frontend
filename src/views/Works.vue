@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <div class="works" v-if="works.length">
+    <div class="works" v-if="allWorks.length">
       <WorkPreview
-        v-for="(work, idx) in works"
+        v-for="(work, idx) in allWorks"
         :key="idx"
         :work="work"
       ></WorkPreview>
@@ -25,6 +25,14 @@ export default {
     return {
       works: []
     };
+  },
+  computed: {
+    allWorks() {
+      if (this.$route.name === "works-commercial") {
+        return this.works.filter(work => work?.category?.includes("commerce"));
+      }
+      return this.works;
+    }
   },
   async mounted() {
     this.setTitle("Works");

@@ -3,6 +3,7 @@
     {
       "id": 1,
       "title": "Title1",
+      "category": ["commerce"],
       "preview_img": "http://pronazvo.beget.tech/photos/video/default/default-1.jpg",
       "photos": [
         {
@@ -31,6 +32,7 @@
     {
       "id": 2,
       "title": "Title2",
+      "category": [],
       "preview_img": "http://pronazvo.beget.tech/photos/video/default/default-2.jpg",
       "photos": [
         {
