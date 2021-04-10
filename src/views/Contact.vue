@@ -21,28 +21,32 @@
           sociale media
           <ul class="contact__social">
             <li>
-              <a :href="contacts.facebook"
-                ><svg width="24" height="24" viewBox="0 0 24 24">
-                  <use xlink:href="#svg-sprite--facebook"></use></svg
-              ></a>
+              <a :href="contacts.facebook" target="_blank">
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                  <use xlink:href="#svg-sprite--facebook"></use>
+                </svg>
+              </a>
             </li>
             <li>
-              <a :href="contacts.instagram"
-                ><svg width="24" height="24" viewBox="0 0 24 24">
-                  <use xlink:href="#svg-sprite--instagram"></use></svg
-              ></a>
+              <a :href="contacts.instagram" target="_blank">
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                  <use xlink:href="#svg-sprite--instagram"></use>
+                </svg>
+              </a>
             </li>
             <li>
-              <a :href="contacts.telegram"
-                ><svg width="24" height="24" viewBox="0 0 24 24">
-                  <use xlink:href="#svg-sprite--telegram"></use></svg
-              ></a>
+              <a :href="contacts.telegram" target="_blank">
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                  <use xlink:href="#svg-sprite--telegram"></use>
+                </svg>
+              </a>
             </li>
             <li>
-              <a :href="contacts.vimeo"
-                ><svg width="24" height="24" viewBox="0 0 24 24">
-                  <use xlink:href="#svg-sprite--vimeo"></use></svg
-              ></a>
+              <a :href="contacts.vimeo" target="_blank">
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                  <use xlink:href="#svg-sprite--vimeo"></use>
+                </svg>
+              </a>
             </li>
           </ul>
         </div>
@@ -59,6 +63,9 @@
   </div>
 </template>
 <script>
+import { RepositoryFactory } from "./../repositories/RepositoryFactory";
+const GeneralRepository = RepositoryFactory.get("general");
+
 export default {
   data() {
     return {
@@ -72,19 +79,17 @@ export default {
       return this.contacts.phone.replace(/[^\w\s]/gi, "").replace(/\s/gi, "");
     }
   },
-  mounted() {
+  async mounted() {
     this.setTitle("Contact");
+
     // /contact/?calendar=on
     if (this.$route.query.calendar === "on") {
       this.isActivateCalendar = true;
       this.setTitle("Calendar");
     }
 
-    fetch("http://localhost:3000/contact")
-      .then(res => res.json())
-      .then(data => {
-        this.contacts = data;
-      });
+    const { data } = await GeneralRepository.getContacts();
+    this.contacts = data;
   }
 };
 </script>
