@@ -3,11 +3,13 @@
     {
       "id": 1,
       "title": "Title1",
+      "description": "text1 text2</br> text3 text4",
       "category": ["commerce"],
       "preview_img": "http://pronazvo.beget.tech/photos/video/default/default-1.jpg",
       "photos": [
         {
-          "src": "http://pronazvo.beget.tech/photos/video/wide/wide-1.jpg"
+          "src": "http://pronazvo.beget.tech/photos/video/wide/wide-1.jpg",
+          "isVideoPreview": true
         },
         {
           "src": "http://pronazvo.beget.tech/photos/video/wide/wide-2.jpg"
@@ -22,16 +24,14 @@
           "src": "http://pronazvo.beget.tech/photos/video/wide/wide-5.jpg"
         }
       ],
-      "videos": [
-        {
-          "name": "Some video",
-          "src": "//via.placeholder.com/550x450"
-        }
-      ]
+      "videos": {
+        "vimeo_id": 526809109
+      }
     },
     {
       "id": 2,
       "title": "Title2",
+      "description": "text1 text2</br> text3 text4",
       "category": [],
       "preview_img": "http://pronazvo.beget.tech/photos/video/default/default-2.jpg",
       "photos": [
@@ -39,7 +39,8 @@
           "src": "http://pronazvo.beget.tech/photos/video/wide/wide-1.jpg"
         },
         {
-          "src": "http://pronazvo.beget.tech/photos/video/wide/wide-2.jpg"
+          "src": "http://pronazvo.beget.tech/photos/video/wide/wide-2.jpg",
+          "isVideoPreview": true
         },
         {
           "src": "http://pronazvo.beget.tech/photos/video/wide/wide-3.jpg"
@@ -51,12 +52,9 @@
           "src": "http://pronazvo.beget.tech/photos/video/wide/wide-5.jpg"
         }
       ],
-      "videos": [
-        {
-          "name": "Some video",
-          "src": "//via.placeholder.com/550x450"
-        }
-      ]
+      "videos": {
+        "vimeo_id": 532238429
+      }
     }
   ],
   "photos1": [

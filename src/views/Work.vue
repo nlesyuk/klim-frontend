@@ -1,32 +1,14 @@
 <template>
   <div class="work-page">
-    <Spiner v-if="!work" />
-    <template v-else>
-      <div class="work-page__video">
-        <!-- <div class="video-responsive ">
-          <iframe
-            width="100%"
-            height="315"
-            src="https://www.youtube.com/embed/Fq8DBUjJt2o"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
-        </div> -->
-        <VimeoVideoPlayer />
-      </div>
+    <template v-if="work">
+      <VimeoVideoPlayer :id="work.videos.vimeo_id" :previewImg="previewImg" />
       <div class="work-page__text">
-        <h1>
-          i-D 16x16
-        </h1>
-        <ul>
-          <li>director Tom Ivin</li>
-          <li>producer Declan Higgins</li>
-          <li>graded at Cheat (Joseph Bicknell)</li>
-        </ul>
+        <h1>{{ work.title }}</h1>
+        <p v-html="work.description"></p>
       </div>
       <GridPhotos :images="work.photos" />
     </template>
+    <Spiner v-else />
   </div>
 </template>
 
@@ -46,6 +28,13 @@ export default {
     return {
       work: null
     };
+  },
+  computed: {
+    previewImg() {
+      if (!this.work) return null;
+      const res = this.work.photos.filter(img => img.isVideoPreview);
+      return res.length ? res[0].src : null;
+    }
   },
   async mounted() {
     this.setTitle("Work");

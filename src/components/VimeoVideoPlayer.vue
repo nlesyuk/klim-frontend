@@ -1,45 +1,64 @@
 <template>
-  <!--<div class="video-responsive ">
-     <iframe
+  <figure class="vimeo">
+    <div class="vimeo__poster" :style="vimeoBackground">
+      <svg class="vimeo__play" width="40" height="40" @click="playVideo">
+        <use xlink:href="#svg-sprite--play"></use>
+      </svg>
+    </div>
+
+    <div
       ref="video"
-      width="100%"
-      height="315"
-      src="https://www.youtube.com/embed/Fq8DBUjJt2o"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
-    ></iframe>
-  </div>-->
-  <div class="vimeoPlayer video-responsive" ref="video"></div>
+      :class="[
+        'vimeoPlayer',
+        'video-responsive',
+        { 'vimeoPlayer-hidden': !isPlaying }
+      ]"
+    ></div>
+  </figure>
 </template>
 <script>
 import Player from "@vimeo/player";
-console.log("Player", Player);
 
 export default {
-  data() {
-    return {
-      player: null
-    };
-  },
-  methods: {
-    install() {
-      this.player = new Player(this.$refs.video, {
-        id: 19231868,
-        width: 640
-      }).on("ended", function() {
-        console.log("video ended!");
-      });
+  props: {
+    id: {
+      type: [String, Number],
+      required: true
+    },
+    previewImg: {
+      type: String,
+      required: true
     }
   },
-  mounted() {
-    // fetch("https://api.vimeo.com/").then(res => {
-    //   console.log(res);
-    // });
-
-    this.install();
+  data() {
+    return {
+      player: null,
+      isPlaying: false
+    };
+  },
+  computed: {
+    vimeoBackground() {
+      return this.isPlaying ? "" : `background-image: url(${this.previewImg});`;
+    }
+  },
+  methods: {
+    installVimeo(id) {
+      this.player = new Player(this.$refs.video, {
+        id: id || 521769877,
+        width: 640,
+        color: "#ff0000"
+      });
+      this.player.on("ended", () => {
+        this.isPlaying = false;
+      });
+    },
+    playVideo() {
+      if (!this.player) this.installVimeo(this.id);
+      if (this.player) {
+        this.player.play();
+        this.isPlaying = true;
+      }
+    }
   }
 };
 </script>
-
-<style></style>

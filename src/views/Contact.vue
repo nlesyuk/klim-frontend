@@ -83,7 +83,6 @@ export default {
     fetch("http://localhost:3000/contact")
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         this.contacts = data;
       });
   }

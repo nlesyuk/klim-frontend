@@ -15,16 +15,16 @@
     <template #after-nav>
       <vsm-mob ref="mobile">
         <div class="vsm-mob-content__mob-menu">
-          <router-link class="vsm-link" :to="{ path: '/' }">
+          <router-link class="vsm-link" exact-path :to="{ path: '/' }">
             Works
           </router-link>
-          <router-link class="vsm-link" :to="{ path: '/shots' }">
+          <router-link class="vsm-link" exact-path :to="{ path: '/shots' }">
             Shots
           </router-link>
-          <router-link class="vsm-link" :to="{ path: '/photo' }">
+          <router-link class="vsm-link" exact-path :to="{ path: '/photo' }">
             Photo
           </router-link>
-          <router-link class="vsm-link" :to="{ path: '/contact' }">
+          <router-link class="vsm-link" exact-path :to="{ path: '/contact' }">
             Contact
           </router-link>
         </div>

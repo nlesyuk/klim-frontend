@@ -1,0 +1,27 @@
+// VimeoVideoPlayer component
+.vimeo {
+  padding: 0 19%;
+  background-color: black;
+  position: relative;
+
+  &__poster {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  &__play {
+    cursor: pointer;
+  }
+
+  .vimeoPlayer-hidden {
+    z-index: -1;
+  }
+}
