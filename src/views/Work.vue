@@ -38,8 +38,12 @@ export default {
   },
   async mounted() {
     this.setTitle("Work");
-    const { data } = await VideosRepository.getVideo(this.$route.params.id);
-    this.work = data;
+    try {
+      const { data } = await VideosRepository.getVideo(this.$route.params.id);
+      this.work = data;
+    } catch (e) {
+      console.error(e);
+    }
   }
 };
 </script>

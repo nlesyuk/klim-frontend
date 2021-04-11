@@ -76,9 +76,13 @@ export default {
   },
   async mounted() {
     this.setTitle("Shots");
-    const { data } = await ShotsRepository.get();
-    this.allPhotos = data;
-    this.filteredPhotos = data;
+    try {
+      const { data } = await ShotsRepository.get();
+      this.allPhotos = data;
+      this.filteredPhotos = data;
+    } catch (e) {
+      console.error(e);
+    }
   }
 };
 </script>

@@ -20,8 +20,12 @@ export default {
   },
   async mounted() {
     this.setTitle("Photo");
-    const { data } = await PhotosRepository.getPhoto(+this.$route.params.id);
-    this.photo = data;
+    try {
+      const { data } = await PhotosRepository.getPhoto(+this.$route.params.id);
+      this.photo = data;
+    } catch (e) {
+      console.error(e);
+    }
   }
 };
 </script>

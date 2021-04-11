@@ -36,8 +36,12 @@ export default {
   },
   async mounted() {
     this.setTitle("Works");
-    const { data } = await VideosRepository.getAllVideos();
-    this.works = data;
+    try {
+      const { data } = await VideosRepository.getAllVideos();
+      this.works = data;
+    } catch (e) {
+      console.error(e);
+    }
   }
 };
 </script>

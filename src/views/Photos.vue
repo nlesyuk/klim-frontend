@@ -37,8 +37,12 @@ export default {
   },
   async mounted() {
     this.setTitle("Photos");
-    const { data } = await PhotosRepository.getAll();
-    this.allPhotos = data;
+    try {
+      const { data } = await PhotosRepository.getAll();
+      this.allPhotos = data;
+    } catch (e) {
+      console.error(e);
+    }
   }
 };
 </script>

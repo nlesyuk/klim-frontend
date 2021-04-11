@@ -88,8 +88,12 @@ export default {
       this.setTitle("Calendar");
     }
 
-    const { data } = await GeneralRepository.getContacts();
-    this.contacts = data;
+    try {
+      const { data } = await GeneralRepository.getContacts();
+      this.contacts = data;
+    } catch (e) {
+      console.error(e);
+    }
   }
 };
 </script>
