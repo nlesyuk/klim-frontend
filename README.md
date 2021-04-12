@@ -26,3 +26,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Mock SERVER
 `json-server db.json`
+
+
+
+### Tasks:
+1. 404 page
+2.
