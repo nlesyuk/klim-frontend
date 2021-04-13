@@ -76,6 +76,9 @@
       }
     }
   }
+  &__item {
+    background: $base-gradient;
+  }
 
   &__img {
     width: 100%;

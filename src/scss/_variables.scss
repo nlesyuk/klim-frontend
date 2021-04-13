@@ -1,8 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One:wght@400,500&display=swap");
-// @import url("https://fonts.googleapis.com/css2?family=Gelasio&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Encode+Sans+Condensed:wght@100&display=swap");
 
-// $font: "Roboto", sans-serif;
 $font: "Julius Sans One", sans-serif;
 $secondFont: "Encode Sans Condensed", sans-serif;
 $primary: #000;
@@ -10,8 +8,4 @@ $grey: #c0c0c0;
 $grey-light: #f8f8f8;
 $accent: #c0c0c0;
 $accent-bright: red;
-$base-gradient: linear-gradient(
-  327deg,
-  rgba(234, 190, 255, 1) 0%,
-  rgba(182, 235, 255, 1) 100%
-);
+$base-gradient: linear-gradient(327deg, #f9f9f9 0%, #f9f9f9 100%);
