@@ -16,3 +16,47 @@
 .fade-leave-to {
   opacity: 0;
 }
+
+// glitch animations
+@keyframes noise-anim {
+  $steps: 10;
+  @for $i from 0 through $steps {
+    #{percentage($i*(1/$steps))} {
+      clip: rect(random(100) + px, 9999px, random(100) + px, 0);
+    }
+  }
+}
+
+@keyframes noise-anim-2 {
+  $steps: 10;
+  @for $i from 0 through $steps {
+    #{percentage($i*(1/$steps))} {
+      clip: rect(random(100) + px, 9999px, random(100) + px, 0);
+    }
+  }
+}
+.glitch {
+  color: black;
+  position: relative;
+  margin: 0 auto;
+  &:after,
+  &:before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    color: black;
+    background: white;
+    overflow: hidden;
+    clip: rect(0, 900px, 0, 0);
+  }
+  &:after {
+    left: 2px;
+    text-shadow: -1px 0 red;
+    animation: noise-anim 2s infinite linear alternate-reverse;
+  }
+  &:before {
+    left: -2px;
+    text-shadow: 1px 0 blue;
+    animation: noise-anim-2 3s infinite linear alternate-reverse;
+  }
+}

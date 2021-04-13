@@ -1,5 +1,7 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
+import Main from "../views/Works.vue";
+import NotFound from "../views/NotFound.vue";
 
 Vue.use(VueRouter);
 
@@ -7,7 +9,7 @@ const routes: Array<RouteConfig> = [
   {
     path: "/",
     name: "works",
-    component: () => import("../views/Works.vue")
+    component: Main
   },
   {
     path: "/works-commercial",
@@ -50,6 +52,11 @@ const routes: Array<RouteConfig> = [
     path: "/calendar",
     name: "calendar",
     component: () => import("../views/Calendar.vue")
+  },
+  {
+    path: "*",
+    name: "not-found",
+    component: NotFound
   }
 ];
 
