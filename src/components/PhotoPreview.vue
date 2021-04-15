@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <!-- grid module -->
+  <router-link class="photo-preview" :to="{ path: '/photo/' + collection.id }">
     <div class="grid-container">
       <div
         :class="[
@@ -18,14 +17,10 @@
         </figure>
       </div>
     </div>
-    <router-link
-      v-if="collection.title"
-      class="photo-preview__title"
-      :to="{ path: '/photo/' + collection.id }"
-    >
+    <h2 v-if="collection.title" class="photo-preview__title">
       {{ collection.title }}
-    </router-link>
-  </div>
+    </h2>
+  </router-link>
 </template>
 <script>
 export default {

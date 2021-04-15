@@ -32,3 +32,25 @@
     padding: 0;
   }
 }
+
+// PhotoPreview component
+.photo-preview {
+  display: block;
+  text-decoration: none;
+  @include transition-default;
+  &:hover {
+    // filter: hue-rotate(-10deg);
+    filter: grayscale(1);
+    @include transition-default;
+  }
+  &__title {
+    display: block;
+    padding: 20px 0;
+    font: bold 2rem/1 $font;
+    text-transform: uppercase;
+    color: $primary;
+    margin-bottom: 30px;
+    text-decoration: none;
+    @include transition-default;
+  }
+}
