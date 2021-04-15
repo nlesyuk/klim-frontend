@@ -25,3 +25,10 @@
     z-index: -1;
   }
 }
+
+@media (max-width: 992px) {
+  // VimeoVideoPlayer component
+  .vimeo {
+    padding: 0;
+  }
+}

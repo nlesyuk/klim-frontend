@@ -240,18 +240,19 @@
   }
 }
 .work-page {
-  &__video {
-    padding: 0 19%;
-    background-color: black;
-  }
   &__text {
-    padding: 32px 0;
-    padding-left: 50px;
+    font-family: $font;
     font-size: 1.6rem;
+    line-height: 1.2;
+    padding: 24px 0;
+    padding-left: 50px;
     h1 {
       font-size: 3rem;
-      font-weight: bold;
       margin-bottom: 16px;
+      color: $primary;
+    }
+    p {
+      color: $primaryHalf;
     }
   }
 }
@@ -401,6 +402,21 @@
     iframe {
       display: block;
       width: 100%;
+    }
+  }
+  //
+  .work-page {
+    &__text {
+      font-size: 1.6rem;
+      padding: 16px 0;
+      padding-left: 0px;
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 8px;
+      }
+      p {
+        font-size: 1rem;
+      }
     }
   }
 }
