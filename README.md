@@ -25,10 +25,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
 ### Mock SERVER
-`json-server db.json`
+`json-server db.json` for run use `npm run server`
 
+### Backend
+Based on RESTfull API
+[repo link](https://github.com/nlesyuk/klim-backend)
 
-
-### Tasks:
-1. 404 page
-2.
