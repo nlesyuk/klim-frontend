@@ -9,30 +9,28 @@
   &:hover {
     @include transition-default;
     cursor: pointer;
-    .work__title {
+    .work__description {
       @include transition-default;
       transform: translateY(0px);
     }
   }
-
+  &__cont {
+    display: block;
+    min-height: 200px;
+  }
   &__img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-  &__title {
+  &__description {
     display: block;
     box-sizing: border-box;
     width: 100%;
     height: auto;
     padding: 10px 10px 10px 40px;
     background-color: rgba(white, 0.5);
-    font: 1.5rem/1.5rem $font;
-    text-decoration: none;
-    text-transform: uppercase;
-    color: $primary;
-    color: white;
     position: absolute;
     bottom: 0;
 
@@ -53,5 +51,12 @@
       left: 10px;
       top: calc(50% - 12px);
     }
+  }
+
+  &__title {
+    font: 1.5rem/1.5rem $font;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: white;
   }
 }
