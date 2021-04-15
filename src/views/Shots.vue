@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import GridPhotos from "../components/grids/GridPhotos";
+import GridPhotos from "../components/GridPhotos";
 import { RepositoryFactory } from "./../repositories/RepositoryFactory";
 const ShotsRepository = RepositoryFactory.get("shots");
 

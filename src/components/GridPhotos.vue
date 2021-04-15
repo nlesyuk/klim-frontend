@@ -15,7 +15,7 @@
           :key="index"
           class="grid__item"
         >
-          <img :src="image.src" alt="" class="grid__img" />
+          <img :src="image.src" alt="" class="grid__img" loading="lazy"/>
         </figure>
       </div>
       <div
@@ -27,7 +27,7 @@
           :key="index"
           class="grid__item"
         >
-          <img :src="image.src" alt="" class="grid__img" />
+          <img :src="image.src" alt="" class="grid__img"  loading="lazy"/>
         </figure>
       </div>
       <!-- 3 -->
@@ -37,7 +37,7 @@
           :key="index"
           class="grid__item"
         >
-          <img :src="image.src" alt="" class="grid__img" />
+          <img :src="image.src" alt="" class="grid__img"  loading="lazy"/>
         </figure>
       </div>
       <!-- 4 -->
@@ -47,7 +47,7 @@
           :key="index"
           class="grid__item"
         >
-          <img :src="image.src" alt="" class="grid__img" />
+          <img :src="image.src" alt="" class="grid__img" loading="lazy"/>
         </figure>
       </div>
     </div>

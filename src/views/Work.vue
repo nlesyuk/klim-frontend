@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import GridPhotos from "../components/grids/GridPhotos";
+import GridPhotos from "../components/GridPhotos";
 import VimeoVideoPlayer from "../components/VimeoVideoPlayer";
 import { RepositoryFactory } from "./../repositories/RepositoryFactory";
 const VideosRepository = RepositoryFactory.get("videos");
