@@ -1,10 +1,10 @@
 <template>
   <div class="home">
-    <div class="works" v-if="allWorks.length">
+    <div class="works" v-if="allVideos && allVideos.length">
       <WorkPreview
-        v-for="(work, idx) in allWorks"
+        v-for="(video, idx) in allVideos"
         :key="idx"
-        :work="work"
+        :work="video"
       ></WorkPreview>
     </div>
     <Spiner v-else />
@@ -13,34 +13,35 @@
 
 <script>
 import WorkPreview from "../components/WorkPreview";
-import { RepositoryFactory } from "./../repositories/RepositoryFactory";
-const VideosRepository = RepositoryFactory.get("videos");
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "Works",
   components: {
     WorkPreview
   },
-  data() {
-    return {
-      works: []
-    };
-  },
   computed: {
-    allWorks() {
+    allVideos() {
       if (this.$route.name === "works-commercial") {
-        return this.works.filter(work => work?.category?.includes("commerce"));
+        return this.videos.filter(video =>
+          video?.category?.includes("commerce")
+        );
       }
-      return this.works;
-    }
+      return this.videos;
+    },
+    ...mapState({
+      videos: state => state.videos.videos
+    })
   },
-  async mounted() {
+  methods: {
+    ...mapActions(["getAllVideos"])
+  },
+  mounted() {
     this.setTitle("Works");
-    try {
-      const { data } = await VideosRepository.getAllVideos();
-      this.works = data;
-    } catch (e) {
-      console.error(e);
+
+    if (!this.videos) {
+      this.getAllVideos();
+      console.log("getAllVideos");
     }
   }
 };

@@ -84,7 +84,7 @@ export default {
   methods: {
     ...mapActions(["getContacts"])
   },
-  async mounted() {
+  mounted() {
     this.setTitle("Contact");
 
     // /contact/?calendar=on

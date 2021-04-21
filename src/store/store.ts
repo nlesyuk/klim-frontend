@@ -3,6 +3,7 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 import general from "./modules/general";
+import videos from "./modules/videos";
 
 export default new Vuex.Store({
   state: {},
@@ -13,6 +14,7 @@ export default new Vuex.Store({
     }
   },
   modules: {
-    general
+    general,
+    videos
   }
 });
