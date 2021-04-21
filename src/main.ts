@@ -17,21 +17,14 @@ import "vue-stripe-menu/dist/vue-stripe-menu.css";
 import "@/scss/style.scss";
 
 // global mixins
-Vue.mixin({
-  methods: {
-    setTitle(title) {
-      const el = document.querySelector("title");
-      if (el) el.innerText = `${process.env.VUE_APP_NAME} | ${title}`;
-    }
-  }
-});
+import mixins from "./mixins/index";
+Vue.mixin(mixins);
 
 Vue.config.productionTip = false;
 new Vue({
   router,
   store,
   render: h => h(App),
-  // methods: {}
   mounted() {
     // init();
   }
