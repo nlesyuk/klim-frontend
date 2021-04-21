@@ -5,6 +5,7 @@ Vue.use(Vuex);
 import general from "./modules/general";
 import videos from "./modules/videos";
 import photos from "./modules/photos";
+import shots from "./modules/shots";
 
 export default new Vuex.Store({
   state: {},
@@ -17,6 +18,7 @@ export default new Vuex.Store({
   modules: {
     general,
     videos,
-    photos
+    photos,
+    shots
   }
 });

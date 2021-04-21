@@ -36,17 +36,24 @@
 </template>
 <script>
 import GridPhotos from "../components/GridPhotos";
-import { RepositoryFactory } from "./../repositories/RepositoryFactory";
-const ShotsRepository = RepositoryFactory.get("shots");
+import { mapActions, mapState } from "vuex";
 
 export default {
   components: {
     GridPhotos
   },
+  data() {
+    return {
+      filteredPhotos: []
+    };
+  },
   computed: {
     filter() {
       return this.$route.query.filter;
-    }
+    },
+    ...mapState({
+      allPhotos: state => state.shots.shots
+    })
   },
   watch: {
     $route(route) {
@@ -66,23 +73,18 @@ export default {
         key === "all"
           ? this.allPhotos
           : this.allPhotos.filter(item => item.category.includes(key));
-    }
+    },
+    ...mapActions(["getAllShots"])
   },
-  data() {
-    return {
-      allPhotos: [],
-      filteredPhotos: []
-    };
-  },
-  async mounted() {
+  mounted() {
     this.setTitle("Shots");
-    try {
-      const { data } = await ShotsRepository.get();
-      this.allPhotos = data;
-      this.filteredPhotos = data;
-    } catch (e) {
-      console.error(e);
+
+    if (!this.allPhotos.length) {
+      this.getAllShots().then(data => {
+        this.filteredPhotos = data;
+      });
     }
+    this.filteredPhotos = this.allPhotos;
   }
 };
 </script>
