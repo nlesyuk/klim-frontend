@@ -12,17 +12,11 @@
 </template>
 <script>
 import PhotoPreview from "../components/PhotoPreview";
-import { RepositoryFactory } from "./../repositories/RepositoryFactory";
-const PhotosRepository = RepositoryFactory.get("photos");
+import { mapActions, mapState } from "vuex";
 
 export default {
   components: {
     PhotoPreview
-  },
-  data() {
-    return {
-      allPhotos: []
-    };
   },
   computed: {
     photos() {
@@ -33,15 +27,19 @@ export default {
         res = this.allPhotos.filter(v => !v.category.includes("commerce"));
       }
       return res.length ? res : this.allPhotos;
-    }
+    },
+    ...mapState({
+      allPhotos: state => state.photos.photos
+    })
   },
-  async mounted() {
+  methods: {
+    ...mapActions(["getAllPhotos"])
+  },
+  mounted() {
     this.setTitle("Photos");
-    try {
-      const { data } = await PhotosRepository.getAll();
-      this.allPhotos = data;
-    } catch (e) {
-      console.error(e);
+
+    if (!this.allPhotos.length) {
+      this.getAllPhotos();
     }
   }
 };

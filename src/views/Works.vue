@@ -41,7 +41,6 @@ export default {
 
     if (!this.videos) {
       this.getAllVideos();
-      console.log("getAllVideos");
     }
   }
 };

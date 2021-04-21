@@ -3,7 +3,7 @@ import Repository from "./Repository";
 const resources = "photos";
 
 export default {
-  getAll() {
+  getAllPhotos() {
     return Repository.get(`${resources}`);
   },
   getPhoto(id) {
