@@ -26,6 +26,6 @@ new Vue({
   store,
   render: h => h(App),
   mounted() {
-    // init();
+    this.$store.dispatch("init");
   }
 }).$mount("#app");

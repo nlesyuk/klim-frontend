@@ -7,7 +7,11 @@ import general from "./modules/general";
 export default new Vuex.Store({
   state: {},
   mutations: {},
-  actions: {},
+  actions: {
+    init({ dispatch }) {
+      dispatch("getContacts");
+    }
+  },
   modules: {
     general
   }

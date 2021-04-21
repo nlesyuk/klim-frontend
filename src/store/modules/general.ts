@@ -7,8 +7,12 @@ export default {
   },
   actions: {
     async getContacts({ commit }) {
-      const { data } = await RepositoryGeneral.getContacts();
-      commit("setContacts", data);
+      try {
+        const { data } = await RepositoryGeneral.getContacts();
+        commit("setContacts", data);
+      } catch (e) {
+        console.error(e);
+      }
     }
   },
   mutations: {

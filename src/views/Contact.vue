@@ -63,21 +63,26 @@
   </div>
 </template>
 <script>
-import { RepositoryFactory } from "./../repositories/RepositoryFactory";
-const GeneralRepository = RepositoryFactory.get("general");
+import { mapActions, mapState } from "vuex";
 
 export default {
   data() {
     return {
       isActivateCalendar: false,
-      contacts: null
+      contacts1: null
     };
   },
   computed: {
     phone() {
       if (!this.contacts) return null;
       return this.contacts.phone.replace(/[^\w\s]/gi, "").replace(/\s/gi, "");
-    }
+    },
+    ...mapState({
+      contacts: state => state.general.contacts
+    })
+  },
+  methods: {
+    ...mapActions(["getContacts"])
   },
   async mounted() {
     this.setTitle("Contact");
@@ -87,12 +92,8 @@ export default {
       this.isActivateCalendar = true;
       this.setTitle("Calendar");
     }
-
-    try {
-      const { data } = await GeneralRepository.getContacts();
-      this.contacts = data;
-    } catch (e) {
-      console.error(e);
+    if (!this.contacts) {
+      this.getContacts();
     }
   }
 };
