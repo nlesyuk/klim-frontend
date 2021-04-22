@@ -13,6 +13,10 @@ import VueStripeMenu from "vue-stripe-menu";
 Vue.use(VueStripeMenu);
 import "vue-stripe-menu/dist/vue-stripe-menu.css";
 
+import SimpleLightbox from "simple-lightbox";
+globalThis.SimpleLightbox = SimpleLightbox;
+require("../node_modules/simple-lightbox/dist/simpleLightbox.min.css");
+
 // styles
 import "@/scss/style.scss";
 

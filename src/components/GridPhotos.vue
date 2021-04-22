@@ -15,7 +15,9 @@
           :key="index"
           class="grid__item"
         >
-          <img :src="image.src" alt="" class="grid__img" loading="lazy"/>
+          <a class="grid__lightbox" :href="image.src">
+            <img :src="image.src" alt="" class="grid__img" loading="lazy" />
+          </a>
         </figure>
       </div>
       <div
@@ -27,7 +29,9 @@
           :key="index"
           class="grid__item"
         >
-          <img :src="image.src" alt="" class="grid__img"  loading="lazy"/>
+          <a class="grid__lightbox" :href="image.src">
+            <img :src="image.src" alt="" class="grid__img" loading="lazy" />
+          </a>
         </figure>
       </div>
       <!-- 3 -->
@@ -37,7 +41,9 @@
           :key="index"
           class="grid__item"
         >
-          <img :src="image.src" alt="" class="grid__img"  loading="lazy"/>
+          <a class="grid__lightbox" :href="image.src">
+            <img :src="image.src" alt="" class="grid__img" loading="lazy" />
+          </a>
         </figure>
       </div>
       <!-- 4 -->
@@ -47,7 +53,9 @@
           :key="index"
           class="grid__item"
         >
-          <img :src="image.src" alt="" class="grid__img" loading="lazy"/>
+          <a class="grid__lightbox" :href="image.src">
+            <img :src="image.src" alt="" class="grid__img" loading="lazy" />
+          </a>
         </figure>
       </div>
     </div>
@@ -64,10 +72,25 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      lightbox: null
+    };
+  },
   computed: {
     chunkedImages() {
       if (!this.images.length) return;
       return chunk(this.images, 3);
+    }
+  },
+  mounted() {
+    const lightbox = new SimpleLightbox({
+      elements: ".grid-container .grid__lightbox"
+    });
+  },
+  destroy() {
+    if (this.lightbox && this.lightbox.destroy) {
+      this.lightbox.destroy();
     }
   }
 };
