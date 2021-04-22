@@ -3,7 +3,7 @@
     <p class="footer__text">
       Klim Stepan. Ukraine based cinematogapher / director of photography
     </p>
-    <p class="footer__text">
+    <p class="footer__text" v-if="contacts">
       contact me
       <a :href="`mailto:${contacts.email}`">{{ contacts.email }}</a>
     </p>

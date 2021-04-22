@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <ul class="header__social">
+    <ul class="header__social" v-if="contacts">
       <li>
         <a :href="contacts.facebook"
           ><svg width="24" height="24" viewBox="0 0 24 24">
