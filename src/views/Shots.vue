@@ -3,35 +3,20 @@
     <div class="shots__tags">
       <button
         type="button"
-        @click="changeFilter('all')"
-        :class="['btn', 'btn-primary', { active: filter === 'all' }]"
+        v-for="(name, idx) in category"
+        :key="idx"
+        @click="changeFilter(name)"
+        :class="['btn', 'btn-primary', { active: filter === name }]"
       >
-        all
-      </button>
-      <button
-        type="button"
-        @click="changeFilter('portrait')"
-        :class="['btn', 'btn-primary', { active: filter === 'portrait' }]"
-      >
-        portrait
-      </button>
-      <button
-        type="button"
-        @click="changeFilter('landscape')"
-        :class="['btn', 'btn-primary', { active: filter === 'landscape' }]"
-      >
-        landscape
-      </button>
-      <button
-        type="button"
-        @click="changeFilter('mood')"
-        :class="['btn', 'btn-primary', { active: filter === 'mood' }]"
-      >
-        mood
+        {{ name }}
       </button>
     </div>
-    <GridPhotos v-if="filteredPhotos.length" :images="filteredPhotos" />
-    <Spiner v-else />
+    <transition name="fade" mode="out-in">
+      <template v-if="toggle">
+        <GridPhotos v-if="filteredPhotos.length" :images="filteredPhotos" />
+        <Spiner v-else />
+      </template>
+    </transition>
   </div>
 </template>
 <script>
@@ -44,6 +29,8 @@ export default {
   },
   data() {
     return {
+      category: ["all", "portrait", "landscape", "mood"],
+      toggle: true, // for relaunch gridPhotos component when change filter
       filteredPhotos: []
     };
   },
@@ -63,9 +50,13 @@ export default {
   },
   methods: {
     changeFilter(filter) {
+      this.toggle = false;
       if (this.$route.query.filter !== filter) {
         this.$router.replace({ name: "shots", query: { filter } });
         this.applyFilter(filter);
+        setTimeout(() => {
+          this.toggle = true;
+        }, 300);
       }
     },
     applyFilter(key) {
@@ -82,6 +73,12 @@ export default {
     if (!this.allPhotos.length) {
       this.getAllShots().then(data => {
         this.filteredPhotos = data;
+
+        // apply filter if exist in route
+        const filter = this.$route?.query?.filter;
+        if (filter) {
+          this.applyFilter(filter);
+        }
       });
     }
     this.filteredPhotos = this.allPhotos;

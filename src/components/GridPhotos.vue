@@ -5,7 +5,7 @@
       v-for="(arrImages, idx) in chunkedImages"
       :key="idx"
     >
-      <!-- 1 2-->
+      <!-- 1 2 -->
       <div
         class="grid-type grid-type--big-on-left"
         v-if="arrImages.length === 3 && (idx + 1) % 2"
@@ -77,6 +77,28 @@ export default {
       lightbox: null
     };
   },
+  watch: {
+    images(v) {
+      if (v.length) {
+        this.uninstallLightBox();
+        this.installLightBox();
+      }
+    }
+  },
+  methods: {
+    installLightBox() {
+      this.lightbox = new SimpleLightbox({
+        elements: ".grid-container .grid__lightbox"
+      });
+      // console.log("install", this.images.length);
+    },
+    uninstallLightBox() {
+      if (this.lightbox) {
+        this.lightbox.destroy();
+        // console.log("uninstall", this.images.length);
+      }
+    }
+  },
   computed: {
     chunkedImages() {
       if (!this.images.length) return;
@@ -84,14 +106,10 @@ export default {
     }
   },
   mounted() {
-    const lightbox = new SimpleLightbox({
-      elements: ".grid-container .grid__lightbox"
-    });
+    this.installLightBox();
   },
-  destroy() {
-    if (this.lightbox && this.lightbox.destroy) {
-      this.lightbox.destroy();
-    }
+  destroyed() {
+    this.uninstallLightBox();
   }
 };
 </script>
