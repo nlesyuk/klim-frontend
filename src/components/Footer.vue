@@ -17,7 +17,7 @@ import { mapState } from "vuex";
 export default {
   computed: {
     ...mapState({
-      contacts: state => state.general.contacts
+      contacts: (state?: any) => state.general.contacts
     })
   }
 };
