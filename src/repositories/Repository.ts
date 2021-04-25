@@ -1,8 +1,11 @@
 import axios from "axios";
 
-// const baseDomain = "http://localhost:3000"; // json-server
-// const baseDomain = "http://localhost:8090"; // local nodejs api
-const baseDomain = "http://138.68.74.145"; // digitalOcean nodejs api
+const baseDomain =
+  +process.env.VUE_APP_SERVER_ENVIRONMENT === 1
+    ? process.env.VUE_APP_SERVER_PRODUCTION
+    : +process.env.VUE_APP_SERVER_ENVIRONMENT === 2
+    ? process.env.VUE_APP_SERVER_DEV
+    : process.env.VUE_APP_SERVER_DEV_JSON_SERVER;
 
 const baseURL = `${baseDomain}`;
 
