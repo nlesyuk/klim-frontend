@@ -4,8 +4,13 @@
       <div
         :class="[
           'grid-type',
-          { 'grid-type--big-on-left': collectionType === 'left' },
-          { 'grid-type--big-on-right': collectionType === 'right' }
+          {
+            'grid-type--big-on-left': collectionType === 'left' && !isVertical
+          },
+          {
+            'grid-type--big-on-right': collectionType === 'right' && !isVertical
+          },
+          { 'grid-type--oneline': isVertical }
         ]"
       >
         <figure
@@ -41,7 +46,11 @@ export default {
   },
   computed: {
     photos() {
-      return this.collection.photos.filter(v => v.isPreview);
+      const allPreviewPhotos = this.collection.photos.filter(v => v.isPreview);
+      return allPreviewPhotos.length ? allPreviewPhotos.slice(0, 3) : [];
+    },
+    isVertical() {
+      return this.photos.every(v => v.isVertical);
     }
   }
 };
