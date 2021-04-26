@@ -244,12 +244,12 @@
     font-family: $font;
     font-size: 1.6rem;
     line-height: 1.2;
-    padding: 24px 0;
-    padding-left: 50px;
+    padding: 26px 0;
     h1 {
-      font-size: 3rem;
+      font-size: 2.5rem;
       margin-bottom: 16px;
       color: $primary;
+      line-height: 1;
     }
     p {
       color: $primaryHalf;
@@ -399,7 +399,6 @@
     &__text {
       font-size: 1.6rem;
       padding: 16px 0;
-      padding-left: 0px;
       h1 {
         font-size: 2rem;
         margin-bottom: 8px;
