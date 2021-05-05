@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Main from "../views/Works.vue";
+import Photos from "../views/Photos.vue";
 import NotFound from "../views/NotFound.vue";
 
 Vue.use(VueRouter);
@@ -8,10 +9,17 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: "/",
-    name: "works",
-    component: Main
+    name: "photo",
+    component: Photos,
+    children: [
+      {
+        path: "commerce",
+        name: "commerce",
+        component: Photos
+      }
+    ]
   },
-  {
+  /*   {
     path: "/works-commercial",
     name: "works-commercial",
     component: () => import("../views/Works.vue")
@@ -37,7 +45,7 @@ const routes: Array<RouteConfig> = [
         component: () => import("../views/Photos.vue")
       }
     ]
-  },
+  }, */
   {
     path: "/photo/:id",
     name: "collage",

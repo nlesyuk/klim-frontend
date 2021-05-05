@@ -16,14 +16,14 @@
       <vsm-mob ref="mobile">
         <div class="vsm-mob-content__mob-menu">
           <router-link class="vsm-link" exact-path :to="{ path: '/' }">
-            Works
+            Photo
           </router-link>
-          <router-link class="vsm-link" exact-path :to="{ path: '/shots' }">
+          <!-- <router-link class="vsm-link" exact-path :to="{ path: '/shots' }">
             Shots
           </router-link>
           <router-link class="vsm-link" exact-path :to="{ path: '/photo' }">
             Photo
-          </router-link>
+          </router-link> -->
           <router-link class="vsm-link" exact-path :to="{ path: '/contact' }">
             Contact
           </router-link>
@@ -34,41 +34,12 @@
 </template>
 
 <script>
-import ShotsSubmenu from "./dropdowns/ShotsSubmenu.vue";
 import PhotosSubmenu from "./dropdowns/PhotosSubmenu.vue";
 
 export default {
   data() {
     return {
       menu: [
-        // 1
-        {
-          title: "Works",
-          attributes: {
-            class: ["header__nav-item"]
-          },
-          listeners: {
-            click: () => {
-              if (this.$route.path === "/") return;
-              this.$router.push("/");
-            }
-          }
-        },
-        // 2
-        {
-          title: "Shots",
-          attributes: {
-            class: ["header__nav-item"]
-          },
-          listeners: {
-            click: () => {
-              if (this.$route.path === "/shots") return;
-              this.$router.push("/shots");
-            }
-          },
-          dropdown: "ShotsSubmenu",
-          content: ShotsSubmenu
-        },
         // 3
         {
           title: "Photo",
@@ -77,8 +48,8 @@ export default {
           },
           listeners: {
             click: () => {
-              if (this.$route.path === "/photo") return;
-              this.$router.push("/photo");
+              if (this.$route.path === "/") return;
+              this.$router.push("/");
             }
           },
           dropdown: "PhotosSubmenu",
