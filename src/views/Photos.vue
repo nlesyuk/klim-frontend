@@ -35,12 +35,13 @@ export default {
   methods: {
     ...mapActions(["getAllPhotos"])
   },
-  mounted() {
-    this.setTitle("Photos");
-
+  created() {
     if (!this.allPhotos.length) {
       this.getAllPhotos();
     }
+  },
+  mounted() {
+    this.setTitle("Photos");
   }
 };
 </script>
