@@ -1,5 +1,17 @@
 <template>
   <div class="photos">
+    <div class="shots__tags">
+      <button
+        type="button"
+        v-for="(name, idx) in category"
+        :key="idx"
+        @click="changeFilter(name)"
+        :class="['btn', 'btn-primary', { active: filter === name }]"
+      >
+        {{ name }}
+      </button>
+    </div>
+
     <Spiner v-if="!photos.length" />
     <PhotoPreview
       v-else
@@ -18,7 +30,15 @@ export default {
   components: {
     PhotoPreview
   },
+  data(){
+    return {
+      category: ["all", "automotive", "fashion", "lifestyle", "personal"],
+    }
+  },
   computed: {
+    filter() {
+      return this.$route.query.filter;
+    },
     photos() {
       let res;
       if (this.$route.path.includes("commerce")) {
@@ -33,6 +53,22 @@ export default {
     })
   },
   methods: {
+    changeFilter(filter) {
+      this.toggle = false;
+      if (this.$route.query.filter !== filter) {
+        this.$router.replace({ query: { filter } });
+        this.applyFilter(filter);
+        setTimeout(() => {
+          this.toggle = true;
+        }, 300);
+      }
+    },
+    applyFilter(key) {
+      this.filteredPhotos =
+        key === "all"
+          ? this.allPhotos
+          : this.allPhotos.filter(item => item.category.includes(key));
+    },
     ...mapActions(["getAllPhotos"])
   },
   mounted() {

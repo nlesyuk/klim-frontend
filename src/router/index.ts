@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import Main from "../views/Works.vue";
 import Photos from "../views/Photos.vue";
 import NotFound from "../views/NotFound.vue";
 
@@ -19,33 +18,6 @@ const routes: Array<RouteConfig> = [
       }
     ]
   },
-  /*   {
-    path: "/works-commercial",
-    name: "works-commercial",
-    component: () => import("../views/Works.vue")
-  },
-  {
-    path: "/work/:id",
-    name: "work",
-    component: () => import("../views/Work.vue")
-  },
-  {
-    path: "/shots",
-    name: "shots",
-    component: () => import("../views/Shots.vue")
-  },
-  {
-    path: "/photo",
-    name: "photo",
-    component: () => import("../views/Photos.vue"),
-    children: [
-      {
-        path: "commerce",
-        name: "commerce",
-        component: () => import("../views/Photos.vue")
-      }
-    ]
-  }, */
   {
     path: "/photo/:id",
     name: "collage",
@@ -55,11 +27,6 @@ const routes: Array<RouteConfig> = [
     path: "/contact",
     name: "contact",
     component: () => import("../views/Contact.vue")
-  },
-  {
-    path: "/calendar",
-    name: "calendar",
-    component: () => import("../views/Calendar.vue")
   },
   {
     path: "*",
