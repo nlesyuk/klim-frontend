@@ -7,6 +7,7 @@
         <p v-html="work.description"></p>
       </div>
       <GridPhotos :images="work.photos" />
+      <p class="work-page__credits" v-html="work.credits"></p>
     </template>
     <Spiner v-else />
   </div>

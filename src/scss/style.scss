@@ -240,6 +240,8 @@
     grid-gap: 4px;
   }
 }
+
+//
 .work-page {
   &__text {
     font-family: $font;
@@ -255,6 +257,12 @@
     p {
       color: $primaryHalf;
     }
+  }
+  &__credits {
+    font-family: $font;
+    font-size: 1.6rem;
+    line-height: 1.2;
+    padding: 26px 0;
   }
 }
 
