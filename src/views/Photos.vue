@@ -22,6 +22,11 @@ export default {
   components: {
     PhotoPreview
   },
+  data() {
+    return {
+      category: ["all", "automotive", "fashion", "lifestyle", "personal"]
+    };
+  },
   computed: {
     ...mapState({
       allPhotos: state => state.photos.photos
@@ -38,6 +43,22 @@ export default {
     }
   },
   methods: {
+    changeFilter(filter) {
+      this.toggle = false;
+      if (this.$route.query.filter !== filter) {
+        this.$router.replace({ query: { filter } });
+        this.applyFilter(filter);
+        setTimeout(() => {
+          this.toggle = true;
+        }, 300);
+      }
+    },
+    applyFilter(key) {
+      this.filteredPhotos =
+        key === "all"
+          ? this.allPhotos
+          : this.allPhotos.filter(item => item.category.includes(key));
+    },
     ...mapActions(["getPhotos"])
   },
   created() {
