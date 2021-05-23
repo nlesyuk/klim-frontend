@@ -1,5 +1,8 @@
 <template>
-  <router-link class="photo-preview" :to="{ path: '/photo/' + collection.id }">
+  <router-link
+    :class="['photo-preview', classes]"
+    :to="{ path: '/photo/' + collection.id }"
+  >
     <div class="grid-container">
       <div
         :class="[
@@ -18,17 +21,18 @@
           v-for="(image, index) in photos"
           :key="index"
         >
-          <img :src="image.src" class="grid__img" />
+          <img :src="image.src" class="grid__img" loading="lazy" />
         </figure>
       </div>
     </div>
-    <h2 v-if="collection.title" class="photo-preview__title">
+    <h2 v-if="collection.title && !isHideTitle" class="photo-preview__title">
       {{ collection.title }}
     </h2>
   </router-link>
 </template>
 <script>
 export default {
+  name: "asd",
   props: {
     collection: {
       type: Object,
@@ -37,6 +41,13 @@ export default {
     collectionType: {
       type: String,
       default: "left"
+    },
+    classes: {
+      type: String
+    },
+    isHideTitle: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

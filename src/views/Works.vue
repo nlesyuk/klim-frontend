@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <Slider v-if="!isMobile" />
     <div class="works" v-if="allVideos && allVideos.length">
       <WorkPreview
         v-for="(video, idx) in allVideos"
@@ -13,14 +14,22 @@
 
 <script>
 import WorkPreview from "../components/WorkPreview";
+import Slider from "./Slider";
 import { mapActions, mapState } from "vuex";
 
 export default {
   name: "Works",
   components: {
-    WorkPreview
+    WorkPreview,
+    Slider
   },
   computed: {
+    ...mapState({
+      videos: state => state.videos.videos
+    }),
+    isMobile() {
+      return window.innerWidth < 992;
+    },
     allVideos() {
       if (this.$route.name === "works-commercial") {
         return this.videos.filter(video =>
@@ -28,10 +37,7 @@ export default {
         );
       }
       return this.videos;
-    },
-    ...mapState({
-      videos: state => state.videos.videos
-    })
+    }
   },
   methods: {
     ...mapActions(["getAllVideos"])
