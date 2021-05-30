@@ -1,7 +1,7 @@
 <template>
   <div class="swiper-container">
     <div class="swiper-wrapper">
-      <PhotoPreview
+      <Slide
         v-for="(photo, idx) in photos"
         :key="idx"
         :collection="photo"
@@ -21,11 +21,11 @@
 import { mapActions, mapState } from "vuex";
 import "swiper/swiper.min.css";
 import { Swiper } from "swiper";
-import PhotoPreview from "../components/PhotoPreview";
+import Slide from "../components/Slide";
 
 export default {
   components: {
-    PhotoPreview
+    Slide
   },
   data() {
     return {
