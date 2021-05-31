@@ -6,6 +6,7 @@ import general from "./modules/general";
 import videos from "./modules/videos";
 import photos from "./modules/photos";
 import shots from "./modules/shots";
+import slides from "./modules/slides";
 
 export default new Vuex.Store({
   state: {},
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     general,
     videos,
     photos,
-    shots
+    shots,
+    slides
   }
 });

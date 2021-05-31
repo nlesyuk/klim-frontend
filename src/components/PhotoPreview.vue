@@ -32,7 +32,6 @@
 </template>
 <script>
 export default {
-  name: "asd",
   props: {
     collection: {
       type: Object,

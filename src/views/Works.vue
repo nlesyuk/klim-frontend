@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Slider v-if="!isMobile" />
+    <Slider />
     <div class="works" v-if="allVideos && allVideos.length">
       <WorkPreview
         v-for="(video, idx) in allVideos"

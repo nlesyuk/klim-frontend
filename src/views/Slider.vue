@@ -1,18 +1,16 @@
 <template>
-  <div class="swiper-container">
+  <div class="slider swiper-container">
     <div class="swiper-wrapper">
       <Slide
-        v-for="(photo, idx) in photos"
+        v-for="(slide, idx) in allSlides"
         :key="idx"
-        :collection="photo"
-        collectionType="left"
+        :source="slide"
         classes="swiper-slide"
-        :isHideTitle="true"
       />
     </div>
     <div class="swiper-pagination"></div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev" ref="prev">prev</div>
+    <div class="swiper-button-next" ref="next">next</div>
     <div class="swiper-scrollbar"></div>
   </div>
 </template>
@@ -20,6 +18,8 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import "swiper/swiper.min.css";
+import "swiper/components/effect-fade/effect-fade.min.css";
+import "swiper/components/pagination/pagination.min.css";
 import { Swiper } from "swiper";
 import Slide from "../components/Slide";
 
@@ -33,39 +33,56 @@ export default {
     };
   },
   computed: {
-    photos() {
-      let res;
-      if (this.$route.path.includes("commerce")) {
-        res = this.allPhotos.filter(v => v.category.includes("commerce"));
-      } else {
-        res = this.allPhotos.filter(v => !v.category.includes("commerce"));
-      }
-      return res.length ? res : this.allPhotos;
-    },
     ...mapState({
-      allPhotos: state => state.photos.photos
+      allSlides: state => state.slides.slides
     })
   },
   methods: {
-    ...mapActions(["getAllPhotos"])
+    ...mapActions(["getSlides"])
   },
   mounted() {
     this.swiper = new Swiper(".swiper-container", {
       speed: 500,
+      loop: true,
       navigation: {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev"
       },
-      pagination: true,
-      // {
-      //   el: ".swiper-pagination",
-      //   type: "bullets"
-      // },
+      pagination: {
+        el: ".swiper-pagination",
+        type: "bullets"
+      },
       slidesPerView: 1,
-      spaceBetween: 10
+      spaceBetween: 0,
+      effect: "fade",
+      fadeEffect: {
+        crossFade: true
+      },
+      on: {
+        init: function() {
+          console.log("swiper initialized");
+        },
+        slideChange: function() {
+          console.log("swiper slideChange");
+        }
+      }
+    });
+    // this.swiper.on("slideChange", function() {
+    //   console.log("slide changed");
+    // });
+    this.$refs.next.addEventListener("click", () => {
+      this.swiper.slideNext();
+      console.log("click");
+    });
+    this.$refs.prev.addEventListener("click", () => {
+      this.swiper.slidePrev();
+      console.log("click");
     });
 
-    this.getAllPhotos();
+    // api
+    if (!this.allSlides) {
+      this.getSlides();
+    }
   }
 };
 </script>
