@@ -72,6 +72,15 @@
         <polygon fill="#ffffff" points="17,13 27.99,20 17,27 " />
       </g>
     </symbol>
+
+    <symbol
+      width="24px"
+      height="24px"
+      viewBox="0 0 24 24"
+      id="svg-sprite--arrow"
+    >
+      <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" />
+    </symbol>
   </svg>
 </template>
 

@@ -269,11 +269,32 @@
 //
 .slider {
   position: relative;
+  margin-bottom: 20px;
+  &:hover {
+    .swiper-button-next,
+    .swiper-button-prev {
+      visibility: visible;
+      pointer-events: auto;
+    }
+  }
+  &.swiper {
+    &-container {
+      background: red;
+    }
+    &-slide {
+      .photo-preview {
+        max-height: 830px;
+      }
+    }
+  }
+
   &__slide {
     display: block;
     position: relative;
-    max-height: 70vh;
-    height: 70vh;
+    min-height: 70vh;
+    // max-height: 70vh;
+    // height: 70vh;
+    padding: 0;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -289,13 +310,26 @@
   }
   .swiper-button-next,
   .swiper-button-prev {
-    display: block;
-    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
     height: 50px;
-    background: green;
+    background: black;
     position: absolute;
     top: calc(50% - 25px);
     z-index: 999;
+    visibility: hidden;
+    pointer-events: none;
+    @include transition-default;
+    svg {
+      fill: white;
+    }
+    &:hover {
+      cursor: pointer;
+      filter: invert(100%);
+      @include transition-default;
+    }
   }
   .swiper-button-next {
     right: 0;

@@ -1,5 +1,5 @@
 <template>
-  <figure class="vimeo">
+  <figure :class="[classes, 'vimeo']">
     <div class="vimeo__poster" :style="vimeoBackground" @click="playVideo">
       <svg class="vimeo__play" width="40" height="40">
         <use xlink:href="#svg-sprite--play"></use>
@@ -28,6 +28,9 @@ export default {
     previewImg: {
       type: String,
       required: true
+    },
+    classes: {
+      type: String
     }
   },
   data() {
