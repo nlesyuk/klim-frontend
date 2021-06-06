@@ -1,22 +1,34 @@
 <template>
-  <figure
-    v-if="source.type === 'image'"
-    :class="[classes, 'slider__slide']"
-    :style="`background-image: url(${source.image})`"
-  >
-    <!-- <img :src="source.image" class="slider__img" loading="lazy" /> -->
-    <button type="button" class="slider__btn-more">{{ source.text }}</button>
+  <figure :class="[classes, 'slider__slide']">
+    <!-- img -->
+    <img
+      v-if="source.type === 'image'"
+      :src="source.image"
+      class="slider__img"
+      loading="lazy"
+    />
+    <!-- video -->
+    <template v-else-if="source.type === 'video'">
+      <img
+        v-if="!isPlaying"
+        :src="source.image"
+        class="slider__img"
+        loading="lazy"
+        @click="playVideo"
+      />
+      <div
+        ref="video"
+        :class="['vimeoPlayer', { hidden: !isPlaying }]"
+        @click="pauseVideo"
+      ></div>
+    </template>
+    <!-- button -->
+    <!-- <button type="button" class="slider__btn-more">{{ source.text }}</button> -->
   </figure>
-  <VimeoVideoPlayer
-    v-else-if="source.type === 'video'"
-    :class="[classes, 'slider__slide']"
-    :previewImg="source.image"
-    :id="source.video.vimeo_id"
-  />
 </template>
 
 <script>
-import VimeoVideoPlayer from "../components/VimeoVideoPlayer";
+import Player from "@vimeo/player";
 
 export default {
   props: {
@@ -30,10 +42,93 @@ export default {
     isHideTitle: {
       type: Boolean,
       default: false
+    },
+    currentSlide: {
+      type: [Number, String],
+      required: true
+    },
+    slideId: {
+      type: [Number, String],
+      required: true
     }
   },
-  components: {
-    VimeoVideoPlayer
+  data() {
+    return {
+      isPaused: false,
+      player: null,
+      isPlaying: false
+    };
+  },
+  watch: {
+    currentSlide(id) {
+      this.launchVideo(id, this.slideId);
+    }
+  },
+  computed: {
+    vimeoBackground() {
+      return this.isPlaying ? "" : `background-image: url(${this.previewImg});`;
+    }
+  },
+  methods: {
+    installVimeo() {
+      if (this.source.type !== "video") return;
+
+      this.player = new Player(this.$refs.video, {
+        id: this.source.video.vimeo_id || 521769877,
+        width: 640,
+        color: "#ff0000",
+        background: true,
+        // autopause: true,
+        byline: false,
+        loop: true,
+        controls: false,
+        responsive: true
+      });
+      this.player.on("ready", () => {
+        console.log("ready");
+      });
+      return this.player;
+    },
+    playVideo() {
+      if (!this.player) this.installVimeo();
+
+      if (this.player) {
+        this.player.play();
+        this.isPlaying = true;
+      }
+    },
+    pauseVideo() {
+      if (!this.player) this.installVimeo();
+
+      if (this.isPaused) {
+        this.player.play();
+        this.isPaused = false;
+      } else {
+        this.player.pause();
+        this.isPaused = true;
+      }
+    },
+    launchVideo(currentSlideId, slideId) {
+      if (!this.player) {
+        this.installVimeo();
+      }
+      setTimeout(() => {
+        if (currentSlideId === slideId && this.player) {
+          this.playVideo();
+        } else {
+          // this.player.setCurrentTime(0);
+
+          this.player.setCurrentTime(0).then(seconds => {
+            console.log("-set-", seconds);
+            this.player.getCurrentTime().then(seconds => {
+              console.log("-get-", seconds);
+            });
+          });
+
+          this.pauseVideo();
+        }
+      }, 100);
+    }
   }
 };
 </script>

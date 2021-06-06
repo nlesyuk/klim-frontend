@@ -266,6 +266,9 @@
   }
 }
 
+.hidden {
+  display: none;
+}
 //
 .slider {
   position: relative;
@@ -277,68 +280,76 @@
       pointer-events: auto;
     }
   }
-  &.swiper {
-    &-container {
-      background: red;
-    }
-    &-slide {
-      .photo-preview {
-        max-height: 830px;
-      }
-    }
-  }
 
   &__slide {
     display: block;
+    width: 100%;
     position: relative;
-    min-height: 70vh;
+    // min-height: 70vh;
     // max-height: 70vh;
     // height: 70vh;
-    padding: 0;
+    // padding: 0;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    background-color: black;
+    .vimeo__play {
+      position: relative;
+      z-index: 1;
+    }
   }
   &__img {
     display: block;
-    object-fit: fill;
+    width: 100%;
+    // object-fit: fill;
   }
   &__btn-more {
     position: absolute;
     top: calc(50% - 10px);
     left: calc(50% - 10px);
   }
-  .swiper-button-next,
-  .swiper-button-prev {
+}
+.hooper {
+  &:hover {
+    .hooper-indicators,
+    .hooper-prev,
+    .hooper-next {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+  &-indicators {
+    opacity: 0;
+    @include transition-default;
+  }
+  &-prev,
+  &-next {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 30px;
     height: 50px;
-    background: black;
-    position: absolute;
-    top: calc(50% - 25px);
-    z-index: 999;
-    visibility: hidden;
+    padding: 0;
+    background-color: black;
+    opacity: 0;
     pointer-events: none;
     @include transition-default;
     svg {
+      display: block;
       fill: white;
+      transform: scale(1.5);
     }
     &:hover {
       cursor: pointer;
       filter: invert(100%);
       @include transition-default;
     }
-  }
-  .swiper-button-next {
-    right: 0;
-  }
-  .swiper-button-prev {
-    left: 0;
+    &:is(.is-disabled) {
+      cursor: not-allowed;
+      filter: none;
+    }
   }
 }
-
 //
 .not-found {
   display: flex;
