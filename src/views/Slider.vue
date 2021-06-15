@@ -9,6 +9,7 @@
         :source="slide"
         :slideId="idx"
         :currentSlide="currentSlide"
+        :allSlides="allSlides.length"
       />
     </slide>
     <hooper-navigation slot="hooper-addons"></hooper-navigation>
@@ -40,10 +41,13 @@ export default {
     return {
       currentSlide: 0,
       hooperSettings: {
+        autoPlay: true,
         itemsToShow: 1,
+        playSpeed: 5000,
         centerMode: true,
         hoverPause: true,
-        wheelControl: false
+        wheelControl: false,
+        infiniteScroll: true
       }
     };
   },
@@ -56,7 +60,7 @@ export default {
     ...mapActions(["getSlides"]),
     onSlideChange(object) {
       this.currentSlide = object.currentSlide;
-      console.log("onSlideChange", object);
+      // console.log("onSlideChange", object);
     }
   },
   mounted() {

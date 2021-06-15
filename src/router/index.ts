@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import Main from "../views/Works.vue";
+import Main from "../views/Main.vue";
 import NotFound from "../views/NotFound.vue";
 
 Vue.use(VueRouter);
@@ -14,7 +14,7 @@ const routes: Array<RouteConfig> = [
   {
     path: "/works-commercial",
     name: "works-commercial",
-    component: () => import("../views/Works.vue")
+    component: () => import("../views/Main.vue")
   },
   {
     path: "/work/:id",

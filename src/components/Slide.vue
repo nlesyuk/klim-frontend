@@ -1,5 +1,5 @@
 <template>
-  <figure :class="[classes, 'slider__slide']">
+  <figure :class="[classes, 'slider__slide test']" @click="goTo">
     <!-- img -->
     <img
       v-if="source.type === 'image'"
@@ -9,13 +9,6 @@
     />
     <!-- video -->
     <template v-else-if="source.type === 'video'">
-      <img
-        v-if="!isPlaying"
-        :src="source.image"
-        class="slider__img"
-        loading="lazy"
-        @click="playVideo"
-      />
       <div
         ref="video"
         :class="['vimeoPlayer', { hidden: !isPlaying }]"
@@ -50,6 +43,10 @@ export default {
     slideId: {
       type: [Number, String],
       required: true
+    },
+    allSlides: {
+      type: [Number, String],
+      required: true
     }
   },
   data() {
@@ -72,22 +69,22 @@ export default {
   methods: {
     installVimeo() {
       if (this.source.type !== "video") return;
+      if (this.player) return;
 
       this.player = new Player(this.$refs.video, {
-        id: this.source.video.vimeo_id || 521769877,
+        id: this.source.video.vimeo_id,
         width: 640,
         color: "#ff0000",
         background: true,
-        // autopause: true,
+        autopause: true,
         byline: false,
         loop: true,
         controls: false,
         responsive: true
       });
-      this.player.on("ready", () => {
-        console.log("ready");
-      });
-      return this.player;
+      // this.player.setQuality("720p").then(function(quality) {
+      //   console.log("quality was successfully set");
+      // });
     },
     playVideo() {
       if (!this.player) this.installVimeo();
@@ -101,14 +98,18 @@ export default {
       if (!this.player) this.installVimeo();
 
       if (this.isPaused) {
-        this.player.play();
+        this.player?.play();
         this.isPaused = false;
       } else {
-        this.player.pause();
+        this.player?.pause();
         this.isPaused = true;
       }
     },
     launchVideo(currentSlideId, slideId) {
+      if (currentSlideId < 0) {
+        // when prev slide id(idx) as -1 - get id(idx) of last slide
+        currentSlideId = this.allSlides - 1;
+      }
       if (!this.player) {
         this.installVimeo();
       }
@@ -116,18 +117,32 @@ export default {
         if (currentSlideId === slideId && this.player) {
           this.playVideo();
         } else {
-          // this.player.setCurrentTime(0);
-
-          this.player.setCurrentTime(0).then(seconds => {
-            console.log("-set-", seconds);
-            this.player.getCurrentTime().then(seconds => {
-              console.log("-get-", seconds);
+          this.player?.setCurrentTime(0).then(seconds => {
+            // console.log("-set-", seconds);
+            this.player?.getCurrentTime().then(seconds => {
+              // console.log("-get-", seconds);
             });
           });
 
           this.pauseVideo();
         }
       }, 100);
+    },
+
+    //
+    goTo() {
+      if (this.source?.hasOwnProperty("photo_id")) {
+        this.$router.push({
+          name: "photo",
+          params: { id: this.source.photo_id }
+        });
+      }
+      if (this.source?.hasOwnProperty("work_id")) {
+        this.$router.push({
+          name: "work",
+          params: { id: this.source.work_id }
+        });
+      }
     }
   }
 };

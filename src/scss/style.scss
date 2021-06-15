@@ -273,13 +273,6 @@
 .slider {
   position: relative;
   margin-bottom: 20px;
-  &:hover {
-    .swiper-button-next,
-    .swiper-button-prev {
-      visibility: visible;
-      pointer-events: auto;
-    }
-  }
 
   &__slide {
     display: block;
@@ -293,6 +286,18 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-color: black;
+    cursor: pointer;
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      // background-color: rgba(255, 0, 0, 0.45);
+      z-index: 22;
+    }
     .vimeo__play {
       position: relative;
       z-index: 1;
@@ -318,10 +323,18 @@
       pointer-events: auto;
     }
   }
+
   &-indicators {
     opacity: 0;
     @include transition-default;
   }
+  &-indicator {
+    background-color: black;
+    &.is-active {
+      background-color: white;
+    }
+  }
+
   &-prev,
   &-next {
     display: flex;
