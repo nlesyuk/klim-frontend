@@ -43,7 +43,7 @@ export default {
       hooperSettings: {
         autoPlay: true,
         itemsToShow: 1,
-        playSpeed: 5000,
+        playSpeed: 10 * 1000,
         centerMode: true,
         hoverPause: true,
         wheelControl: false,
@@ -66,7 +66,9 @@ export default {
   mounted() {
     // api
     if (!this.allSlides) {
-      this.getSlides();
+      this.getSlides().then(data => {
+        this.currentSlide = 1;
+      });
     }
   }
 };

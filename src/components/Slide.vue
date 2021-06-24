@@ -1,5 +1,5 @@
 <template>
-  <figure :class="[classes, 'slider__slide test']" @click="goTo">
+  <figure :class="[classes, 'slider__slide']" @click="goTo">
     <!-- img -->
     <img
       v-if="source.type === 'image'"
@@ -8,15 +8,12 @@
       loading="lazy"
     />
     <!-- video -->
-    <template v-else-if="source.type === 'video'">
-      <div
-        ref="video"
-        :class="['vimeoPlayer', { hidden: !isPlaying }]"
-        @click="pauseVideo"
-      ></div>
-    </template>
-    <!-- button -->
-    <!-- <button type="button" class="slider__btn-more">{{ source.text }}</button> -->
+    <div
+      v-else-if="source.type === 'video'"
+      ref="video"
+      :class="['vimeoPlayer', { hidden: !isPlaying }]"
+      @click="pauseVideo"
+    ></div>
   </figure>
 </template>
 
@@ -61,15 +58,12 @@ export default {
       this.launchVideo(id, this.slideId);
     }
   },
-  computed: {
-    vimeoBackground() {
-      return this.isPlaying ? "" : `background-image: url(${this.previewImg});`;
-    }
-  },
   methods: {
     installVimeo() {
       if (this.source.type !== "video") return;
       if (this.player) return;
+
+      console.log("install video");
 
       this.player = new Player(this.$refs.video, {
         id: this.source.video.vimeo_id,
@@ -82,12 +76,19 @@ export default {
         controls: false,
         responsive: true
       });
-      // this.player.setQuality("720p").then(function(quality) {
-      //   console.log("quality was successfully set");
-      // });
+      this.player.setQuality("720p").then(function(quality) {
+        console.log("quality was successfully set");
+      });
+      return this.player.ready();
     },
     playVideo() {
-      if (!this.player) this.installVimeo();
+      if (!this.player) {
+        this.installVimeo().then(() => {
+          this.player.play();
+          this.isPlaying = true;
+        });
+        return;
+      }
 
       if (this.player) {
         this.player.play();
@@ -117,13 +118,7 @@ export default {
         if (currentSlideId === slideId && this.player) {
           this.playVideo();
         } else {
-          this.player?.setCurrentTime(0).then(seconds => {
-            // console.log("-set-", seconds);
-            this.player?.getCurrentTime().then(seconds => {
-              // console.log("-get-", seconds);
-            });
-          });
-
+          this.player?.setCurrentTime(0);
           this.pauseVideo();
         }
       }, 100);
@@ -143,6 +138,11 @@ export default {
           params: { id: this.source.work_id }
         });
       }
+    }
+  },
+  mounted() {
+    if (this.source.type === "video") {
+      this.playVideo();
     }
   }
 };
