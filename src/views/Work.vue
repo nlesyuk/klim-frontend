@@ -34,7 +34,6 @@ export default {
     previewImg() {
       if (!this.work) return null;
       const res = this.work.photos.filter(img => img.isVideoPreview);
-      console.log("res", res);
       return res.length ? res[0].src : null;
     }
   },

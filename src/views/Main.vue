@@ -32,6 +32,7 @@ export default {
     },
     allVideos() {
       if (this.$route.name === "works-commercial") {
+        if (!this.videos) return
         return this.videos.filter(video =>
           video?.category?.includes("commerce")
         );
