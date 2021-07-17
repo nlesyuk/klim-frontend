@@ -62,6 +62,22 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/Login.vue")
   },
   {
+    path: "/dashboard",
+    name: "dashboard",
+    meta: {
+      isProtected: true
+    },
+    component: () => import("../views/dashboard/Dashboard.vue"),
+    children: [
+      {
+        path: "works",
+        name: "dasboard-works",
+        meta: { isProtected: true },
+        component: () => import("../views/dashboard/DashboardWorks.vue")
+      }
+    ]
+  },
+  {
     path: "*",
     name: "not-found",
     component: NotFound

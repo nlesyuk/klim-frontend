@@ -1,0 +1,41 @@
+.dashboard {
+  &__title {
+    margin-bottom: 2rem;
+  }
+  &__badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 8px;
+    background-color: hrl(0, 50%, 50%);
+    &.badge-yellow {
+      background-color: yellow;
+    }
+    &.badge-green {
+      background-color: yellowgreen;
+    }
+
+    margin-bottom: 1.5rem;
+  }
+
+  &__form {
+    display: block;
+    margin-bottom: 2rem;
+  }
+  &__label {
+    display: block;
+    box-sizing: border-boxs;
+    width: 100%;
+    span {
+      display: block;
+      padding: 0.5rem;
+    }
+    input {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0.75rem;
+      border: 2px solid black;
+      border-radius: 3px;
+    }
+  }
+}

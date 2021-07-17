@@ -39,6 +39,10 @@ export default {
 
 <style lang="scss">
 .login {
+  min-height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   &__form {
     width: 400px;
     max-width: 100%;
@@ -73,6 +77,12 @@ export default {
     border-radius: 3px;
     text-align: center;
     color: white;
+    cursor: pointer;
+    transition: all .25s;
+    &:hover {
+      transition: all .25s;
+      opacity: .75ss;
+    }
   }
 }
 </style>
