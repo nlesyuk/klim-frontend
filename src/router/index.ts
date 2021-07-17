@@ -54,6 +54,14 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/Calendar.vue")
   },
   {
+    path: "/login",
+    name: "login",
+    meta: {
+      isProtected: true
+    },
+    component: () => import("../views/Login.vue")
+  },
+  {
     path: "*",
     name: "not-found",
     component: NotFound
