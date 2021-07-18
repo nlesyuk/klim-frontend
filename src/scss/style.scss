@@ -1,4 +1,5 @@
 @import "reset-css";
+// @import "/node_module/normalize.css/normalize.css";
 @import "./variables";
 @import "./mixins";
 @import "./animations";
@@ -235,13 +236,12 @@
 
 //
 .home {
-  .works {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 4px;
-  }
 }
-
+.works {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 4px;
+}
 //
 .work-page {
   &__text {

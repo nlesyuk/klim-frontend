@@ -38,6 +38,11 @@ body {
   }
 }
 
+.image-responsive {
+  display: block;
+  max-width: 100%;
+}
+
 .container {
   width: 90%;
   max-width: 1800px;

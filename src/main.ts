@@ -17,6 +17,9 @@ import SimpleLightbox from "simple-lightbox";
 globalThis.SimpleLightbox = SimpleLightbox;
 require("../node_modules/simple-lightbox/dist/simpleLightbox.min.css");
 
+import Vuelidate from "vuelidate";
+Vue.use(Vuelidate);
+
 // styles
 import "@/scss/style.scss";
 

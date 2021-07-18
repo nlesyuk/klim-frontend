@@ -5,6 +5,7 @@
     :to="{ path: '/work/' + work.id }"
     :style="`background-image: url(${work.preview_img})`"
   >
+    <slot name="default"></slot>
     <!-- <img :src="work.preview_img" :alt="work.title" class="work__img" /> -->
     <div class="work__description">
       <svg width="24" height="24">

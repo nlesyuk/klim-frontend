@@ -1,34 +1,55 @@
 .dashboard {
+  // general
   &__title {
-    margin-bottom: 2rem;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: black;
+    color: white;
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 1.5rem;
+    letter-spacing: 3px;
   }
+
   &__badge {
     display: inline-block;
     padding: 3px 8px;
     border-radius: 8px;
+    font-size: 1.125rem;
+    font-weight: 500;
     background-color: hrl(0, 50%, 50%);
+    color: white;
+    margin: 10px;
+    cursor: default;
     &.badge-yellow {
-      background-color: yellow;
+      background-color: green;
     }
     &.badge-green {
       background-color: yellowgreen;
     }
-
-    margin-bottom: 1.5rem;
+    &.badge-red {
+      background-color: red;
+    }
   }
 
   &__form {
     display: block;
     margin-bottom: 2rem;
   }
+
   &__label {
     display: block;
     box-sizing: border-boxs;
     width: 100%;
+    margin-bottom: 20px;
+    position: relative;
+
     span {
       display: block;
       padding: 0.5rem;
+      font-size: 1.5rem;
     }
+    textarea,
     input {
       display: block;
       width: 100%;
@@ -36,6 +57,122 @@
       padding: 0.75rem;
       border: 2px solid black;
       border-radius: 3px;
+      &:focus {
+        outline-offset: 1px;
+        outline: 2px solid #505eff;
+      }
     }
+    //
+    &-editor {
+      display: flex;
+      justify-content: space-between;
+    }
+    &-sides {
+      width: 50%;
+    }
+    &-prev-content {
+      padding: 20px 0 0 20px;
+    }
+    // error
+    &-error {
+      display: block;
+      &-info {
+        padding: 5px 0;
+        position: absolute;
+        left: 0;
+      }
+      strong {
+        color: Salmon;
+      }
+      input {
+        border-color: Salmon;
+      }
+    }
+    p {
+      font-size: 1.5rem;
+    }
+  }
+
+  &__menu {
+    display: flex;
+    justify-content: space-between;
+    li {
+      width: 100%;
+    }
+    &-item {
+      width: 100%;
+      background-color: yellowgreen;
+      border: 1px solid white;
+      padding: 1rem;
+      text-transform: uppercase;
+      cursor: pointer;
+
+      @include transition-default;
+      &:hover {
+        transform: rotate(3deg);
+        @include transition-default;
+      }
+      &[class*="-exact-active"] {
+        background-color: green;
+        color: white;
+      }
+    }
+  }
+
+  &__submit {
+    display: block;
+    width: auto;
+    padding: 1rem;
+    border: none;
+    background-color: DarkSalmon;
+    cursor: pointer;
+    margin-right: 2px;
+    @include transition-default;
+    &:last-child {
+      margin-right: 0;
+    }
+    &:hover {
+      background-color: Salmon;
+      @include transition-default;
+    }
+  }
+
+  &__btns-container {
+    display: flex;
+    justify-content: flex-start;
+  }
+  &__btn {
+    display: inline-block;
+    border: none;
+    background-color: #2fa5ff;
+    padding: 8px 16px;
+    border-radius: 50px;
+    cursor: pointer;
+    @include transition-default;
+    &:hover {
+      transform: rotate(3deg);
+      @include transition-default;
+    }
+  }
+
+  &__list {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    z-index: 50;
+    background: red;
+    height: 20px;
+    top: 0;
+    li {
+    }
+    button {
+    }
+  }
+
+  // pages
+  &-add-work {
+  }
+  &-works {
+    padding: 2rem 0;
   }
 }
