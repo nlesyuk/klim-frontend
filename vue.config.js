@@ -1,3 +1,8 @@
+const path = require('path');
+function resolve(dir) {
+    return path.join(__dirname, dir)
+}
+
 module.exports = {
     pages: {
         index: {
@@ -19,5 +24,9 @@ module.exports = {
         // and falls back to `public/index.html` if not found.
         // Output filename is inferred to be `subpage.html`.
         // subpage: 'src/subpage/main.js'
+    },
+    chainWebpack: config => {
+        config.resolve.alias
+            .set('Repositories', resolve('src/repositories/'))
     }
 }

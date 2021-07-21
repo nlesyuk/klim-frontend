@@ -1,20 +1,16 @@
 <template>
   <section class="dashboard-works">
-    <AddWork :work="work"></AddWork>
-    <span class="dashboard__badge badge-green">all works</span>
+    <AddWork
+      :work="work"
+      :isEdit="isEdit"
+      @resetForm="isEdit = false"
+    ></AddWork>
 
     <button type="button" @click="refresh" class="dashboard__btn">
       Refresh works
     </button>
-    <button
-      type="button"
-      @click="isHideWorks = !isHideWorks"
-      class="dashboard__btn"
-    >
-      {{ isHideWorks ? "Hide" : "Show" }} works
-    </button>
 
-    <div class="works" v-if="videos && videos.length && isHideWorks">
+    <div class="works" v-if="videos && videos.length">
       <WorkPreview v-for="(video, idx) in videos" :key="idx" :work="video">
         <ul class="dashboard__list" slot="default">
           <li>
@@ -35,6 +31,8 @@
 import AddWork from "./DashboardAddWork.vue";
 import WorkPreview from "../../components/WorkPreview";
 import { mapState, mapActions } from "vuex";
+import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
+const VideosRepository = RepositoryFactory.get("videos");
 
 export default {
   components: {
@@ -44,7 +42,8 @@ export default {
   data() {
     return {
       work: null,
-      isHideWorks: false
+      isHideWorks: false,
+      isEdit: false
     };
   },
   computed: {
@@ -60,11 +59,12 @@ export default {
     },
     remove(id) {
       console.log(id);
+      // remove video
+      // VideosRepository.delete(id)
     },
     edit(id) {
-      console.log(id);
+      this.isEdit = true;
       const item = this.videos.filter(v => v.id === id);
-      console.log(item);
       this.work = item[0];
     },
     refresh() {

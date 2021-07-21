@@ -9,14 +9,14 @@ export default {
   },
   getVideo(id) {
     return Repository.get(`${resources}/${id}`);
+  },
+  create(payload) {
+    return Repository.post(`${resources}`, payload);
+  },
+  update(payload, id) {
+    return Repository.put(`${resources}/${id}`, payload);
+  },
+  delete(id) {
+    return Repository.delete(`${resources}/${id}`);
   }
-  // create(payload) {
-  //   return Repository.post(`${resources}`, payload);
-  // },
-  // update(payload, id) {
-  //   return Repository.put(`${resources}/${id}`, payload);
-  // },
-  // delete(id) {
-  //   return Repository.delete(`${resources}/${id}`);
-  // }
 };

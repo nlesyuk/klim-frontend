@@ -44,7 +44,7 @@
     margin-bottom: 20px;
     position: relative;
 
-    span {
+    & > span {
       display: block;
       padding: 0.5rem;
       font-size: 1.5rem;
@@ -148,6 +148,7 @@
     padding: 8px 16px;
     border-radius: 50px;
     cursor: pointer;
+    margin: 10px;
     @include transition-default;
     &:hover {
       transform: rotate(3deg);
@@ -166,6 +167,24 @@
     li {
     }
     button {
+    }
+
+    // 2
+    &-imgs {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-gap: 10px;
+      position: relative;
+      li {
+      }
+      button {
+        display: inline-block;
+      }
+      img {
+        display: block;
+        width: 100%;
+        // max-width: 200px;
+      }
     }
   }
 

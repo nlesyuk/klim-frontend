@@ -3,7 +3,8 @@
     <button class="dashboard__btn" @click="isShowForm = !isShowForm">
       add new work
     </button>
-    <transition>
+
+    <transition name="fade">
       <form class="dashboard__form" @submit.prevent="submit" v-if="isShowForm">
         <label
           :class="[
@@ -19,7 +20,6 @@
           >
             Min length is {{ $v.title.$params.minLength.min }}
           </strong>
-          <!-- <p style="margin-top: 40px;">{{ $v.title }}</p> -->
         </label>
 
         <label
@@ -62,11 +62,20 @@
           ></VueEditor>
         </label>
 
-        <label class="dashboard__label">
+        <div class="dashboard__label">
           <span>Photos</span>
           <input type="file" multiple @change="getFiles" ref="files" />
-          <img ref="filesPrev" src="#" alt="your image" />
-        </label>
+          <!-- <img ref="filesPrev" src="#" alt="your image" /> -->
+          <ul class="dashboard__list-imgs">
+            <li v-for="(file, idx) in selectedImages" :key="idx">
+              <span class="dashboard__badge badge-yellow ">{{ idx + 1 }}</span>
+              <button type="button" @click="removeSelectedImage(file.url)">
+                remove
+              </button>
+              <img :src="file.url" alt="" />
+            </li>
+          </ul>
+        </div>
 
         <div class="dashboard__btns-container">
           <button type="submit" class="dashboard__submit">
@@ -84,11 +93,16 @@
 <script>
 import { VueEditor } from "vue2-editor";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
+import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
+const VideosRepository = RepositoryFactory.get("videos");
 
 export default {
   props: {
     work: {
       type: Object
+    },
+    isEdit: {
+      type: Boolean
     }
   },
   components: {
@@ -96,8 +110,7 @@ export default {
   },
   watch: {
     work(v) {
-      console.log("work-add", v);
-      this.isEdit();
+      this.editWork();
     }
   },
   data() {
@@ -106,7 +119,8 @@ export default {
       title: "",
       description: "",
       credits: "",
-      videoId: ""
+      videoId: "",
+      selectedImages: []
     };
   },
   validations: {
@@ -133,12 +147,20 @@ export default {
         this.$v.$touch();
         return;
       }
-      console.log("test");
+      console.log("submit");
+      if (this.isEdit) {
+        // update existing work
+        // VideosRepository.update(payload, id)
+      } else {
+        // create new work
+        // VideosRepository.create(payload)
+      }
     },
     reset() {
       this.title = this.description = this.credits = this.videoId = "";
+      this.$emit("resetForm");
     },
-    isEdit() {
+    editWork() {
       this.isShowForm = true;
       console.log(this.work);
       this.title = this.work.title;
@@ -147,15 +169,18 @@ export default {
       this.videoId = this.work.videos.vimeo_id;
     },
     getFiles(e) {
-      // imgInp.onchange = evt => {
-      // const [file] = imgInp.files;
-      const res = this.$refs.files.files;
-      const [file] = res;
-      console.log("files", res, URL.createObjectURL(file));
-      if (file) {
-        this.$refs.filesPrev.src = URL.createObjectURL(file);
-      }
-      // };
+      const files = this.$refs.files.files;
+
+      Array.from(files).forEach((v, i, arr) => {
+        this.selectedImages.push({
+          file: v,
+          url: URL.createObjectURL(v)
+        });
+      });
+      console.log(this.selectedImages);
+    },
+    removeSelectedImage(url) {
+      this.selectedImages = this.selectedImages.filter(v => v.url != url);
     }
   }
 };
