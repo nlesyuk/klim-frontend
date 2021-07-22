@@ -3,7 +3,8 @@ const RepositoryGeneral = RepositoryFactory.get("shots");
 
 export default {
   state: {
-    shots: []
+    shots: [],
+    category: ["all", "portrait", "landscape", "mood"]
   },
   actions: {
     async getAllShots({ commit }) {

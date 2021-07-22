@@ -93,6 +93,26 @@
     }
   }
 
+  &__select {
+    width: 100%;
+    margin: 10px 0 0 0;
+    box-sizing: border-box;
+    select {
+      box-sizing: border-box;
+      display: block;
+      width: 100%;
+      padding: 10px;
+      option {
+        padding: 5px 0;
+        &:disabled {
+          color: #ccc;
+        }
+      }
+    }
+    div {
+    }
+  }
+
   &__menu {
     display: flex;
     justify-content: space-between;
@@ -135,6 +155,10 @@
       background-color: Salmon;
       @include transition-default;
     }
+    &:disabled {
+      cursor: not-allowed;
+      background-color: grey;
+    }
   }
 
   &__btns-container {
@@ -154,6 +178,10 @@
       transform: rotate(3deg);
       @include transition-default;
     }
+    &:disabled {
+      cursor: not-allowed;
+      background-color: grey;
+    }
   }
 
   &__list {
@@ -165,6 +193,7 @@
     height: 20px;
     top: 0;
     li {
+      border: 1px solid #f7f7f7;
     }
     button {
     }
@@ -175,10 +204,11 @@
       grid-template-columns: repeat(6, 1fr);
       grid-gap: 10px;
       position: relative;
-      li {
-      }
       button {
         display: inline-block;
+      }
+      li {
+        border: 1px solid #f7f7f7;
       }
       img {
         display: block;
@@ -193,5 +223,14 @@
   }
   &-works {
     padding: 2rem 0;
+  }
+
+  &-shots {
+  }
+
+  &-photos {
+  }
+
+  &-contacts {
   }
 }

@@ -29,7 +29,6 @@ export default {
   },
   data() {
     return {
-      category: ["all", "portrait", "landscape", "mood"],
       toggle: true, // for relaunch gridPhotos component when change filter
       filteredPhotos: []
     };
@@ -39,7 +38,8 @@ export default {
       return this.$route.query.filter;
     },
     ...mapState({
-      allPhotos: state => state.shots.shots
+      allPhotos: state => state.shots.shots,
+      category: state => state.shots.category
     })
   },
   watch: {
