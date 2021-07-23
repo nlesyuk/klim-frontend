@@ -18,12 +18,31 @@
           :key="index"
           class="grid__item"
         >
+          <ul class="dashboard__list" v-if="isManage">
+            <li>
+              <span class="dashboard__badge badge-green m0">
+                id: {{ image.id }}
+              </span>
+            </li>
+            <li>
+              <button type="button" @click.prevent="remove(image.id)">
+                Remove
+              </button>
+            </li>
+            <li>
+              <button type="button" @click.prevent="edit(image.id)">
+                Edit
+              </button>
+            </li>
+          </ul>
+
           <a class="grid__lightbox" :href="image.src">
             <img :src="image.src" alt="" class="grid__img" loading="lazy" />
           </a>
         </figure>
       </div>
     </div>
+
     <div
       class="grid-container"
       v-for="(arrImages, idx) in chunkedImages.horizontal"
@@ -43,6 +62,24 @@
           :key="index"
           class="grid__item"
         >
+          <ul class="dashboard__list" slot="default" v-if="isManage">
+            <li>
+              <span class="dashboard__badge badge-green m0"
+                >id: {{ image.id }}</span
+              >
+            </li>
+            <li>
+              <button type="button" @click.prevent="remove(image.id)">
+                Remove
+              </button>
+            </li>
+            <li>
+              <button type="button" @click.prevent="edit(image.id)">
+                Edit
+              </button>
+            </li>
+          </ul>
+
           <a class="grid__lightbox" :href="image.src">
             <img :src="image.src" alt="" class="grid__img" loading="lazy" />
           </a>
@@ -60,6 +97,10 @@ export default {
     images: {
       type: Array,
       required: true
+    },
+    isManage: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -86,6 +127,12 @@ export default {
         this.lightbox.destroy();
         this.lightbox = null;
       }
+    },
+    remove(id) {
+      this.$emit("removeImg", id);
+    },
+    edit(id) {
+      this.$emit("editImg", id);
     }
   },
   computed: {

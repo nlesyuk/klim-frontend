@@ -113,7 +113,7 @@ export default {
         formData.append("category", item.category);
       }
 
-      ShotsRepository.create(formData);
+      // ShotsRepository.create(formData);
     }
   },
   created() {

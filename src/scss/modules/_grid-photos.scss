@@ -91,6 +91,7 @@
   }
   &__item {
     background: $base-gradient;
+    position: relative;
   }
   &__img {
     display: block;

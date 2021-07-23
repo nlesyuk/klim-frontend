@@ -6,7 +6,13 @@
     </button>
 
     <transition name="fade" mode="out-in">
-      <GridPhotos v-if="filteredPhotos.length" :images="filteredPhotos" />
+      <GridPhotos
+        v-if="filteredPhotos.length"
+        :images="filteredPhotos"
+        :isManage="true"
+        @removeImg="remove"
+        @editImg="edit"
+      />
       <Spiner v-else />
     </transition>
   </section>
@@ -36,13 +42,18 @@ export default {
   },
   methods: {
     ...mapActions(["getAllShots"]),
-    edit(id) {
-      // this.isEdit = true;
-      // const item = this.videos.filter(v => v.id === id);
-      // this.work = item[0];
-    },
     refresh() {
       this.getAllShots();
+    },
+    remove(id) {
+      this.filteredPhotos = this.filteredPhotos.filter(v => v.id != id);
+      console.log("removeImg", id);
+
+      // VideosRepository.delete(id)
+    },
+    edit(id) {
+      // VideosRepository.update(payload, id)
+      console.log("editImg", id);
     }
   },
   mounted() {
