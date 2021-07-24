@@ -1,37 +1,43 @@
 <template>
   <section class="dashboard-shots">
-    <AddShot />
+    <button
+      type="button"
+      class="dashboard__btn"
+      @click="isShowAddShot = !isShowAddShot"
+    >
+      Add shot
+    </button>
+    <AddShot v-if="isShowAddShot" />
     <button type="button" @click="refresh" class="dashboard__btn">
-      Refresh works
+      Refresh shots
     </button>
 
-    <transition name="fade" mode="out-in">
-      <GridPhotos
-        v-if="filteredPhotos.length"
-        :images="filteredPhotos"
-        :isManage="true"
-        @removeImg="remove"
-        @editImg="edit"
-      />
-      <Spiner v-else />
-    </transition>
+    <GridPhotosShots
+      v-if="filteredPhotos.length"
+      :images="filteredPhotos"
+      :isManage="true"
+      @removeImg="remove"
+      @editImg="edit"
+    ></GridPhotosShots>
+    <Spiner v-else />
   </section>
 </template>
 
 <script>
 import AddShot from "./DashboardAddShot.vue";
-import GridPhotos from "../../components/GridPhotos.vue";
+import GridPhotosShots from "../../components/GridPhotosShots";
 import { mapState, mapActions } from "vuex";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
 const VideosRepository = RepositoryFactory.get("videos");
 
 export default {
   components: {
-    GridPhotos,
+    GridPhotosShots,
     AddShot
   },
   data() {
     return {
+      isShowAddShot: false,
       filteredPhotos: []
     };
   },
@@ -49,11 +55,12 @@ export default {
       this.filteredPhotos = this.filteredPhotos.filter(v => v.id != id);
       console.log("removeImg", id);
 
-      // VideosRepository.delete(id)
+      VideosRepository.delete(id);
     },
     edit(id) {
-      // VideosRepository.update(payload, id)
       console.log("editImg", id);
+      //
+      // VideosRepository.update(payload, id);
     }
   },
   mounted() {
@@ -66,5 +73,3 @@ export default {
   }
 };
 </script>
-
-<style></style>

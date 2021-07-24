@@ -2,7 +2,7 @@
   <section class="dashboard-add-shot">
     <form class="dashboard__form" @submit.prevent="submit">
       <div class="dashboard__label">
-        <span>Photos</span>
+        <span>Please upload shots</span>
         <input type="file" multiple @change="getFiles" ref="files" />
         <ul class="dashboard__list-imgs">
           <li v-for="(file, idx) in selectedImages" :key="idx">

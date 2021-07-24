@@ -13,19 +13,22 @@
     </div>
     <transition name="fade" mode="out-in">
       <template v-if="toggle">
-        <GridPhotos v-if="filteredPhotos.length" :images="filteredPhotos" />
+        <GridPhotosShots
+          v-if="filteredPhotos.length"
+          :images="filteredPhotos"
+        />
         <Spiner v-else />
       </template>
     </transition>
   </div>
 </template>
 <script>
-import GridPhotos from "../components/GridPhotos";
+import GridPhotosShots from "../components/GridPhotosShots";
 import { mapActions, mapState } from "vuex";
 
 export default {
   components: {
-    GridPhotos
+    GridPhotosShots
   },
   data() {
     return {
