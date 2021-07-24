@@ -28,6 +28,8 @@
     <h2 v-if="collection.title && !isHideTitle" class="photo-preview__title">
       {{ collection.title }}
     </h2>
+    <slot name="default"></slot>
+    <slot name="category"></slot>
   </router-link>
 </template>
 <script>

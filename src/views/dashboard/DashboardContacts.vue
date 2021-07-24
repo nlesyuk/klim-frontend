@@ -8,7 +8,7 @@
           { 'dashboard__label-error': $v.email.$dirty && $v.email.$error }
         ]"
       >
-        <span>Email</span>
+        <span>email</span>
         <input type="email" v-model="email" />
       </label>
       <!--  -->
@@ -71,7 +71,7 @@
           class="dashboard__submit"
           :disabled="!isAllowUpdate"
         >
-          Add shot(s)
+          Update contacts
         </button>
         <button type="reset" class="dashboard__submit" @click="reset">
           Reset
@@ -88,7 +88,6 @@ import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
 const GeneralRepository = RepositoryFactory.get("general");
 
 export default {
-  myObject: { name: "not-computed" },
   data() {
     return {
       email: null,
@@ -124,6 +123,7 @@ export default {
       contacts: state => state.general.contacts
     }),
     isAllowUpdate() {
+      return true;
       return (
         this.email &&
         this.phone &&
@@ -137,8 +137,11 @@ export default {
   methods: {
     ...mapActions(["getContacts"]),
     update() {
-      const { email } = this._data;
-      console.log("this", email, this);
+      console.log("update");
+      if (this.$v.$invalid) {
+        this.$v.$touch();
+        return;
+      }
 
       const payload = {
         email: this.email,
@@ -159,7 +162,6 @@ export default {
       this.instagram = null;
     },
     setContacts(contacts) {
-      console.log("contacts", contacts, this.$options.myObject);
       if (!contacts) {
         return false;
       }
@@ -176,6 +178,7 @@ export default {
   created() {
     if (!this.contacts) {
       this.getContacts().then(contacts => {
+        console.log("fetc", contacts);
         this.setContacts(contacts);
       });
     }

@@ -40,6 +40,7 @@
   display: block;
   text-decoration: none;
   @include transition-default;
+  position: relative;
   &:hover {
     // filter: hue-rotate(-10deg);
     filter: grayscale(1);

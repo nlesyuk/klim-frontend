@@ -3,13 +3,15 @@ const RepositoryGeneral = RepositoryFactory.get("photos");
 
 export default {
   state: {
-    photos: []
+    photos: [],
+    categories: null
   },
   actions: {
     async getAllPhotos({ commit }) {
       try {
         const { data } = await RepositoryGeneral.getAllPhotos();
-        commit("setPhotos", data);
+        commit("setPhotos", data.collections);
+        commit("setCategories", data.categories);
       } catch (e) {
         console.error(e);
       }
@@ -18,6 +20,9 @@ export default {
   mutations: {
     setPhotos(state, photos) {
       state.photos = photos;
+    },
+    setCategories(state, photos) {
+      state.categories = photos;
     }
   }
 };

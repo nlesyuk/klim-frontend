@@ -64,9 +64,9 @@
         >
           <ul class="dashboard__list" slot="default" v-if="isManage">
             <li>
-              <span class="dashboard__badge badge-green m0"
-                >id: {{ image.id }}</span
-              >
+              <span class="dashboard__badge badge-green m0">
+                id: {{ image.id }}
+              </span>
             </li>
             <li>
               <button type="button" @click.prevent="remove(image.id)">
@@ -99,6 +99,10 @@ export default {
       required: true
     },
     isManage: {
+      type: Boolean,
+      default: false
+    },
+    isShots: {
       type: Boolean,
       default: false
     }
@@ -138,9 +142,21 @@ export default {
   computed: {
     chunkedImages() {
       if (!this.images.length) return;
+      if (this.isShots) {
+        return {
+          vartical: chunk(this.images, 3)
+        };
+      }
 
-      const vertivalImages = this.images.filter(v => v.isVertical);
-      const horizontalImages = this.images.filter(v => !v.isVertical);
+      const sortOrder = (first, second) =>
+        first?.order && second?.order ? first.order - second.order : 0;
+
+      const vertivalImages = this.images
+        .filter(v => (v?.format ? v.format === "vertical" : true))
+        .sort(sortOrder);
+      const horizontalImages = this.images
+        .filter(v => (v?.format ? v.format === "horizontal" : true))
+        .sort(sortOrder);
 
       return {
         vertical: chunk(vertivalImages, 3),
@@ -149,7 +165,9 @@ export default {
     }
   },
   mounted() {
-    this.installLightBox();
+    this.$nextTick(() => {
+      this.installLightBox();
+    });
   },
   destroyed() {
     this.uninstallLightBox();
