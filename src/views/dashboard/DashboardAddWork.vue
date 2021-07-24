@@ -1,92 +1,86 @@
 <template>
   <section class="dashboard-add-work">
-    <button class="dashboard__btn" @click="isShowForm = !isShowForm">
-      add new work
-    </button>
-
-    <transition name="fade">
-      <form class="dashboard__form" @submit.prevent="submit" v-if="isShowForm">
-        <label
-          :class="[
-            'dashboard__label',
-            { 'dashboard__label-error': $v.title.$dirty && $v.title.$error }
-          ]"
+    <form class="dashboard__form" @submit.prevent="submit" v-if="isShowForm">
+      <label
+        :class="[
+          'dashboard__label',
+          { 'dashboard__label-error': $v.title.$dirty && $v.title.$error }
+        ]"
+      >
+        <span>Title</span>
+        <input type="text" v-model="title" />
+        <strong
+          class="dashboard__label-error-info"
+          v-if="$v.title.$dirty && $v.title.$error"
         >
-          <span>Title</span>
-          <input type="text" v-model="title" />
-          <strong
-            class="dashboard__label-error-info"
-            v-if="$v.title.$dirty && $v.title.$error"
-          >
-            Min length is {{ $v.title.$params.minLength.min }}
-          </strong>
-        </label>
+          Min length is {{ $v.title.$params.minLength.min }}
+        </strong>
+      </label>
 
-        <label
-          :class="[
-            'dashboard__label',
-            {
-              'dashboard__label-error': $v.videoId.$dirty && $v.videoId.$error
-            }
-          ]"
+      <label
+        :class="[
+          'dashboard__label',
+          {
+            'dashboard__label-error': $v.videoId.$dirty && $v.videoId.$error
+          }
+        ]"
+      >
+        <span>Vimeo id</span>
+        <input type="text" v-model="videoId" />
+        <strong
+          class="dashboard__label-error-info"
+          v-if="$v.videoId.$dirty && $v.videoId.$error"
         >
-          <span>Vimeo id</span>
-          <input type="text" v-model="videoId" />
-          <strong
-            class="dashboard__label-error-info"
-            v-if="$v.videoId.$dirty && $v.videoId.$error"
-          >
-            Must be min Length
-            {{ $v.videoId.$params.minLength.min }}
-            and max length
-            {{ $v.videoId.$params.maxLength.max }}
-          </strong>
-          <!-- <p style="margin-top: 40px;">{{ $v.videoId }}</p> -->
-        </label>
+          Must be min Length
+          {{ $v.videoId.$params.minLength.min }}
+          and max length
+          {{ $v.videoId.$params.maxLength.max }}
+        </strong>
+        <!-- <p style="margin-top: 40px;">{{ $v.videoId }}</p> -->
+      </label>
 
-        <label class="dashboard__label">
-          <span>Description under title</span>
-          <VueEditor
-            id="editor1"
-            v-model="description"
-            placeholder="description"
-          ></VueEditor>
-        </label>
+      <label class="dashboard__label">
+        <span>Description under title</span>
+        <VueEditor
+          id="editor1"
+          v-model="description"
+          placeholder="description"
+        ></VueEditor>
+      </label>
 
-        <label class="dashboard__label">
-          <span>Credits</span>
-          <VueEditor
-            id="editor2"
-            v-model="credits"
-            placeholder="credits"
-          ></VueEditor>
-        </label>
+      <label class="dashboard__label">
+        <span>Credits</span>
+        <VueEditor
+          id="editor2"
+          v-model="credits"
+          placeholder="credits"
+        ></VueEditor>
+      </label>
 
-        <div class="dashboard__label">
-          <span>Photos</span>
-          <input type="file" multiple @change="getFiles" ref="files" />
-          <!-- <img ref="filesPrev" src="#" alt="your image" /> -->
-          <ul class="dashboard__list-imgs">
-            <li v-for="(file, idx) in selectedImages" :key="idx">
-              <span class="dashboard__badge badge-yellow ">{{ idx + 1 }}</span>
-              <button type="button" @click="removeSelectedImage(file.url)">
-                remove
-              </button>
-              <img :src="file.url" alt="" />
-            </li>
-          </ul>
-        </div>
+      <div class="dashboard__label">
+        <span>Photos</span>
+        <input type="file" multiple @change="getFiles" ref="files" />
+        <!-- <img ref="filesPrev" src="#" alt="your image" /> -->
+        <ul class="dashboard__list-imgs">
+          <li v-for="(file, idx) in selectedImages" :key="idx">
+            <span class="dashboard__badge badge-yellow ">{{ idx + 1 }}</span>
+            <button type="button" @click="removeSelectedImage(file.url)">
+              remove
+            </button>
+            <img :src="file.url" alt="" />
+          </li>
+        </ul>
+      </div>
 
-        <div class="dashboard__btns-container">
-          <button type="submit" class="dashboard__submit">
-            Add work
-          </button>
-          <button type="reset" class="dashboard__submit" @click="reset">
-            Reset
-          </button>
-        </div>
-      </form>
-    </transition>
+      <div class="dashboard__btns-container">
+        <button type="submit" class="dashboard__submit">
+          Add work
+        </button>
+        <button type="reset" class="dashboard__submit" @click="reset">
+          Reset
+        </button>
+      </div>
+    </form>
   </section>
 </template>
 

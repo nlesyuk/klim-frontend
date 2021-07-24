@@ -31,3 +31,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 Based on RESTfull API
 [repo link](https://github.com/nlesyuk/klim-backend)
 
+
+### Tasks:
+Dashboard:
+- edit shots
+- edit photos

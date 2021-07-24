@@ -1,6 +1,10 @@
 <template>
   <section class="dashboard-works">
+    <button class="dashboard__btn" @click="isShowAddWork = !isShowAddWork">
+      Add work
+    </button>
     <AddWork
+      v-if="isShowAddWork"
       :work="work"
       :isEdit="isEdit"
       @resetForm="isEdit = false"
@@ -41,8 +45,8 @@ export default {
   },
   data() {
     return {
+      isShowAddWork: false,
       work: null,
-      isHideWorks: false,
       isEdit: false
     };
   },
