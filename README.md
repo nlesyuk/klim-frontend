@@ -34,5 +34,6 @@ Based on RESTfull API
 
 ### Tasks:
 Dashboard:
-- edit shots
++ edit shots
 - edit photos
+- edit work

@@ -45,9 +45,9 @@ export default {
   },
   data() {
     return {
-      isShowAddWork: false,
       work: null,
-      isEdit: false
+      isEdit: false,
+      isShowAddWork: false
     };
   },
   computed: {
@@ -62,14 +62,16 @@ export default {
       return filtered && filtered.length ? filtered[0].src : false;
     },
     remove(id) {
-      console.log(id);
-      // remove video
-      // VideosRepository.delete(id)
+      // console.log(id);
+
+      VideosRepository.delete(id);
     },
     edit(id) {
       this.isEdit = true;
       const item = this.videos.filter(v => v.id === id);
-      this.work = item[0];
+      this.work = item?.length ? item[0] : null;
+      // console.log("edit", this.work);
+      this.isShowAddWork = true; // we use the addWork form for edit a work
     },
     refresh() {
       this.getAllVideos();

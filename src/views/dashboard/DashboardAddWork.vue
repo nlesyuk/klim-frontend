@@ -1,6 +1,6 @@
 <template>
   <section class="dashboard-add-work">
-    <form class="dashboard__form" @submit.prevent="submit" v-if="isShowForm">
+    <form class="dashboard__form" @submit.prevent="submit">
       <label
         :class="[
           'dashboard__label',
@@ -109,11 +109,10 @@ export default {
   },
   data() {
     return {
-      isShowForm: false,
       title: "",
-      description: "",
       credits: "",
       videoId: "",
+      description: "",
       selectedImages: []
     };
   },
@@ -141,13 +140,14 @@ export default {
         this.$v.$touch();
         return;
       }
-      console.log("submit");
+      const payload = {};
+      // console.log("submit");
       if (this.isEdit) {
         // update existing work
-        // VideosRepository.update(payload, id)
+        VideosRepository.update(payload, id);
       } else {
         // create new work
-        // VideosRepository.create(payload)
+        VideosRepository.create(payload);
       }
     },
     reset() {
@@ -155,26 +155,28 @@ export default {
       this.$emit("resetForm");
     },
     editWork() {
-      this.isShowForm = true;
-      console.log(this.work);
       this.title = this.work.title;
-      this.description = this.work.description;
       this.credits = this.work.credits;
       this.videoId = this.work.videos.vimeo_id;
+      this.description = this.work.description;
     },
-    getFiles(e) {
+    getFiles() {
       const files = this.$refs.files.files;
 
-      Array.from(files).forEach((v, i, arr) => {
+      Array.from(files).forEach(file => {
         this.selectedImages.push({
-          file: v,
-          url: URL.createObjectURL(v)
+          file,
+          url: URL.createObjectURL(file)
         });
       });
-      console.log(this.selectedImages);
     },
     removeSelectedImage(url) {
       this.selectedImages = this.selectedImages.filter(v => v.url != url);
+    }
+  },
+  mounted() {
+    if (this.isEdit) {
+      this.editWork();
     }
   }
 };
