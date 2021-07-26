@@ -1,6 +1,9 @@
 <template>
   <section class="dashboard-photos-add">
-    <form class="dashboard__form" @submit.prevent="submit">
+    <form
+      class="dashboard__form dashboard__form--preview"
+      @submit.prevent="submit"
+    >
       <div class="dashboard__side">
         <label
           :class="[
@@ -104,7 +107,7 @@
           </button>
         </div>
       </div>
-      <div class="dashboard__side dashboard__photos-preview">
+      <div class="dashboard__side dashboard__area-preview">
         <div class="photos" v-if="selectedImages.length">
           <GridPhotos :images="selectedImages" />
         </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="work-page">
     <template v-if="work">
-      <VimeoVideoPlayer :id="work.videos.vimeo_id" :previewImg="previewImg" />
+      <VimeoVideoPlayer :id="work.videos.vimeoId" :previewImg="previewImg" />
       <div class="work-page__text">
         <h1>{{ work.title }}</h1>
         <p v-html="work.description"></p>
@@ -21,6 +21,20 @@ const VideosRepository = RepositoryFactory.get("videos");
 
 export default {
   name: "Work",
+  props: {
+    previewWork: {
+      type: Object
+    },
+    isPreview: {
+      type: Boolean,
+      default: false
+    }
+  },
+  watch: {
+    previewWork() {
+      this.work = this.previewWork;
+    }
+  },
   components: {
     GridPhotos,
     VimeoVideoPlayer
@@ -32,13 +46,25 @@ export default {
   },
   computed: {
     previewImg() {
-      if (!this.work) return null;
-      const res = this.work.photos.filter(img => img.isVideoPreview);
+      if (!this.work) {
+        return null;
+      }
+      if (this.isPreview) {
+        const res = this.work.photos.filter(img => img.isPreview);
+        return res.length ? res[0].src : this.work.photos[0].src;
+      }
+      const res = this.work.photos.filter(img => img.isPreview);
       return res.length ? res[0].src : null;
     }
   },
   async mounted() {
     this.setTitle("Work");
+
+    if (this.isPreview) {
+      this.work = this.previewWork;
+      return;
+    }
+
     try {
       const { data } = await VideosRepository.getVideo(this.$route.params.id);
       this.work = data;

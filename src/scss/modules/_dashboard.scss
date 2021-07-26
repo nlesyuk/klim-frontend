@@ -45,6 +45,46 @@
   &__form {
     display: block;
     margin-bottom: 2rem;
+    &--preview {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 20px;
+    }
+  }
+  // in
+  &__side {
+    width: 100%;
+    &:first-child {
+      grid-column: 1 / 3;
+    }
+  }
+  &__area-preview {
+    padding: 30px 10px;
+    position: relative;
+    overflow: hidden;
+    &:before {
+      content: "preview";
+      color: #f5f5f5;
+      text-transform: uppercase;
+      font-size: 12rem;
+      text-align: center;
+      font-weight: bold;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    & > .photos {
+      width: 100%;
+      max-width: 200px;
+      background-color: yellowgreen;
+      box-sizing: border-box;
+      margin: 0 auto;
+      box-shadow: 1px 11px 11px rgba(0, 0, 0, 0.5);
+      box-shadow: 0px 0px 15px 5px yellowgreen;
+      border-radius: 2px;
+      overflow: hidden;
+    }
   }
 
   &__label {
@@ -143,20 +183,19 @@
     }
     &-item {
       width: 100%;
-      background-color: yellowgreen;
+      background-color: LemonChiffon;
       border: 1px solid white;
       padding: 1rem;
       text-transform: uppercase;
       cursor: pointer;
-
       @include transition-default;
+
       &:hover {
-        transform: rotate(3deg);
+        background-color: Khaki;
         @include transition-default;
       }
       &[class*="-exact-active"] {
-        background-color: green;
-        color: white;
+        background-color: Khaki;
       }
     }
   }
@@ -187,17 +226,18 @@
     display: flex;
     justify-content: flex-start;
   }
+
   &__btn {
     display: inline-block;
     border: none;
-    background-color: #2fa5ff;
+    background-color: Wheat;
     padding: 8px 16px;
     border-radius: 50px;
     cursor: pointer;
     margin: 10px;
     @include transition-default;
     &:hover {
-      transform: rotate(3deg);
+      background-color: Tan;
       @include transition-default;
     }
     &:disabled {
@@ -242,9 +282,37 @@
   }
 
   // pages
-  &-add-work {
-  }
   &-works {
+    &-add {
+      &__preview-cont {
+        padding: 30px 10px;
+        position: relative;
+        overflow: hidden;
+        &:before {
+          content: "preview";
+          color: #f5f5f5;
+          text-transform: uppercase;
+          font-size: 12rem;
+          text-align: center;
+          font-weight: bold;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: -1;
+        }
+        & > .work-page {
+          width: 100%;
+          max-width: 300px;
+          background-color: yellowgreen;
+          box-sizing: border-box;
+          margin: 0 auto;
+          box-shadow: 1px 11px 11px rgba(0, 0, 0, 0.5);
+          box-shadow: 0px 0px 15px 5px yellowgreen;
+          border-radius: 2px;
+          overflow: hidden;
+        }
+      }
+    }
   }
 
   &-shots {
@@ -265,19 +333,12 @@
         }
         &__side {
           width: 100%;
-          // grid-column: 1 / span 2;
           &:first-child {
             grid-column: 1 / 3;
-          }
-          &:last-child {
-            // grid-column: 2 / span 1;
           }
         }
         &__photos-preview {
           padding: 30px 10px;
-          // box-shadow: 1px 1px 11px rgba(0, 0, 0, 0.05);
-          // background-color: #fff;
-          // min-height: 400px;
           position: relative;
           overflow: hidden;
           &:before {

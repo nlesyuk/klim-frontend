@@ -105,6 +105,10 @@ export default {
     isShots: {
       type: Boolean,
       default: false
+    },
+    isWorks: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -145,6 +149,11 @@ export default {
       if (this.isShots) {
         return {
           vartical: chunk(this.images, 3)
+        };
+      }
+      if (this.isWorks) {
+        return {
+          horizontal: chunk(this.images, 3)
         };
       }
 

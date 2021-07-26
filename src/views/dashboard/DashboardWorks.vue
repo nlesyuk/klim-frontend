@@ -66,15 +66,17 @@ export default {
 
       VideosRepository.delete(id);
     },
+    refresh() {
+      this.getAllVideos();
+    },
+
+    // edit
     edit(id) {
       this.isEdit = true;
       const item = this.videos.filter(v => v.id === id);
       this.work = item?.length ? item[0] : null;
       // console.log("edit", this.work);
       this.isShowAddWork = true; // we use the addWork form for edit a work
-    },
-    refresh() {
-      this.getAllVideos();
     }
   },
   created() {

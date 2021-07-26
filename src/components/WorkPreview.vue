@@ -3,7 +3,7 @@
     tag="figure"
     class="work"
     :to="{ path: '/work/' + work.id }"
-    :style="`background-image: url(${work.preview_img})`"
+    :style="`background-image: url(${previewPhoto})`"
   >
     <slot name="default"></slot>
     <!-- <img :src="work.preview_img" :alt="work.title" class="work__img" /> -->
@@ -22,6 +22,11 @@ export default {
     work: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    previewPhoto() {
+      return this.work.photos.filter(v => v.isPreview)[0].src;
     }
   }
 };
