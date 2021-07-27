@@ -158,11 +158,6 @@ export default {
       );
     }
   },
-  watch: {
-    selectedImages(v) {
-      console.log("selectedImages", v);
-    }
-  },
   methods: {
     getFiles() {
       const files = this.$refs.files.files;
@@ -207,7 +202,7 @@ export default {
         this.$v.$touch();
         return;
       }
-      console.log("submit");
+      // console.log("submit");
       // need to send to a server File with info about file in json format
 
       // const formData = new FormData();
@@ -219,7 +214,7 @@ export default {
       //   formData.append("category", item.category);
       // }
 
-      // PhotosRepository.create(formData);
+      PhotosRepository.create(formData);
     }
   }
 };

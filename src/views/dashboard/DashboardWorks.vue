@@ -28,6 +28,7 @@
         </ul>
       </WorkPreview>
     </div>
+    <Spiner v-else />
   </section>
 </template>
 
@@ -62,8 +63,6 @@ export default {
       return filtered && filtered.length ? filtered[0].src : false;
     },
     remove(id) {
-      // console.log(id);
-
       VideosRepository.delete(id);
     },
     refresh() {

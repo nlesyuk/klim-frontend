@@ -40,7 +40,6 @@
             and max length
             {{ $v.videoId.$params.maxLength.max }}
           </strong>
-          <!-- <p style="margin-top: 40px;">{{ $v.videoId }}</p> -->
         </label>
 
         <label class="dashboard__label">
@@ -67,7 +66,7 @@
           <input type="file" multiple @change="getFiles" ref="files" />
           <ul class="dashboard__list-imgs">
             <li v-for="(file, idx) in selectedImages" :key="idx">
-              <span class="dashboard__badge badge-yellow ">{{ idx + 1 }}</span>
+              <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
               <button type="button" @click="removeSelectedImage(file.src)">
                 remove
               </button>
@@ -79,13 +78,28 @@
                   <option disabled selected value="null">
                     Please choose order
                   </option>
-                  <option
-                    v-for="(img, index) of selectedImages"
-                    :key="index"
-                    :value="index"
-                  >
-                    {{ index }}
-                  </option>
+
+                  <template v-if="isEdit">
+                    <option
+                      v-for="(img, index) of [
+                        ...selectedImages,
+                        ...work.photos
+                      ]"
+                      :key="index"
+                      :value="index"
+                    >
+                      {{ [...selectedImages, ...work.photos].length - index }}
+                    </option>
+                  </template>
+                  <template v-else>
+                    <option
+                      v-for="(img, index) of selectedImages"
+                      :key="index"
+                      :value="index"
+                    >
+                      {{ index }}
+                    </option>
+                  </template>
                 </select>
               </label>
 
@@ -130,7 +144,10 @@
         </ul>
 
         <div class="dashboard__btns-container">
-          <button type="submit" class="dashboard__submit">
+          <button type="submit" class="dashboard__submit" v-if="isEdit">
+            Update work
+          </button>
+          <button type="submit" class="dashboard__submit" v-else>
             Add work
           </button>
           <button type="reset" class="dashboard__submit" @click="reset">
@@ -141,7 +158,7 @@
       <div class="dashboard__side dashboard__area-preview">
         <div
           class="dashboard-works-add__preview-cont"
-          v-if="selectedImages.length"
+          v-if="previewWork && previewWork.photos.length"
         >
           <Work :isPreview="true" :previewWork="previewWork" />
         </div>
@@ -171,7 +188,7 @@ export default {
     VueEditor
   },
   watch: {
-    work(v) {
+    work() {
       this.editWork();
     }
   },
@@ -186,11 +203,12 @@ export default {
   },
   computed: {
     previewWork() {
+      const workPhotos = this.work?.photos ? this.work.photos : [];
       return {
         title: this.title,
+        photos: [...this.selectedImages, ...workPhotos],
         credits: this.credits,
         description: this.description,
-        photos: this.selectedImages,
         videos: {
           vimeoId: this.videoId
         }
@@ -221,14 +239,37 @@ export default {
         this.$v.$touch();
         return;
       }
-      const payload = {};
-      // console.log("submit");
+
       if (this.isEdit) {
-        // update existing work
-        VideosRepository.update(payload, id);
+        // const formData = new FormData();
+        // formData.append("title", this.title);
+        const payload = {
+          title: this.title,
+          photos: {
+            // use formData for transfer data to server
+            new: this.selectedImages,
+            existing: this.work.photos
+          },
+          credits: this.credits,
+          description: this.description,
+          videos: {
+            vimeoId: this.videoId
+          }
+        };
+
+        VideosRepository.update(payload, this.work.id); // update existing work
       } else {
-        // create new work
-        VideosRepository.create(payload);
+        const payload = {
+          title: this.title,
+          photos: this.selectedImages,
+          credits: this.credits,
+          description: this.description,
+          videos: {
+            vimeoId: this.videoId
+          }
+        };
+
+        VideosRepository.create(payload); // create new work
       }
     },
     reset() {
@@ -263,7 +304,7 @@ export default {
     if (this.isEdit) {
       this.editWork();
     }
-    console.log("edit", this.work);
+    // console.log("edit", this.work);
   }
 };
 </script>

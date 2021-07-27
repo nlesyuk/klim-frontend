@@ -26,7 +26,8 @@ export default {
   },
   computed: {
     previewPhoto() {
-      return this.work.photos.filter(v => v.isPreview)[0].src;
+      const res = this.work.photos.filter(v => v.isPreview);
+      return res.length ? res[0].src : "";
     }
   }
 };

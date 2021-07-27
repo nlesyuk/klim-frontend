@@ -12,8 +12,7 @@
       Refresh photos
     </button>
 
-    <Spiner v-if="!photos.length" />
-    <div class="dashboard-photos__container" v-else>
+    <div class="dashboard-photos__container" v-if="photos && photos.length">
       <PhotoPreview
         v-for="(photo, idx) in photos"
         :key="idx"
@@ -37,6 +36,7 @@
         </ul>
       </PhotoPreview>
     </div>
+    <Spiner v-else />
   </section>
 </template>
 
@@ -75,7 +75,6 @@ export default {
   methods: {
     ...mapActions(["getAllPhotos"]),
     remove(id) {
-      console.log(id);
       PhotosRepository.delete(id);
     },
     edit(id) {

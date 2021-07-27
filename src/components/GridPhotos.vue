@@ -1,91 +1,95 @@
 <template>
   <div>
-    <div
-      class="grid-container"
-      v-for="(arrImages, idx) in chunkedImages.vertical"
-      :key="idx"
-    >
+    <template v-if="chunkedImages && chunkedImages.vertical">
       <div
-        class="grid-type grid-type--oneline"
-        :class="{
-          'grid-type--oneline-1': arrImages.length === 1,
-          'grid-type--oneline-2': arrImages.length === 2,
-          'grid-type--oneline-3': arrImages.length === 3
-        }"
+        class="grid-container"
+        v-for="(arrImages, idx) in chunkedImages.vertical"
+        :key="idx"
       >
-        <figure
-          v-for="(image, index) in arrImages"
-          :key="index"
-          class="grid__item"
+        <div
+          class="grid-type grid-type--oneline"
+          :class="{
+            'grid-type--oneline-1': arrImages.length === 1,
+            'grid-type--oneline-2': arrImages.length === 2,
+            'grid-type--oneline-3': arrImages.length === 3
+          }"
         >
-          <ul class="dashboard__list" v-if="isManage">
-            <li>
-              <span class="dashboard__badge badge-green m0">
-                id: {{ image.id }}
-              </span>
-            </li>
-            <li>
-              <button type="button" @click.prevent="remove(image.id)">
-                Remove
-              </button>
-            </li>
-            <li>
-              <button type="button" @click.prevent="edit(image.id)">
-                Edit
-              </button>
-            </li>
-          </ul>
+          <figure
+            v-for="(image, index) in arrImages"
+            :key="index"
+            class="grid__item"
+          >
+            <ul class="dashboard__list" v-if="isManage">
+              <li>
+                <span class="dashboard__badge badge-green m0">
+                  id: {{ image.id }}
+                </span>
+              </li>
+              <li>
+                <button type="button" @click.prevent="remove(image.id)">
+                  Remove
+                </button>
+              </li>
+              <li>
+                <button type="button" @click.prevent="edit(image.id)">
+                  Edit
+                </button>
+              </li>
+            </ul>
 
-          <a class="grid__lightbox" :href="image.src">
-            <img :src="image.src" alt="" class="grid__img" loading="lazy" />
-          </a>
-        </figure>
+            <a class="grid__lightbox" :href="image.src">
+              <img :src="image.src" alt="" class="grid__img" loading="lazy" />
+            </a>
+          </figure>
+        </div>
       </div>
-    </div>
-
-    <div
-      class="grid-container"
-      v-for="(arrImages, idx) in chunkedImages.horizontal"
-      :key="`0${idx}`"
-    >
+    </template>
+    <template v-if="chunkedImages && chunkedImages.horizontal">
       <div
-        class="grid-type"
-        :class="{
-          'grid-type--big-on-left': arrImages.length === 3 && (idx + 1) % 2,
-          'grid-type--big-on-right': arrImages.length === 3 && !((idx + 1) % 2),
-          'grid-type--two': arrImages.length === 2,
-          'grid-type--one': arrImages.length === 1
-        }"
+        class="grid-container"
+        v-for="(arrImages, idx) in chunkedImages.horizontal"
+        :key="`0${idx}`"
       >
-        <figure
-          v-for="(image, index) in arrImages"
-          :key="index"
-          class="grid__item"
+        <div
+          class="grid-type"
+          :class="{
+            'grid-type--big-on-left': arrImages.length === 3 && (idx + 1) % 2,
+            'grid-type--big-on-right':
+              arrImages.length === 3 && !((idx + 1) % 2),
+            'grid-type--two': arrImages.length === 2,
+            'grid-type--one': arrImages.length === 1
+          }"
         >
-          <ul class="dashboard__list" slot="default" v-if="isManage">
-            <li>
-              <span class="dashboard__badge badge-green m0">
-                id: {{ image.id }}
-              </span>
-            </li>
-            <li>
-              <button type="button" @click.prevent="remove(image.id)">
-                Remove
-              </button>
-            </li>
-            <li>
-              <button type="button" @click.prevent="edit(image.id)">
-                Edit
-              </button>
-            </li>
-          </ul>
+          <figure
+            v-for="(image, index) in arrImages"
+            :key="index"
+            class="grid__item"
+          >
+            <ul class="dashboard__list" slot="default" v-if="isManage">
+              <li>
+                <span class="dashboard__badge badge-green m0">
+                  id: {{ image.id }}
+                </span>
+              </li>
+              <li>
+                <button type="button" @click.prevent="remove(image.id)">
+                  Remove
+                </button>
+              </li>
+              <li>
+                <button type="button" @click.prevent="edit(image.id)">
+                  Edit
+                </button>
+              </li>
+            </ul>
 
-          <a class="grid__lightbox" :href="image.src">
-            <img :src="image.src" alt="" class="grid__img" loading="lazy" />
-          </a>
-        </figure>
+            <a class="grid__lightbox" :href="image.src">
+              <img :src="image.src" alt="" class="grid__img" loading="lazy" />
+            </a>
+          </figure>
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -146,19 +150,24 @@ export default {
   computed: {
     chunkedImages() {
       if (!this.images.length) return;
-      if (this.isShots) {
-        return {
-          vartical: chunk(this.images, 3)
-        };
-      }
-      if (this.isWorks) {
-        return {
-          horizontal: chunk(this.images, 3)
-        };
-      }
 
       const sortOrder = (first, second) =>
         first?.order && second?.order ? first.order - second.order : 0;
+
+      if (this.isShots) {
+        const str = JSON.stringify(this.images);
+        const arr = JSON.parse(str).sort(sortOrder);
+        return {
+          vartical: chunk(arr, 3)
+        };
+      }
+      if (this.isWorks) {
+        const str = JSON.stringify(this.images);
+        const arr = JSON.parse(str).sort(sortOrder);
+        return {
+          horizontal: chunk(arr, 3)
+        };
+      }
 
       const vertivalImages = this.images
         .filter(v => (v?.format ? v.format === "vertical" : true))

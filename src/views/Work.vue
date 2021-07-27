@@ -6,7 +6,11 @@
         <h1>{{ work.title }}</h1>
         <p v-html="work.description"></p>
       </div>
-      <GridPhotos :images="work.photos" />
+      <GridPhotos
+        v-show="work.photos"
+        :images="work.photos"
+        :isWorks="isPreview"
+      />
       <p class="work-page__credits" v-html="work.credits"></p>
     </template>
     <Spiner v-else />
@@ -31,8 +35,8 @@ export default {
     }
   },
   watch: {
-    previewWork() {
-      this.work = this.previewWork;
+    previewWork(v) {
+      this.work = v;
     }
   },
   components: {
@@ -50,8 +54,10 @@ export default {
         return null;
       }
       if (this.isPreview) {
-        const res = this.work.photos.filter(img => img.isPreview);
-        return res.length ? res[0].src : this.work.photos[0].src;
+        const res = this.work?.photos
+          ? this.work.photos.filter(img => img.isPreview)
+          : [];
+        return res.length ? res[0].src : "";
       }
       const res = this.work.photos.filter(img => img.isPreview);
       return res.length ? res[0].src : null;
@@ -69,6 +75,7 @@ export default {
       const { data } = await VideosRepository.getVideo(this.$route.params.id);
       this.work = data;
     } catch (e) {
+      // eslint-disable-next-line
       console.error(e);
     }
   }
