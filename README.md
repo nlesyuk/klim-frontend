@@ -35,5 +35,6 @@ Based on RESTfull API
 ### Tasks:
 Dashboard:
 + edit shots
-- edit photos
-- edit work
++ edit photos
++ edit work
+- fix slider video

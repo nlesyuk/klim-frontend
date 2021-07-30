@@ -22,7 +22,7 @@
         </label>
 
         <label class="dashboard__label">
-          <span>Сategory</span>
+          <span>Сategory (it's field can be empty)</span>
           <select v-model="category">
             <option disabled selected value="null">
               Please choose category
@@ -31,12 +31,20 @@
               {{ name }}
               <template v-if="['commerce'].includes(name)">
                 (This category is hidden by default and can be show for users
-                which have a custom link)
+                which have the direct link to this category)
               </template>
             </option>
           </select>
+          <a
+            :href="`//${hostName}/photo/commerce`"
+            class="dashboard__link"
+            target="_blank"
+          >
+            Link to the commerce category
+          </a>
         </label>
 
+        <!-- files: add -->
         <div class="dashboard__label">
           <span>Pleae upload photos</span>
           <input type="file" multiple @change="getFiles" ref="files" />
@@ -55,7 +63,7 @@
                     Please choose order
                   </option>
                   <option
-                    v-for="(img, index) of selectedImages"
+                    v-for="(img, index) of images"
                     :key="index"
                     :value="index"
                   >
@@ -91,6 +99,38 @@
           </ul>
         </div>
 
+        <!-- files: edit -->
+        <ul class="dashboard__list-imgs" v-if="isEdit">
+          <li v-for="(file, idx) in photoCollection.photos" :key="idx">
+            <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
+            <button type="button" @click="removeSelectedImage(file.src)">
+              delete
+            </button>
+            <img :src="file.src" alt="edit" />
+
+            <label class="dashboard__label">
+              <span>Please select order of photos if need</span>
+              <select v-model="file.order">
+                <option disabled selected value="null">
+                  Please choose order
+                </option>
+                <option
+                  v-for="(img, index) of images"
+                  :key="index"
+                  :value="index"
+                >
+                  {{ index }}
+                </option>
+              </select>
+            </label>
+
+            <label class="dashboard__label">
+              <input type="checkbox" v-model="file.isPreview" :value="true" />
+              <span class="inline">Is preview photo?</span>
+            </label>
+          </li>
+        </ul>
+
         <div class="dashboard__btns-container">
           <p v-if="isSelectedPreview" class="dashboard__badge badge-red">
             You must select 3 items as preview
@@ -108,8 +148,8 @@
         </div>
       </div>
       <div class="dashboard__side dashboard__area-preview">
-        <div class="photos" v-if="selectedImages.length">
-          <GridPhotos :images="selectedImages" />
+        <div class="photos" v-if="images.length">
+          <GridPhotos :images="images" />
         </div>
       </div>
     </form>
@@ -124,6 +164,14 @@ import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
 const PhotosRepository = RepositoryFactory.get("photos");
 
 export default {
+  props: {
+    photoCollection: {
+      type: Object
+    },
+    isEdit: {
+      type: Boolean
+    }
+  },
   components: {
     GridPhotos
   },
@@ -144,11 +192,19 @@ export default {
     ...mapState({
       categories: state => state.photos.categories
     }),
+    hostName() {
+      return window.location.host;
+    },
+    images() {
+      return this.isEdit
+        ? [...this.selectedImages, ...this.photoCollection.photos]
+        : this.selectedImages;
+    },
     isAllowCreate() {
       return (
-        this.selectedImages.length &&
+        this.images.length &&
         !this.$v.$invalid &&
-        this.selectedImages?.filter(v => v.isPreview).length === 3
+        this.images?.filter(v => v.isPreview).length === 3
       );
     },
     isSelectedPreview() {
@@ -214,7 +270,41 @@ export default {
       //   formData.append("category", item.category);
       // }
 
-      PhotosRepository.create(formData);
+      if (this.isEdit) {
+        // const formData = new FormData();
+        // formData.append("title", this.title);
+        const payload = {
+          title: this.title,
+          category: this.category?.length ? this.category : [],
+          photos: {
+            // use formData for transfer data to server
+            new: this.selectedImages,
+            existing: this.photoCollection.photos
+          }
+        };
+
+        PhotosRepository.update(payload, this.photoCollection.id); // update existing
+      } else {
+        const payload = {
+          title: this.title,
+          category: this.category?.length ? this.category : [],
+          photos: this.selectedImages // those object contain files
+        };
+        PhotosRepository.create(formData);
+      }
+    },
+    // edit
+    editePhotoCollection() {
+      this.title = this.photoCollection.title;
+      if (this.photoCollection.category?.length) {
+        console.log();
+        this.category = this.photoCollection.category[0];
+      }
+    }
+  },
+  mounted() {
+    if (this.isEdit) {
+      this.editePhotoCollection();
     }
   }
 };

@@ -3,7 +3,7 @@
   &__title {
     width: 100%;
     box-sizing: border-box;
-    background-color: #e9e6e6;
+    background-color: #e2e2e2;
     color: #999;
     padding: 0.5rem;
     text-align: center;
@@ -13,6 +13,13 @@
   &__text {
     margin: 16px 0 8px;
     font-size: 1.5rem;
+  }
+  &__link {
+    display: block;
+    margin: 8px 0;
+    font-size: 16px;
+    color: blue;
+    text-decoration: 1px solid underline blue;
   }
 
   &__badge {
@@ -186,6 +193,7 @@
       width: 100%;
     }
     &-item {
+      color: #4d4c4c;
       width: 100%;
       background-color: LemonChiffon;
       border: 1px solid white;
@@ -194,12 +202,10 @@
       cursor: pointer;
       @include transition-default;
 
+      &[class*="-exact-active"],
       &:hover {
         background-color: Khaki;
         @include transition-default;
-      }
-      &[class*="-exact-active"] {
-        background-color: Khaki;
       }
     }
   }

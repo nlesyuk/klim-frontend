@@ -151,8 +151,8 @@ export default {
     chunkedImages() {
       if (!this.images.length) return;
 
-      const sortOrder = (first, second) =>
-        first?.order && second?.order ? first.order - second.order : 0;
+      const sortOrder = (f, s) =>
+        f?.order && s?.order ? f.order - s.order : 0;
 
       if (this.isShots) {
         const str = JSON.stringify(this.images);
@@ -169,12 +169,15 @@ export default {
         };
       }
 
-      const vertivalImages = this.images
-        .filter(v => (v?.format ? v.format === "vertical" : true))
-        .sort(sortOrder);
-      const horizontalImages = this.images
-        .filter(v => (v?.format ? v.format === "horizontal" : true))
-        .sort(sortOrder);
+      let vertivalImages = this.images.filter(v =>
+        v?.format ? v.format === "vertical" : true
+      );
+      vertivalImages = vertivalImages.sort(sortOrder);
+
+      let horizontalImages = this.images.filter(v =>
+        v?.format ? v.format === "horizontal" : true
+      );
+      horizontalImages = horizontalImages.sort(sortOrder);
 
       return {
         vertical: chunk(vertivalImages, 3),

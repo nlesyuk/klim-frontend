@@ -36,10 +36,10 @@
           </template>
         </label>
 
-        <button type="button" @click="update" class="dashboard__btn">
+        <button type="button" @click="update" class="dashboard__submit">
           Update shot
         </button>
-        <button type="button" @click="close" class="dashboard__btn">
+        <button type="button" @click="close" class="dashboard__submit">
           Close
         </button>
       </li>

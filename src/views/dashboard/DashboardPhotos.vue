@@ -7,7 +7,11 @@
     >
       Add photo
     </button>
-    <AddPhoto v-if="isShowAddPhoto"></AddPhoto>
+    <AddPhoto
+      v-if="isShowAddPhoto"
+      :isEdit="isEdit"
+      :photoCollection="photoCollection"
+    ></AddPhoto>
     <button type="button" @click="refresh" class="dashboard__btn">
       Refresh photos
     </button>
@@ -54,7 +58,9 @@ export default {
   },
   data() {
     return {
-      isShowAddPhoto: false
+      isEdit: false,
+      isShowAddPhoto: false,
+      photoCollection: null
     };
   },
   computed: {
@@ -77,13 +83,17 @@ export default {
     remove(id) {
       PhotosRepository.delete(id);
     },
-    edit(id) {
-      this.isEdit = true;
-      // const item = this.videos.filter(v => v.id === id);
-      // this.work = item[0];
-    },
     refresh() {
       this.getAllPhotos();
+    },
+    // edit
+    edit(id) {
+      this.isEdit = true;
+      const item = this.allPhotos.filter(v => v.id === id);
+      this.photoCollection = item?.length ? item[0] : null;
+      this.isShowAddPhoto = true;
+
+      console.log("photoCollection", this.photoCollection);
     }
   },
   created() {

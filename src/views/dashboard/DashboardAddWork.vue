@@ -5,6 +5,9 @@
       @submit.prevent="submit"
     >
       <div class="dashboard__side">
+        <p class="dashboard__text">
+          * для корректного відображення всі фото мають бути одного розміру
+        </p>
         <label
           :class="[
             'dashboard__label',
@@ -304,7 +307,6 @@ export default {
     if (this.isEdit) {
       this.editWork();
     }
-    // console.log("edit", this.work);
   }
 };
 </script>

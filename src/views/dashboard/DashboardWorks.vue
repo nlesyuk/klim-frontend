@@ -74,7 +74,6 @@ export default {
       this.isEdit = true;
       const item = this.videos.filter(v => v.id === id);
       this.work = item?.length ? item[0] : null;
-      // console.log("edit", this.work);
       this.isShowAddWork = true; // we use the addWork form for edit a work
     }
   },
