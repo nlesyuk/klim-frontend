@@ -2,11 +2,11 @@
   <div class="home">
     <Slider />
     <div class="works" v-if="allVideos && allVideos.length">
-      <WorkPreview
+      <work-preview
         v-for="(video, idx) in allVideos"
         :key="idx"
         :work="video"
-      ></WorkPreview>
+      ></work-preview>
     </div>
     <Spiner v-else />
   </div>

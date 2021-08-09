@@ -66,7 +66,7 @@ export default {
     installVimeo() {
       console.log("installVimeo data:", this.source.type, this.currentSlide);
       if (
-        !this.source?.video?.vimeo_id ||
+        !this.source?.video?.vimeoId ||
         this.source.type !== "video" ||
         this.player
       ) {
@@ -75,7 +75,7 @@ export default {
       }
 
       this.player = new Player(this.$refs.video, {
-        id: this.source.video.vimeo_id,
+        id: this.source.video.vimeoId,
         width: 640,
         color: "#ff0000",
         background: true,

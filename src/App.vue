@@ -1,6 +1,6 @@
 <template>
   <main id="app" class="container">
-    <SvgSprite></SvgSprite>
+    <svg-sprite></svg-sprite>
     <Header></Header>
     <section class="content">
       <transition name="fade" mode="out-in">
