@@ -7,7 +7,7 @@ const baseDomain =
     ? process.env.VUE_APP_SERVER_DEV
     : process.env.VUE_APP_SERVER_DEV_JSON_SERVER;
 
-const baseURL = `${baseDomain}`;
+const baseURL = `${baseDomain}/api`;
 
 export default axios.create({
   baseURL

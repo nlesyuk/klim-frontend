@@ -1,10 +1,12 @@
 import Repository from "./Repository";
 
+const resources = "contact";
+
 export default {
   getContacts() {
-    return Repository.get("contact");
+    return Repository.get(`${resources}`);
   },
-  update(payload) {
-    return Repository.post(payload);
+  updateContacts(payload) {
+    return Repository.put(`${resources}`, payload);
   }
 };

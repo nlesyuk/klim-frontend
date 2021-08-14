@@ -123,7 +123,7 @@ export default {
       contacts: state => state.general.contacts
     }),
     isAllowUpdate() {
-      return true;
+      // return true;
       return (
         this.email &&
         this.phone &&
@@ -137,7 +137,6 @@ export default {
   methods: {
     ...mapActions(["getContacts"]),
     update() {
-      console.log("update");
       if (this.$v.$invalid) {
         this.$v.$touch();
         return;
@@ -151,7 +150,8 @@ export default {
         facebook: this.facebook,
         instagram: this.instagram
       };
-      // GeneralRepository.update(payload);
+
+      GeneralRepository.updateContacts(payload);
     },
     reset() {
       this.email = null;
@@ -178,7 +178,6 @@ export default {
   created() {
     if (!this.contacts) {
       this.getContacts().then(contacts => {
-        console.log("fetc", contacts);
         this.setContacts(contacts);
       });
     }
