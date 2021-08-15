@@ -38,3 +38,12 @@ Dashboard:
 + edit photos
 + edit work
 - fix slider video
+SHOTS
+- view of 3 item per line
+- add link on photo to work
+- when add photo - replace ddl to checkboxes as edit mode
+PHOTO
+- set order of collage
+CONTACTS
+- add textarea field 'about me'
+- change image

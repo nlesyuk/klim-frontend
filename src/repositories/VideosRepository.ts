@@ -1,6 +1,6 @@
 import Repository from "./Repository";
 
-const resources = "videos";
+const resources = "work";
 
 // use CRUD model for build repository
 export default {
@@ -11,6 +11,7 @@ export default {
     return Repository.get(`${resources}/${id}`);
   },
   create(payload) {
+    // return Repository.post("upload", payload);
     return Repository.post(`${resources}`, payload);
   },
   update(payload, id) {

@@ -9,6 +9,18 @@ const baseDomain =
 
 const baseURL = `${baseDomain}/api`;
 
-export default axios.create({
+const instance = axios.create({
   baseURL
 });
+
+instance.interceptors.request.use(
+  req => {
+    req.headers.author = "s";
+    return req;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+
+export default instance;

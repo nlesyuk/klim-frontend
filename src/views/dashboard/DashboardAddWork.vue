@@ -197,10 +197,10 @@ export default {
   },
   data() {
     return {
-      title: "",
-      credits: "",
-      videoId: "",
-      description: "",
+      title: "title",
+      credits: "credits",
+      videoId: "123456789",
+      description: "description",
       selectedImages: []
     };
   },
@@ -240,7 +240,7 @@ export default {
     submit() {
       if (this.$v.$invalid) {
         this.$v.$touch();
-        return;
+        // return;
       }
 
       if (this.isEdit) {
@@ -262,17 +262,31 @@ export default {
 
         VideosRepository.update(payload, this.work.id); // update existing work
       } else {
-        const payload = {
-          title: this.title,
-          photos: this.selectedImages,
-          credits: this.credits,
-          description: this.description,
-          videos: {
+        const formData = new FormData();
+        formData.append("title", this.title);
+        formData.append("credits", this.credits);
+        formData.append("description", this.description);
+        formData.append(
+          "videos",
+          JSON.stringify({
             vimeoId: this.videoId
-          }
-        };
+          })
+        );
 
-        VideosRepository.create(payload); // create new work
+        for (const photo of this.selectedImages) {
+          formData.append("photos[]", photo.file);
+        }
+        const photoInfo = JSON.stringify(
+          this.selectedImages.map(v => ({
+            fileName: v.file.name,
+            isPreview: v.isPreview,
+            order: v.order
+          }))
+        );
+        formData.append("photosInfo", photoInfo);
+
+        console.log("submit - fromdata", formData, this.selectedImages);
+        VideosRepository.create(formData).catch(e => console.log("create", e));
       }
     },
     reset() {
