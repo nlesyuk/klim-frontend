@@ -1,5 +1,7 @@
 <template>
   <div class="work-page">
+    <Spiner v-if="isLoading" />
+
     <template v-if="work">
       <VimeoVideoPlayer :id="work.videos.vimeoId" :previewImg="previewImg" />
       <div class="work-page__text">
@@ -13,7 +15,15 @@
       />
       <p class="work-page__credits" v-html="work.credits"></p>
     </template>
-    <Spiner v-else />
+    <h2 v-else-if="!error && !work && !isLoading" class="something-went-wrong">
+      Something went wrong :()
+    </h2>
+
+    <Error
+      v-if="error"
+      :statusCode="error.status"
+      :message="error.statusText"
+    />
   </div>
 </template>
 
@@ -22,6 +32,7 @@ import GridPhotos from "../components/GridPhotos";
 import VimeoVideoPlayer from "../components/VimeoVideoPlayer";
 import { RepositoryFactory } from "./../repositories/RepositoryFactory";
 const VideosRepository = RepositoryFactory.get("videos");
+import { setTitle, handlerServerErrors } from "../helper/index";
 
 export default {
   name: "Work",
@@ -45,7 +56,9 @@ export default {
   },
   data() {
     return {
-      work: null
+      work: null,
+      error: null,
+      isLoading: false
     };
   },
   computed: {
@@ -64,7 +77,7 @@ export default {
     }
   },
   async mounted() {
-    this.setTitle("Work");
+    setTitle("Work");
 
     if (this.isPreview) {
       this.work = this.previewWork;
@@ -72,11 +85,15 @@ export default {
     }
 
     try {
+      this.isLoading = true;
       const { data } = await VideosRepository.getVideo(this.$route.params.id);
       this.work = data;
     } catch (e) {
       // eslint-disable-next-line
       console.error(e);
+      this.error = handlerServerErrors(e);
+    } finally {
+      this.isLoading = false;
     }
   }
 };

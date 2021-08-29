@@ -47,7 +47,7 @@ export default {
   methods: {
     installVimeo(id) {
       this.player = new Player(this.$refs.video, {
-        id: id || 521769877,
+        id: +id || 521769877,
         width: 640,
         color: "#ff0000"
       });

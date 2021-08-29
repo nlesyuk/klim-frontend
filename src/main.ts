@@ -6,7 +6,9 @@ import store from "./store/store";
 
 // global components
 import Spiner from "./components/Spiner.vue";
+import Error from "./views/Error.vue";
 Vue.component("Spiner", Spiner);
+Vue.component("Error", Error);
 
 // plugins
 import VueStripeMenu from "vue-stripe-menu";
