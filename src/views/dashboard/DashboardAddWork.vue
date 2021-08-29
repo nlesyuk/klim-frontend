@@ -110,6 +110,25 @@
                 <input type="checkbox" v-model="file.isPreview" :value="true" />
                 <span class="inline">Is preview photo?</span>
               </label>
+
+              <label class="dashboard__label mb0">
+                <input
+                  type="radio"
+                  :name="`format${idx}`"
+                  value="vertical"
+                  v-model="file.format"
+                />
+                <span class="inline">vertical</span>
+              </label>
+              <label class="dashboard__label">
+                <input
+                  type="radio"
+                  :name="`format${idx}`"
+                  value="horizontal"
+                  v-model="file.format"
+                />
+                <span class="inline">horizontal</span>
+              </label>
             </li>
           </ul>
         </div>
@@ -146,16 +165,61 @@
           </li>
         </ul>
 
+        <!-- work order -->
+        <label class="dashboard__label">
+          <span>Please select order of work</span>
+          <select v-model="workOrder">
+            <option disabled selected value="null">
+              Please choose order
+            </option>
+            <option
+              v-for="(work, index) in worksLength"
+              :key="index"
+              :value="index"
+            >
+              {{ index }}
+              <template v-if="index + 1 === worksLength">
+                (automate setted position)
+              </template>
+            </option>
+          </select>
+        </label>
+
         <div class="dashboard__btns-container">
-          <button type="submit" class="dashboard__submit" v-if="isEdit">
+          <button
+            type="submit"
+            class="dashboard__submit"
+            v-if="isEdit"
+            :disabled="isLoading"
+          >
             Update work
           </button>
-          <button type="submit" class="dashboard__submit" v-else>
+          <button
+            type="submit"
+            class="dashboard__submit"
+            v-else
+            :disabled="isLoading"
+          >
             Add work
           </button>
-          <button type="reset" class="dashboard__submit" @click="reset">
+          <button
+            type="reset"
+            class="dashboard__submit"
+            @click="reset"
+            :disabled="isLoading"
+          >
             Reset
           </button>
+          <Spiner v-if="isLoading" :isCenter="false" />
+
+          <div class="dashboard__status">
+            <div class="dashboard__status--success" v-if="isSuccess">
+              Work was added
+            </div>
+            <div class="dashboard__status--fail" v-if="error">
+              Fail: {{ error }}
+            </div>
+          </div>
         </div>
       </div>
       <div class="dashboard__side dashboard__area-preview">
@@ -176,6 +240,8 @@ import { VueEditor } from "vue2-editor";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
 const VideosRepository = RepositoryFactory.get("videos");
+import { mapState } from "vuex";
+import { getHeightAndWidthFromDataUrl } from "../../helper/index";
 
 export default {
   props: {
@@ -201,7 +267,12 @@ export default {
       credits: "credits",
       videoId: "521769877",
       description: "description",
-      selectedImages: []
+      workOrder: null,
+      selectedImages: [],
+      // general:
+      isLoading: false,
+      isSuccess: false,
+      error: null
     };
   },
   computed: {
@@ -216,6 +287,13 @@ export default {
           vimeoId: this.videoId
         }
       };
+    },
+    // base
+    ...mapState({
+      works: state => state.videos.videos
+    }),
+    worksLength() {
+      return this.works.length + 1;
     }
   },
   validations: {
@@ -237,7 +315,7 @@ export default {
     }
   },
   methods: {
-    submit() {
+    async submit() {
       if (this.$v.$invalid) {
         this.$v.$touch();
         // return;
@@ -247,6 +325,7 @@ export default {
         // const formData = new FormData();
         // formData.append("title", this.title);
         const payload = {
+          id: this.work.id,
           title: this.title,
           photos: {
             // use formData for transfer data to server
@@ -260,53 +339,101 @@ export default {
           }
         };
 
-        VideosRepository.update(payload, this.work.id); // update existing work
+        VideosRepository.update(payload); // update existing work
       } else {
-        const formData = new FormData();
-        formData.append("title", this.title);
-        formData.append("credits", this.credits);
-        formData.append("description", this.description);
-        formData.append(
-          "videos",
-          JSON.stringify({
-            vimeoId: this.videoId
-          })
-        );
+        try {
+          const formData = new FormData();
+          formData.append("title", this.title);
+          formData.append("credits", this.credits);
+          formData.append("workOrder", this.workOrder);
+          formData.append("description", this.description);
+          formData.append(
+            "videos",
+            JSON.stringify({
+              vimeoId: this.videoId
+            })
+          );
 
-        for (const photo of this.selectedImages) {
-          formData.append("photos[]", photo.file);
-        }
-        const photoInfo = JSON.stringify(
-          this.selectedImages.map(v => ({
-            fileName: v.file.name,
-            isPreview: v.isPreview,
-            order: v.order
-          }))
-        );
-        formData.append("photosInfo", photoInfo);
+          for (const photo of this.selectedImages) {
+            formData.append("photos[]", photo.file);
+          }
+          const photoInfo = JSON.stringify(
+            this.selectedImages.map(v => ({
+              fileName: v.file.name,
+              isPreview: v.isPreview,
+              order: v.order,
+              format: v.format
+            }))
+          );
+          formData.append("photosInfo", photoInfo);
 
-        console.log("submit - fromdata", formData, this.selectedImages);
-        VideosRepository.create(formData).catch(e => console.log("create", e));
+          console.log("submit - fromdata", formData, this.selectedImages);
+          this.isLoading = true;
+          VideosRepository.create(formData)
+            .then(data => {
+              this.reset();
+              this.setServerStatusInUI(true);
+            })
+            .catch(e => {
+              console.log("Create work ERROR", e);
+              this.setServerStatusInUI(false, e.response.statusText);
+            })
+            .finally(() => {
+              this.isLoading = false;
+            });
+        } catch (error) {}
       }
     },
     reset() {
-      this.title = this.description = this.credits = this.videoId = "";
+      this.title = "";
+      this.description = "";
+      this.credits = "";
+      this.videoId = "";
+      this.workOrder = null;
+      this.selectedImages = [];
       this.$emit("resetForm");
     },
     getFiles() {
       const files = this.$refs.files.files;
 
       Array.from(files).forEach((file, idx) => {
-        this.selectedImages.push({
-          file,
-          order: idx,
-          isPreview: false,
-          src: URL.createObjectURL(file)
+        getHeightAndWidthFromDataUrl(file).then(resolution => {
+          const format =
+            resolution.height > resolution.width ? "vertical" : "horizontal";
+          this.selectedImages.push({
+            file,
+            order: idx,
+            isPreview: false,
+            format,
+            src: URL.createObjectURL(file)
+          });
         });
       });
     },
     removeSelectedImage(src) {
       this.selectedImages = this.selectedImages.filter(v => v.src != src);
+    },
+    setWorkOrder() {
+      if (this.isEdit) {
+        return;
+      }
+      if (this.works) {
+        this.workOrder = this.works.length;
+      }
+    },
+    setServerStatusInUI(isSuccess, statusText) {
+      if (isSuccess) {
+        this.isSuccess = true;
+        setTimeout(() => {
+          this.isSuccess = false;
+          this.$emit("work-create-successfully");
+        }, 10 * 1000);
+      } else {
+        this.error = statusText;
+        setTimeout(() => {
+          this.error = false;
+        }, 20 * 1000);
+      }
     },
 
     // edit
@@ -321,6 +448,7 @@ export default {
     if (this.isEdit) {
       this.editWork();
     }
+    this.setWorkOrder();
   }
 };
 </script>

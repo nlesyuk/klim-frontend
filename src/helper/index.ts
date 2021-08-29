@@ -10,3 +10,31 @@ export function handlerServerErrors(error) {
     message: error.response?.data?.message
   };
 }
+
+export function getHeightAndWidthFromDataUrl1(dataURL) {
+  // dataURL must be created by URL.createObjectURL(file)
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      resolve({
+        height: img.height,
+        width: img.width
+      });
+    };
+    img.src = dataURL;
+  });
+}
+
+export function getHeightAndWidthFromDataUrl(file) {
+  const src = URL.createObjectURL(file);
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      resolve({
+        height: img.height,
+        width: img.width
+      });
+    };
+    img.src = src;
+  });
+}

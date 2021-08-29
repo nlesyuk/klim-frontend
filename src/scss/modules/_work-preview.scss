@@ -2,13 +2,11 @@
 .work {
   display: block;
   width: 100%;
-  // min-height: 200px;
-  background-color: $base-gradient;
+  background-color: $grey-light;
   background-size: cover;
   background-position: center;
   position: relative;
   overflow: hidden;
-  // aspect-ratio: 16/9;
 
   // for Safari
   overflow: hidden;

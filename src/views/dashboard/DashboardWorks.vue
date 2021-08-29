@@ -8,6 +8,7 @@
       :work="work"
       :isEdit="isEdit"
       @resetForm="isEdit = false"
+      @workCreateSuccessfully="refresh"
     ></AddWork>
 
     <button type="button" @click="refresh" class="dashboard__btn">
