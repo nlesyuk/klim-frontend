@@ -137,7 +137,7 @@
         <ul class="dashboard__list-imgs" v-if="isEdit">
           <li v-for="(file, idx) in work.photos" :key="idx">
             <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
-            <button type="button" @click="removeSelectedImage(file.src)">
+            <button type="button" @click="deleteExistingImage(file.id)">
               delete
             </button>
             <img :src="file.src" alt="edit" />
@@ -161,6 +161,25 @@
             <label class="dashboard__label">
               <input type="checkbox" v-model="file.isPreview" :value="true" />
               <span class="inline">Is preview photo?</span>
+            </label>
+
+            <label class="dashboard__label mb0">
+              <input
+                type="radio"
+                :name="`edit-format${idx}`"
+                value="vertical"
+                v-model="file.format"
+              />
+              <span class="inline">vertical</span>
+            </label>
+            <label class="dashboard__label">
+              <input
+                type="radio"
+                :name="`edit-format${idx}`"
+                value="horizontal"
+                v-model="file.format"
+              />
+              <span class="inline">horizontal</span>
             </label>
           </li>
         </ul>
@@ -293,7 +312,8 @@ export default {
       works: state => state.videos.videos
     }),
     worksLength() {
-      return this.works.length + 1;
+      const arr = Array.from(this.works).map(v => v.workOrder);
+      return Math.max(...arr) + 1;
     }
   },
   validations: {
@@ -318,28 +338,53 @@ export default {
     async submit() {
       if (this.$v.$invalid) {
         this.$v.$touch();
-        // return;
+        return;
       }
 
       if (this.isEdit) {
-        // const formData = new FormData();
-        // formData.append("title", this.title);
-        const payload = {
-          id: this.work.id,
-          title: this.title,
-          photos: {
-            // use formData for transfer data to server
-            new: this.selectedImages,
-            existing: this.work.photos
-          },
-          credits: this.credits,
-          description: this.description,
-          videos: {
-            vimeoId: this.videoId
-          }
-        };
+        const formData = new FormData();
+        formData.append("id", this.work.id);
+        formData.append("title", this.title);
+        formData.append("credits", this.credits);
+        formData.append("workOrder", this.workOrder);
+        formData.append("description", this.description);
+        const videos = JSON.stringify({ vimeoId: this.videoId });
+        formData.append("videos", videos);
 
-        VideosRepository.update(payload); // update existing work
+        for (const photo of this.selectedImages) {
+          formData.append("photos[]", photo.file);
+        }
+        const photoNewInfo = this.selectedImages.map(v => ({
+          isPreview: v.isPreview,
+          fileName: v.file.name,
+          format: v.format,
+          order: v.order
+        }));
+        formData.append(
+          "photosInfo",
+          JSON.stringify({
+            new: photoNewInfo,
+            existing: this.work.photos
+          })
+        );
+        formData.append(
+          "removedPhotos",
+          JSON.stringify(this.work.removedPhotos)
+        );
+
+        this.isLoading = true;
+        VideosRepository.update(formData)
+          .then(data => {
+            // this.reset();
+            this.setServerStatusInUI(true);
+          })
+          .catch(e => {
+            console.info("Update work ERROR", e);
+            this.setServerStatusInUI(false, e.response.statusText);
+          })
+          .finally(() => {
+            this.isLoading = false;
+          });
       } else {
         try {
           const formData = new FormData();
@@ -347,27 +392,22 @@ export default {
           formData.append("credits", this.credits);
           formData.append("workOrder", this.workOrder);
           formData.append("description", this.description);
-          formData.append(
-            "videos",
-            JSON.stringify({
-              vimeoId: this.videoId
-            })
-          );
+          const videos = JSON.stringify({ vimeoId: this.videoId });
+          formData.append("videos", videos);
 
           for (const photo of this.selectedImages) {
             formData.append("photos[]", photo.file);
           }
           const photoInfo = JSON.stringify(
             this.selectedImages.map(v => ({
-              fileName: v.file.name,
               isPreview: v.isPreview,
-              order: v.order,
-              format: v.format
+              fileName: v.file.name,
+              format: v.format,
+              order: v.order
             }))
           );
           formData.append("photosInfo", photoInfo);
 
-          console.log("submit - fromdata", formData, this.selectedImages);
           this.isLoading = true;
           VideosRepository.create(formData)
             .then(data => {
@@ -375,13 +415,15 @@ export default {
               this.setServerStatusInUI(true);
             })
             .catch(e => {
-              console.log("Create work ERROR", e);
+              console.info("Create work ERROR", e);
               this.setServerStatusInUI(false, e.response.statusText);
             })
             .finally(() => {
               this.isLoading = false;
             });
-        } catch (error) {}
+        } catch (error) {
+          console.error("AddWork Error", error);
+        }
       }
     },
     reset() {
@@ -442,6 +484,23 @@ export default {
       this.credits = this.work.credits;
       this.videoId = this.work.videos.vimeoId;
       this.description = this.work.description;
+      this.workOrder = this.work.workOrder;
+    },
+    deleteExistingImage(id) {
+      console.log(id);
+      // this.work.photos = this.work.photos.map(v => {
+      //   if (v.id === id) {
+      //     v.status = "deleted";
+      //   }
+      //   return v;
+      // });
+      this.work.photos = this.work.photos.filter(v => v.id != id);
+      if (this.work.removedPhotos) {
+        this.work.removedPhotos.push(id);
+      } else {
+        this.work.removedPhotos = [];
+        this.work.removedPhotos.push(id);
+      }
     }
   },
   mounted() {

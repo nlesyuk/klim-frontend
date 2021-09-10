@@ -195,7 +195,7 @@
     &-item {
       color: #4d4c4c;
       width: 100%;
-      background-color: LemonChiffon;
+      background-color: green;
       border: 1px solid white;
       padding: 1rem;
       text-transform: uppercase;
@@ -204,7 +204,7 @@
 
       &[class*="-exact-active"],
       &:hover {
-        background-color: Khaki;
+        background-color: greenyellow;
         @include transition-default;
       }
     }
