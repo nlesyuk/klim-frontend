@@ -4,7 +4,7 @@ const RepositoryGeneral = RepositoryFactory.get("shots");
 export default {
   state: {
     shots: [],
-    category: ["all", "portrait", "landscape", "mood"]
+    categories: ["all", "portrait", "landscape", "mood"]
   },
   actions: {
     async getAllShots({ commit }) {
@@ -14,6 +14,7 @@ export default {
         return Promise.resolve(data);
       } catch (e) {
         console.error(e);
+        return Promise.reject(e);
       }
     }
   },

@@ -49,6 +49,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       isEdit: false,
       editedShot: null,
       isShowAddShot: false,
@@ -67,10 +68,17 @@ export default {
     refresh() {
       this.getAllShots();
     },
-    remove(id) {
-      this.filteredPhotos = this.filteredPhotos.filter(v => v.id != id);
-
-      VideosRepository.delete(id);
+    async remove(id) {
+      try {
+        this.isLoading = true;
+        this.filteredPhotos = this.filteredPhotos.filter(v => v.id != id);
+        const res = await ShotRepository.delete(id);
+        console.log("REMOVE", res);
+      } catch (e) {
+        console.error("REMOVE ERROR", e);
+      } finally {
+        this.isLoading = false;
+      }
     },
     edit(id) {
       this.isEdit = true;

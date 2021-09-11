@@ -1,13 +1,12 @@
 import Repository from "./Repository";
 
-const resources = "shots";
+const resources = "shot";
 
 export default {
   getAllShots() {
     return Repository.get(`${resources}`);
   },
   create(payload) {
-    // payload<[file: FormData, category: sting, workId: number]>
     return Repository.post(`${resources}`, payload);
   },
   update(payload, id) {

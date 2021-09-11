@@ -11,7 +11,6 @@ export default {
     return Repository.get(`${resources}/${id}`);
   },
   create(payload) {
-    // return Repository.post("upload", payload);
     return Repository.post(`${resources}`, payload);
   },
   update(payload) {

@@ -146,6 +146,11 @@
     &-prev-content {
       padding: 20px 0 0 20px;
     }
+    &--inline {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
     // error
     &-error {
       display: block;
@@ -195,7 +200,7 @@
     &-item {
       color: #4d4c4c;
       width: 100%;
-      background-color: green;
+      background-color: #c5ffbe;
       border: 1px solid white;
       padding: 1rem;
       text-transform: uppercase;
@@ -204,7 +209,7 @@
 
       &[class*="-exact-active"],
       &:hover {
-        background-color: greenyellow;
+        background-color: #33cd00;
         @include transition-default;
       }
     }

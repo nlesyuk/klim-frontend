@@ -7,13 +7,17 @@
         <ul class="dashboard__list-imgs">
           <li v-for="(file, idx) in selectedImages" :key="idx">
             <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
+
             <button type="button" @click="removeSelectedImage(file.url)">
               delete
             </button>
+
             <div v-if="file.workId" class="dashboard__badge badge-green">
               Linked to post-id: {{ file.workId }}
             </div>
+
             <img :src="file.url" alt="preview" />
+
             <div class="dashboard__select">
               <select v-model="file.workId">
                 <option disabled selected value="null">
@@ -28,20 +32,41 @@
                 </option>
               </select>
             </div>
-            <div class="dashboard__select">
-              <select v-model="file.category">
-                <option disabled selected value="null">
-                  Please choose category
-                </option>
-                <option
-                  v-for="(name, idx) of category"
-                  :key="idx"
-                  :value="name"
-                >
-                  {{ name }}
-                </option>
-              </select>
-            </div>
+
+            <h3 class="dashboard__text">
+              Please choose related category(ies):
+            </h3>
+            <label
+              class="dashboard__label mb0 dashboard__label--inline"
+              v-for="category in categories"
+              :key="category"
+            >
+              <input
+                type="checkbox"
+                :value="category"
+                v-model="file.categories"
+              />
+              <span>{{ category }}</span>
+            </label>
+
+            <label class="dashboard__label mb0">
+              <input
+                type="radio"
+                :name="`format${idx}`"
+                value="vertical"
+                v-model="file.format"
+              />
+              <span class="inline">vertical</span>
+            </label>
+            <label class="dashboard__label">
+              <input
+                type="radio"
+                :name="`format${idx}`"
+                value="horizontal"
+                v-model="file.format"
+              />
+              <span class="inline">horizontal</span>
+            </label>
           </li>
         </ul>
       </div>
@@ -53,9 +78,15 @@
         >
           Add shot(s)
         </button>
-        <button type="reset" class="dashboard__submit" @click="reset">
+        <button
+          type="reset"
+          class="dashboard__submit"
+          :disabled="!isLoading"
+          @click="reset"
+        >
           Reset
         </button>
+        <Spiner v-if="isLoading" :isCenter="false" />
       </div>
     </form>
   </section>
@@ -63,38 +94,46 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import { getHeightAndWidthFromDataUrl } from "../../helper";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
 const ShotsRepository = RepositoryFactory.get("shots");
 
 export default {
   data() {
     return {
+      isLoading: false,
       selectedImages: []
     };
   },
   computed: {
     ...mapState({
-      videos: state => state.videos.videos,
-      category: state => state.shots.category
+      videos: state => state.videos.videos, // for drop down list in new added shot
+      categories: state => state.shots.categories
     }),
     isAllowCreateShots() {
-      if (!this.selectedImages.length) {
+      if (!this.selectedImages?.length) {
         return false;
       }
-      return this.selectedImages.every(file => file.workId && file.category);
+      return this.selectedImages.every(
+        file => file.workId && file.categories.length > 0
+      );
     }
   },
   methods: {
     ...mapActions(["getAllVideos"]),
     getFiles() {
       const files = this.$refs.files.files;
-
-      Array.from(files).forEach(v => {
-        this.selectedImages.push({
-          file: v,
-          workId: null,
-          url: URL.createObjectURL(v),
-          category: null
+      Array.from(files).forEach((file, idx) => {
+        getHeightAndWidthFromDataUrl(file).then(resol => {
+          const format = resol.height > resol.width ? "vertical" : "horizontal";
+          this.selectedImages.push({
+            file: file,
+            photoOriginalName: file.name,
+            workId: null,
+            categories: ["all"],
+            url: URL.createObjectURL(file),
+            format
+          });
         });
       });
     },
@@ -104,16 +143,31 @@ export default {
     reset() {
       this.selectedImages = [];
     },
-    submit() {
-      const formData = new FormData();
+    async submit() {
+      try {
+        this.isLoading = true;
 
-      for (const item in this.selectedImages) {
-        formData.append("image", item.file);
-        formData.append("workId", item.workId);
-        formData.append("category", item.category);
+        if (this.isEdit) {
+        } else {
+          const formData = new FormData();
+          for (const item of this.selectedImages) {
+            formData.append("photos[]", item.file);
+          }
+          const shots = Array.from(this.selectedImages).map(v => {
+            delete v.file;
+            delete v.url;
+            return { ...v };
+          });
+          formData.append("shots", JSON.stringify(shots));
+
+          const { data } = await ShotsRepository.create(formData);
+          console.log("data", data);
+        }
+      } catch (e) {
+        console.log(e);
+      } finally {
+        this.isLoading = false;
       }
-
-      // ShotsRepository.create(formData);
     }
   },
   created() {
