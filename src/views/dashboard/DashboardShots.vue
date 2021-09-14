@@ -13,8 +13,6 @@
       v-if="isEdit"
       :shot="editedShot"
       :videos="videos"
-      :categories="categories"
-      @updated="update"
       @close="closeEdit"
     />
 
@@ -59,7 +57,6 @@ export default {
   computed: {
     ...mapState({
       videos: state => state.videos.videos,
-      categories: state => state.shots.category,
       allPhotos: state => state.shots.shots
     })
   },
@@ -85,10 +82,7 @@ export default {
       const finded = this.filteredPhotos.filter(v => v.id === id);
       this.editedShot = finded?.length ? finded[0] : null;
     },
-    update(payload) {
-      // console.log("update", payload);
-      ShotRepository.update(payload, payload.id);
-    },
+
     closeEdit() {
       this.isEdit = false;
     }

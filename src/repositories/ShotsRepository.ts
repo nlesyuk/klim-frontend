@@ -9,8 +9,8 @@ export default {
   create(payload) {
     return Repository.post(`${resources}`, payload);
   },
-  update(payload, id) {
-    return Repository.put(`${resources}/${id}`, payload);
+  update(payload) {
+    return Repository.put(`${resources}`, payload);
   },
   delete(id) {
     return Repository.delete(`${resources}/${id}`);

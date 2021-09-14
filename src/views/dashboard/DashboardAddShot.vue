@@ -3,7 +3,7 @@
     <form class="dashboard__form" @submit.prevent="submit">
       <div class="dashboard__label">
         <span>Please upload shots</span>
-        <input type="file" multiple @change="getFiles" ref="files" />
+        <input type="file" @change="getFiles" ref="files" />
         <ul class="dashboard__list-imgs">
           <li v-for="(file, idx) in selectedImages" :key="idx">
             <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>

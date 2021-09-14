@@ -7,7 +7,15 @@
           Linked to post-id: {{ shot.workId }}
         </div>
 
-        <img :src="shot.src" alt="preview" />
+        <button type="button" @click="removeImage">
+          delete
+        </button>
+
+        <img v-if="shot.src" :src="shot.src" alt="preview" />
+        <template v-else>
+          <span>Please upload shots</span>
+          <input type="file" @change="getFiles" ref="files" />
+        </template>
 
         <div class="dashboard__select">
           <select v-model="shot.workId">
@@ -26,14 +34,33 @@
           v-for="(category, idx) of categories"
           :key="idx"
         >
-          <template v-if="!['all'].includes(category)">
+          <template>
             <input
               type="checkbox"
-              v-model="selectedCategories"
+              v-model="shot.categories"
               :value="category"
             />
             <span class="inline">{{ category }}</span>
           </template>
+        </label>
+
+        <label class="dashboard__label mb0">
+          <input
+            type="radio"
+            name="format"
+            value="vertical"
+            v-model="shot.format"
+          />
+          <span class="inline">vertical</span>
+        </label>
+        <label class="dashboard__label">
+          <input
+            type="radio"
+            name="format"
+            value="horizontal"
+            v-model="shot.format"
+          />
+          <span class="inline">horizontal</span>
         </label>
 
         <button type="button" @click="update" class="dashboard__submit">
@@ -48,6 +75,11 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
+import { getHeightAndWidthFromDataUrl } from "../../helper";
+import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
+const ShotRepository = RepositoryFactory.get("shots");
+
 export default {
   props: {
     shot: {
@@ -56,44 +88,43 @@ export default {
     },
     videos: {
       required: true
-    },
-    categories: {
-      required: true
     }
   },
-  data() {
-    return {
-      isLoading: false,
-      selectedCategories: []
-    };
-  },
-  watch: {
-    shot() {
-      this.updateSelectedCategories();
-    }
+  computed: {
+    ...mapState({
+      categories: state => state.shots.categories
+    })
   },
   methods: {
+    removeImage() {
+      this.shot.src = "";
+    },
+    getFiles() {
+      const files = this.$refs.files.files;
+      Array.from(files).forEach(file => {
+        getHeightAndWidthFromDataUrl(file).then(res => {
+          this.shot.format = res.height > res.width ? "vertical" : "horizontal";
+          this.shot.src = URL.createObjectURL(file);
+          this.shot.file = file;
+        });
+      });
+    },
     update() {
-      const { id, src, workId } = this.shot;
+      const { id, src, workId, categories, format } = this.shot;
       const payload = {
         id,
         src,
+        format,
         workId,
-        category: this.selectedCategories
+        categories
       };
-      this.$emit("updated", payload);
+
+      console.log("update", payload);
+      ShotRepository.update(payload);
     },
     close() {
-      this.selectedCategories = [];
       this.$emit("close");
-    },
-    updateSelectedCategories() {
-      this.selectedCategories = [];
-      this.selectedCategories = [...this.shot.category];
     }
-  },
-  mounted() {
-    this.updateSelectedCategories();
   }
 };
 </script>
