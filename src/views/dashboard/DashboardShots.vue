@@ -78,6 +78,11 @@ export default {
       }
     },
     edit(id) {
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: "smooth"
+      });
       this.isEdit = true;
       const finded = this.filteredPhotos.filter(v => v.id === id);
       this.editedShot = finded?.length ? finded[0] : null;

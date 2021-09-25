@@ -7,15 +7,15 @@
           Linked to post-id: {{ shot.workId }}
         </div>
 
-        <button type="button" @click="removeImage">
+        <button type="button" v-if="shot.src" @click="removeImage">
           delete
         </button>
 
         <img v-if="shot.src" :src="shot.src" alt="preview" />
-        <template v-else>
+        <div v-else>
           <span>Please upload shots</span>
-          <input type="file" @change="getFiles" ref="files" />
-        </template>
+          <input type="file" @change="getFiles" ref="file" />
+        </div>
 
         <div class="dashboard__select">
           <select v-model="shot.workId">
@@ -31,16 +31,17 @@
         <p class="dashboard__text">Please choose category for this shot:</p>
         <label
           class="dashboard__label mb0"
-          v-for="(category, idx) of categories"
+          v-for="(category, idx) of myCategories"
           :key="idx"
         >
           <template>
             <input
               type="checkbox"
               v-model="shot.categories"
-              :value="category"
+              :value="category.name"
+              :disabled="category.isDisabled"
             />
-            <span class="inline">{{ category }}</span>
+            <span class="inline">{{ category.name }}</span>
           </template>
         </label>
 
@@ -63,12 +64,23 @@
           <span class="inline">horizontal</span>
         </label>
 
-        <button type="button" @click="update" class="dashboard__submit">
+        <button
+          type="button"
+          @click="update"
+          class="dashboard__submit"
+          :disabled="isLoading"
+        >
           Update shot
         </button>
-        <button type="button" @click="close" class="dashboard__submit">
+        <button
+          type="button"
+          @click="close"
+          class="dashboard__submit"
+          :disabled="isLoading"
+        >
           Close
         </button>
+        <Spiner v-if="isLoading" :isCenter="false" />
       </li>
     </ul>
     <p v-else class="dashboard__badge badge-red">Something went wrong</p>
@@ -93,14 +105,34 @@ export default {
   computed: {
     ...mapState({
       categories: state => state.shots.categories
-    })
+    }),
+    myCategories() {
+      if (
+        this.shot.categories.includes("all") &&
+        this.shot.categories.length != 1
+      ) {
+        return Array.from(this.categories).map(name => ({
+          name,
+          isDisabled: name != "all"
+        }));
+      }
+      return Array.from(this.categories).map(name => ({
+        name,
+        isDisabled: false
+      }));
+    }
+  },
+  data() {
+    return {
+      isLoading: false
+    };
   },
   methods: {
     removeImage() {
       this.shot.src = "";
     },
     getFiles() {
-      const files = this.$refs.files.files;
+      const files = this.$refs.file.files;
       Array.from(files).forEach(file => {
         getHeightAndWidthFromDataUrl(file).then(res => {
           this.shot.format = res.height > res.width ? "vertical" : "horizontal";
@@ -109,21 +141,52 @@ export default {
         });
       });
     },
-    update() {
-      const { id, src, workId, categories, format } = this.shot;
-      const payload = {
-        id,
-        src,
-        format,
-        workId,
-        categories
-      };
+    async update() {
+      this.isLoading = true;
+      const { id, src, workId, categories, format, file } = this.shot;
+      let shotCategories = "";
+      if (Array.from(categories).some(v => v === "all")) {
+        shotCategories = ["all"];
+      } else {
+        shotCategories = Array.from(categories).filter(v => v != "all");
+      }
 
-      console.log("update", payload);
-      ShotRepository.update(payload);
+      try {
+        const formData = new FormData();
+        formData.append("id", id);
+        formData.append("format", format);
+        formData.append("workId", workId);
+        formData.append("categories", JSON.stringify(shotCategories));
+        if (file) {
+          formData.append("photos[]", file);
+        } else {
+          formData.append("src", src);
+        }
+
+        const data = {};
+        for (const pair of formData.entries()) {
+          data[pair[0]] = pair[1];
+        }
+
+        // eslint-disable-next-line no-console
+        console.log("update", data);
+        const res = await ShotRepository.update(formData);
+        // eslint-disable-next-line no-console
+        console.log("upload-response", res.data);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(e);
+      } finally {
+        this.isLoading = false;
+      }
     },
     close() {
       this.$emit("close");
+    },
+    leaveAll() {
+      this.shot.categories = ["all"];
+
+      return false;
     }
   }
 };

@@ -3,7 +3,7 @@
     <div class="shots__tags">
       <button
         type="button"
-        v-for="(name, idx) in category"
+        v-for="(name, idx) in categories"
         :key="idx"
         @click="changeFilter(name)"
         :class="['btn', 'btn-primary', { active: filter === name }]"
@@ -42,7 +42,7 @@ export default {
     },
     ...mapState({
       allPhotos: state => state.shots.shots,
-      category: state => state.shots.category
+      categories: state => state.shots.categories
     })
   },
   watch: {
