@@ -7,9 +7,9 @@
     >
       Add shot
     </button>
-    <AddShot v-if="isShowAddShot" />
+    <ShotAdd v-if="isShowAddShot" />
 
-    <EditShot
+    <ShotEdit
       v-if="isEdit"
       :shot="editedShot"
       :videos="videos"
@@ -21,7 +21,7 @@
     </button>
 
     <GridPhotosShots
-      v-if="filteredPhotos.length"
+      v-if="filteredPhotos"
       :images="filteredPhotos"
       :isManage="true"
       @removeImg="remove"
@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import AddShot from "./DashboardAddShot.vue";
-import EditShot from "./DashboardEditShot.vue";
+import ShotAdd from "./ShotAdd.vue";
+import ShotEdit from "./ShotEdit.vue";
 import GridPhotosShots from "../../components/GridPhotosShots";
 import { mapState, mapActions } from "vuex";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
@@ -42,8 +42,8 @@ const ShotRepository = RepositoryFactory.get("shots");
 export default {
   components: {
     GridPhotosShots,
-    AddShot,
-    EditShot
+    ShotAdd,
+    ShotEdit
   },
   data() {
     return {

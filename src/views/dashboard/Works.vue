@@ -3,13 +3,13 @@
     <button class="dashboard__btn" @click="isShowAddWork = !isShowAddWork">
       Add work
     </button>
-    <AddWork
+    <WorkAdd
       v-if="isShowAddWork"
       :work="work"
       :isEdit="isEdit"
       @resetForm="isEdit = false"
       @workCreateSuccessfully="refresh"
-    ></AddWork>
+    ></WorkAdd>
 
     <button type="button" @click="refresh" class="dashboard__btn">
       Refresh works
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import AddWork from "./DashboardAddWork.vue";
+import WorkAdd from "./WorkAdd.vue";
 import WorkPreview from "../../components/WorkPreview";
 import { mapState, mapActions } from "vuex";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
@@ -42,7 +42,7 @@ const VideosRepository = RepositoryFactory.get("videos");
 
 export default {
   components: {
-    AddWork,
+    WorkAdd,
     WorkPreview
   },
   data() {

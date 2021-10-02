@@ -7,16 +7,16 @@
     >
       Add photo
     </button>
-    <AddPhoto
+    <PhotoAdd
       v-if="isShowAddPhoto"
-      :isEdit="isEdit"
       :photoCollection="photoCollection"
-    ></AddPhoto>
+    ></PhotoAdd>
+
     <button type="button" @click="refresh" class="dashboard__btn">
       Refresh photos
     </button>
 
-    <div class="dashboard-photos__container" v-if="photos && photos.length">
+    <div class="dashboard-photos__container" v-if="isPhotosFilled > 0">
       <PhotoPreview
         v-for="(photo, idx) in photos"
         :key="idx"
@@ -40,12 +40,15 @@
         </ul>
       </PhotoPreview>
     </div>
+    <div v-else-if="isPhotosFilled === 0" class="grid-empty">
+      Don't have any items yet
+    </div>
     <Spiner v-else />
   </section>
 </template>
 
 <script>
-import AddPhoto from "./DashboardAddPhoto";
+import PhotoAdd from "./PhotoAdd";
 import PhotoPreview from "../../components/PhotoPreview";
 import { mapState, mapActions } from "vuex";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
@@ -53,7 +56,7 @@ const PhotosRepository = RepositoryFactory.get("photos");
 
 export default {
   components: {
-    AddPhoto,
+    PhotoAdd,
     PhotoPreview
   },
   data() {
@@ -68,23 +71,32 @@ export default {
       allPhotos: state => state.photos.photos
     }),
     photos() {
-      return this.allPhotos;
-      let res;
-      if (this.$route.path.includes("commerce")) {
-        res = this.allPhotos.filter(v => v.category.includes("commerce"));
-      } else {
-        res = this.allPhotos.filter(v => !v.category.includes("commerce"));
+      const photos = this.allPhotos;
+      if (!photos) {
+        return false;
       }
+
+      const res = this.$route.path.includes("commerce")
+        ? photos.filter(v => v.category.includes("commerce"))
+        : photos.filter(v => !v.category.includes("commerce"));
+
       return res.length ? res : this.allPhotos;
+    },
+    isPhotosFilled() {
+      const p = this.photos;
+      if (Array.isArray(p)) {
+        return p.length;
+      }
+      return false;
     }
   },
   methods: {
-    ...mapActions(["getAllPhotos"]),
+    ...mapActions(["getPhotos"]),
     remove(id) {
       PhotosRepository.delete(id);
     },
     refresh() {
-      this.getAllPhotos();
+      this.getPhotos();
     },
     // edit
     edit(id) {
@@ -97,8 +109,8 @@ export default {
     }
   },
   created() {
-    if (!this.allPhotos.length) {
-      this.getAllPhotos();
+    if (!this.allPhotos) {
+      this.getPhotos();
     }
   }
 };
