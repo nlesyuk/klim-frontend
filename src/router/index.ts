@@ -73,25 +73,25 @@ const routes: Array<RouteConfig> = [
         path: "works",
         name: "dasboard-works",
         meta: { isProtected: true },
-        component: () => import("../views/dashboard/DashboardWorks.vue")
+        component: () => import("../views/dashboard/Works.vue")
       },
       {
         path: "shots",
         name: "dasboard-shots",
         meta: { isProtected: true },
-        component: () => import("../views/dashboard/DashboardShots.vue")
+        component: () => import("../views/dashboard/Shots.vue")
       },
       {
         path: "photos",
         name: "dasboard-photos",
         meta: { isProtected: true },
-        component: () => import("../views/dashboard/DashboardPhotos.vue")
+        component: () => import("../views/dashboard/Photos.vue")
       },
       {
         path: "contacts",
         name: "dasboard-contacts",
         meta: { isProtected: true },
-        component: () => import("../views/dashboard/DashboardContacts.vue")
+        component: () => import("../views/dashboard/Contacts.vue")
       }
     ]
   },
