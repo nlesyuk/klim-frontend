@@ -1,46 +1,51 @@
 <template>
   <div>
-    <div
-      class="grid-container"
-      v-for="(arrImages, idx) in chunkedImages"
-      :key="idx"
-    >
+    <template v-if="chunkedImages">
       <div
-        class="grid-type grid-type--oneline"
-        :class="{
-          'grid-type--oneline-1': arrImages.length === 1,
-          'grid-type--oneline-2': arrImages.length === 2,
-          'grid-type--oneline-3': arrImages.length === 3
-        }"
+        class="grid-container"
+        v-for="(arrImages, idx) in chunkedImages"
+        :key="idx"
       >
-        <figure
-          v-for="(image, index) in arrImages"
-          :key="index"
-          class="grid__item"
+        <div
+          class="grid-type grid-type--oneline"
+          :class="{
+            'grid-type--oneline-1': arrImages.length === 1,
+            'grid-type--oneline-2': arrImages.length === 2,
+            'grid-type--oneline-3': arrImages.length === 3
+          }"
         >
-          <ul class="dashboard__list" v-if="isManage">
-            <li>
-              <span class="dashboard__badge badge-green m0">
-                id: {{ image.id }}
-              </span>
-            </li>
-            <li>
-              <button type="button" @click.prevent="remove(image.id)">
-                Remove
-              </button>
-            </li>
-            <li>
-              <button type="button" @click.prevent="edit(image.id)">
-                Edit
-              </button>
-            </li>
-          </ul>
+          <figure
+            v-for="(image, index) in arrImages"
+            :key="index"
+            class="grid__item"
+          >
+            <ul class="dashboard__list" v-if="isManage">
+              <li>
+                <span class="dashboard__badge badge-green m0">
+                  id: {{ image.id }}
+                </span>
+              </li>
+              <li>
+                <button type="button" @click.prevent="remove(image.id)">
+                  Remove
+                </button>
+              </li>
+              <li>
+                <button type="button" @click.prevent="edit(image.id)">
+                  Edit
+                </button>
+              </li>
+            </ul>
 
-          <a class="grid__lightbox" :href="image.src">
-            <img :src="image.src" alt="" class="grid__img" loading="lazy" />
-          </a>
-        </figure>
+            <a class="grid__lightbox" :href="image.src">
+              <img :src="image.src" alt="" class="grid__img" loading="lazy" />
+            </a>
+          </figure>
+        </div>
       </div>
+    </template>
+    <div v-else-if="chunkedImages === 0" class="grid-empty">
+      Don't have any items yet
     </div>
   </div>
 </template>
@@ -93,7 +98,11 @@ export default {
   },
   computed: {
     chunkedImages() {
-      if (!this.images.length) return;
+      if (!this.images) {
+        return false;
+      } else if (this.images.length === 0) {
+        return 0;
+      }
       return chunk(this.images, 3);
     }
   },

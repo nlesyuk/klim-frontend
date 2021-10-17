@@ -122,4 +122,14 @@
       z-index: 2;
     }
   }
+
+  &-empty {
+    width: 100%;
+    padding: 15px 0;
+    font-family: $secondFont;
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    color: $accent;
+  }
 }
