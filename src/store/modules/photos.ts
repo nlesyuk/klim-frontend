@@ -1,17 +1,18 @@
 import { RepositoryFactory } from "../../repositories/RepositoryFactory";
-const RepositoryGeneral = RepositoryFactory.get("photos");
+const PhotosRepository = RepositoryFactory.get("photos");
 
 export default {
   state: {
-    photos: [],
+    photos: null,
     categories: null
   },
   actions: {
-    async getAllPhotos({ commit }) {
+    async get({ commit }) {
       try {
-        const { data } = await RepositoryGeneral.getAllPhotos();
-        commit("setPhotos", data.collections);
+        const { data } = await PhotosRepository.get();
+        commit("setPhotos", data.photos);
         commit("setCategories", data.categories);
+        console.log("getAllPhotos", data);
       } catch (e) {
         console.error(e);
       }
