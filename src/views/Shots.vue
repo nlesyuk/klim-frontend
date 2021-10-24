@@ -11,12 +11,13 @@
         {{ name }}
       </button>
     </div>
+
     <transition name="fade" mode="out-in">
       <template v-if="toggle">
-        <GridPhotosShots
-          v-if="filteredPhotos.length"
-          :images="filteredPhotos"
-        />
+        <GridPhotosShots v-if="filteredShots.length" :images="filteredShots" />
+        <p v-else-if="filteredShots.length === 0" class="home__empty-category">
+          Don't have any shots yet
+        </p>
         <Spiner v-else />
       </template>
     </transition>
@@ -33,7 +34,7 @@ export default {
   data() {
     return {
       toggle: true, // for relaunch gridPhotos component when change filter
-      filteredPhotos: []
+      filteredShots: []
     };
   },
   computed: {
@@ -41,7 +42,7 @@ export default {
       return this.$route.query.filter;
     },
     ...mapState({
-      allPhotos: state => state.shots.shots,
+      allShots: state => state.shots.shots,
       categories: state => state.shots.categories
     })
   },
@@ -63,19 +64,19 @@ export default {
       }
     },
     applyFilter(key) {
-      this.filteredPhotos =
+      this.filteredShots =
         key === "all"
-          ? this.allPhotos
-          : this.allPhotos.filter(item => item.category.includes(key));
+          ? this.allShots
+          : this.allShots.filter(item => item.categories.includes(key));
     },
     ...mapActions(["getAllShots"])
   },
   mounted() {
     this.setTitle("Shots");
 
-    if (!this.allPhotos.length) {
+    if (!this.allShots.length) {
       this.getAllShots().then(data => {
-        this.filteredPhotos = data;
+        this.filteredShots = data;
 
         // apply filter if exist in route
         const filter = this.$route?.query?.filter;
@@ -84,7 +85,7 @@ export default {
         }
       });
     }
-    this.filteredPhotos = this.allPhotos;
+    this.filteredShots = this.allShots;
   }
 };
 </script>
