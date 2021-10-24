@@ -7,7 +7,7 @@ export default {
     categories: null
   },
   actions: {
-    async get({ commit }) {
+    async getPhotos({ commit }) {
       try {
         const { data } = await PhotosRepository.get();
         commit("setPhotos", data.photos);

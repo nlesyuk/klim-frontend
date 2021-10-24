@@ -8,6 +8,12 @@
         :work="video"
       ></work-preview>
     </div>
+    <p
+      v-else-if="allVideos && allVideos.length === 0"
+      class="home__empty-category"
+    >
+      Don't have any works yet
+    </p>
     <Spiner v-else />
   </div>
 </template>

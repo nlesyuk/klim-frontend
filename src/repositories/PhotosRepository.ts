@@ -7,7 +7,7 @@ export default {
     return Repository.post(`${resources}`, payload);
   },
   get(id) {
-    return id
+    return id || id === 0
       ? Repository.get(`${resources}/${id}`)
       : Repository.get(`${resources}`);
   },
@@ -17,5 +17,4 @@ export default {
   delete(id) {
     return Repository.put(`${resources}/${id}`);
   }
-  // crud
 };

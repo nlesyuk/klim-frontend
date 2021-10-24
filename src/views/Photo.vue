@@ -1,6 +1,6 @@
 <template>
   <div class="photos">
-    <GridPhotos v-if="photo" :images="photo.photos" />
+    <GridPhotos v-if="photo && photo.photos.length" :images="photo.photos" />
     <Spiner v-else />
   </div>
 </template>

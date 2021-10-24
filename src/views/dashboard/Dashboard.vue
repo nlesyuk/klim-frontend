@@ -13,9 +13,9 @@
       </li>
     </ul>
     <router-view></router-view>
-    <span class="dashboard__badge badge-red" v-if="isDasboardRoute"
-      >please choose a category</span
-    >
+    <span class="dashboard__badge badge-red" v-if="isDasboardRoute">
+      please choose a category
+    </span>
   </section>
 </template>
 
