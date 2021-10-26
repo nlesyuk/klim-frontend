@@ -35,7 +35,7 @@
 
 <script>
 import WorkAdd from "./WorkAdd.vue";
-import WorkPreview from "../../components/WorkPreview";
+import WorkPreview from "../../components/WorkPreview.vue";
 import { mapState, mapActions } from "vuex";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
 const VideosRepository = RepositoryFactory.get("videos");

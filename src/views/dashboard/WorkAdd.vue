@@ -187,7 +187,7 @@
         <!-- work order -->
         <label class="dashboard__label">
           <span>Please select order of work</span>
-          <select v-model="workOrder">
+          <select v-model="workOrder" v-if="worksLength.length">
             <option disabled selected value="null">
               Please choose order
             </option>
@@ -312,6 +312,9 @@ export default {
       works: state => state.videos.videos
     }),
     worksLength() {
+      if (!this.works) {
+        return [];
+      }
       const arr = Array.from(this.works).map(v => v.workOrder);
       return Math.max(...arr) + 1;
     }
