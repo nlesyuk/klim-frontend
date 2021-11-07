@@ -92,16 +92,19 @@ export default {
       this.isEdit = false;
     }
   },
-  mounted() {
-    if (!this.allPhotos.length) {
-      this.getAllShots().then(data => {
+  async mounted() {
+    try {
+      if (!this.allPhotos.length) {
+        const { data } = await this.getAllShots();
         this.filteredPhotos = data;
-      });
-    }
-    this.filteredPhotos = this.allPhotos;
+      }
+      this.filteredPhotos = this.allPhotos;
 
-    if (!this.videos) {
-      this.getAllVideos();
+      if (!this.videos) {
+        this.getAllVideos();
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
 };

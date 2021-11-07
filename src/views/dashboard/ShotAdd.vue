@@ -3,7 +3,12 @@
     <form class="dashboard__form" @submit.prevent="submit">
       <div class="dashboard__label">
         <span>Please upload shots</span>
-        <input type="file" @change="getFiles" ref="files" />
+        <input
+          type="file"
+          @change="getFiles"
+          ref="files"
+          v-show="selectedImages && !selectedImages.length"
+        />
         <ul class="dashboard__list-imgs">
           <li v-for="(file, idx) in selectedImages" :key="idx">
             <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
@@ -86,6 +91,14 @@
         >
           Reset
         </button>
+        <div class="dashboard__status">
+          <div class="dashboard__status--success" v-if="isSuccess">
+            Shot was added
+          </div>
+          <div class="dashboard__status--fail" v-if="serverError">
+            Server error: {{ serverError }}
+          </div>
+        </div>
         <Spiner v-if="isLoading" :isCenter="false" />
       </div>
     </form>
@@ -102,6 +115,8 @@ export default {
   data() {
     return {
       isLoading: false,
+      isSuccess: false,
+      serverError: null,
       selectedImages: []
     };
   },
@@ -147,26 +162,29 @@ export default {
       try {
         this.isLoading = true;
 
-        if (this.isEdit) {
-        } else {
-          const formData = new FormData();
-          for (const item of this.selectedImages) {
-            formData.append("photos[]", item.file);
-          }
-          const shots = Array.from(this.selectedImages).map(v => {
-            delete v.file;
-            delete v.url;
-            return { ...v };
-          });
-          formData.append("shots", JSON.stringify(shots));
-
-          const { data } = await ShotsRepository.create(formData);
-          console.log("data", data);
+        const formData = new FormData();
+        const images = JSON.parse(JSON.stringify(this.selectedImages));
+        for (const item of images) {
+          formData.append("photos[]", item.file);
         }
+        const shots = Array.from(images).map(v => {
+          delete v.file;
+          delete v.url;
+          return { ...v };
+        });
+        formData.append("shots", JSON.stringify(shots));
+
+        const { data } = await ShotsRepository.create(formData);
+        this.isSuccess = true;
+        this.reset();
       } catch (e) {
-        console.log(e);
+        console.error(e);
+        this.serverError = e.response.statusText;
       } finally {
         this.isLoading = false;
+        setTimeout(() => {
+          this.isSuccess = false;
+        }, 20 * 1000);
       }
     }
   },
