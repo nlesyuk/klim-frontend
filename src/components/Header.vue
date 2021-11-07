@@ -1,21 +1,21 @@
 <template>
   <header class="header">
-    <ul class="header__social" v-if="contacts">
-      <li>
+    <ul class="header__social">
+      <li v-if="contacts && contacts.facebook">
         <a :href="contacts.facebook" target="_blank">
           <svg width="24" height="24" viewBox="0 0 24 24">
             <use xlink:href="#svg-sprite--facebook"></use>
           </svg>
         </a>
       </li>
-      <li>
+      <li v-if="contacts && contacts.instagram">
         <a :href="contacts.instagram" target="_blank">
           <svg width="24" height="24" viewBox="0 0 24 24">
             <use xlink:href="#svg-sprite--instagram"></use>
           </svg>
         </a>
       </li>
-      <li>
+      <li v-if="contacts && contacts.vimeo">
         <a :href="contacts.vimeo" target="_blank">
           <svg width="24" height="24" viewBox="0 0 24 24">
             <use xlink:href="#svg-sprite--vimeo"></use>
