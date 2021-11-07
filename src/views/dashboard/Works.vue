@@ -29,6 +29,9 @@
         </ul>
       </WorkPreview>
     </div>
+    <div v-else-if="videos && videos.length === 0" class="grid-empty">
+      Don't have any items yet
+    </div>
     <Spiner v-else />
   </section>
 </template>
