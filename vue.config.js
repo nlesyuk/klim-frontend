@@ -1,5 +1,4 @@
-// const path = require("path");
-import path from "path";
+const path = require("path"); // eslint-disable-line
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
