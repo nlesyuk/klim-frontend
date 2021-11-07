@@ -186,7 +186,11 @@
 
         <!-- work order -->
         <label class="dashboard__label">
-          <span>Please select order of work</span>
+          <ul v-if="clientErrors.length" class="dashboard__error-list">
+            <li v-for="error in clientErrors" :key="error">
+              <span>{{ error }}</span>
+            </li>
+          </ul>
           <select v-model="workOrder" v-if="worksLength.length">
             <option disabled selected value="null">
               Please choose order
@@ -235,8 +239,8 @@
             <div class="dashboard__status--success" v-if="isSuccess">
               Work was added
             </div>
-            <div class="dashboard__status--fail" v-if="error">
-              Fail: {{ error }}
+            <div class="dashboard__status--fail" v-if="serverError">
+              Server error: {{ serverError }}
             </div>
           </div>
         </div>
@@ -277,7 +281,7 @@ export default {
   },
   watch: {
     work() {
-      this.editWork();
+      this.setDataForEdit();
     }
   },
   data() {
@@ -291,7 +295,8 @@ export default {
       // general:
       isLoading: false,
       isSuccess: false,
-      error: null
+      clientErrors: [],
+      serverError: null
     };
   },
   computed: {
@@ -338,97 +343,6 @@ export default {
     }
   },
   methods: {
-    async submit() {
-      if (this.$v.$invalid) {
-        this.$v.$touch();
-        return;
-      }
-
-      if (this.isEdit) {
-        const formData = new FormData();
-        formData.append("id", this.work.id);
-        formData.append("title", this.title);
-        formData.append("credits", this.credits);
-        formData.append("workOrder", this.workOrder);
-        formData.append("description", this.description);
-        const videos = JSON.stringify({ vimeoId: this.videoId });
-        formData.append("videos", videos);
-
-        for (const photo of this.selectedImages) {
-          formData.append("photos[]", photo.file);
-        }
-        const photoNewInfo = this.selectedImages.map(v => ({
-          isPreview: v.isPreview,
-          fileName: v.file.name,
-          format: v.format,
-          order: v.order
-        }));
-        formData.append(
-          "photosInfo",
-          JSON.stringify({
-            new: photoNewInfo,
-            existing: this.work.photos
-          })
-        );
-        formData.append(
-          "removedPhotos",
-          JSON.stringify(this.work.removedPhotos)
-        );
-
-        this.isLoading = true;
-        VideosRepository.update(formData)
-          .then(data => {
-            // this.reset();
-            this.setServerStatusInUI(true);
-          })
-          .catch(e => {
-            console.info("Update work ERROR", e);
-            this.setServerStatusInUI(false, e.response.statusText);
-          })
-          .finally(() => {
-            this.isLoading = false;
-          });
-      } else {
-        try {
-          const formData = new FormData();
-          formData.append("title", this.title);
-          formData.append("credits", this.credits);
-          formData.append("workOrder", this.workOrder);
-          formData.append("description", this.description);
-          const videos = JSON.stringify({ vimeoId: this.videoId });
-          formData.append("videos", videos);
-
-          for (const photo of this.selectedImages) {
-            formData.append("photos[]", photo.file);
-          }
-          const photoInfo = JSON.stringify(
-            this.selectedImages.map(v => ({
-              isPreview: v.isPreview,
-              fileName: v.file.name,
-              format: v.format,
-              order: v.order
-            }))
-          );
-          formData.append("photosInfo", photoInfo);
-
-          this.isLoading = true;
-          VideosRepository.create(formData)
-            .then(data => {
-              this.reset();
-              this.setServerStatusInUI(true);
-            })
-            .catch(e => {
-              console.info("Create work ERROR", e);
-              this.setServerStatusInUI(false, e.response.statusText);
-            })
-            .finally(() => {
-              this.isLoading = false;
-            });
-        } catch (error) {
-          console.error("AddWork Error", error);
-        }
-      }
-    },
     reset() {
       this.title = "";
       this.description = "";
@@ -473,30 +387,136 @@ export default {
           this.isSuccess = false;
           this.$emit("work-create-successfully");
         }, 10 * 1000);
+        this.serverError = false;
       } else {
-        this.error = statusText;
+        this.serverError = statusText;
         setTimeout(() => {
-          this.error = false;
+          this.serverError = false;
         }, 20 * 1000);
       }
     },
 
+    // send work to a server:
+    async submit() {
+      this.clientErrors = [];
+      if (this.$v.$invalid) {
+        this.$v.$touch();
+        return;
+      }
+
+      const images = Array.from(this.selectedImages);
+      if (images.length) {
+        const isHasPreview = images.some(v => v.isPreview);
+        if (!isHasPreview) {
+          this.clientErrors.push("Please choose preview image for the work");
+          return;
+        }
+      } else {
+        this.clientErrors.push("Please select at least one image");
+        return;
+      }
+
+      if (this.isEdit) {
+        this.update();
+      } else {
+        this.create();
+      }
+    },
+
+    // create
+    create() {
+      try {
+        const formData = new FormData();
+        formData.append("title", this.title);
+        formData.append("credits", this.credits);
+        formData.append("workOrder", this.workOrder);
+        formData.append("description", this.description);
+        const videos = JSON.stringify({ vimeoId: this.videoId });
+        formData.append("videos", videos);
+
+        for (const photo of this.selectedImages) {
+          formData.append("photos[]", photo.file);
+        }
+        const photoInfo = JSON.stringify(
+          this.selectedImages.map(v => ({
+            isPreview: v.isPreview,
+            fileName: v.file.name,
+            format: v.format,
+            order: v.order
+          }))
+        );
+        formData.append("photosInfo", photoInfo);
+
+        this.isLoading = true;
+        VideosRepository.create(formData)
+          .then(() => {
+            this.reset();
+            this.setServerStatusInUI(true);
+          })
+          .catch(e => {
+            console.error("AddWork server ERROR", e);
+            this.setServerStatusInUI(false, e.response.statusText);
+          })
+          .finally(() => {
+            this.isLoading = false;
+            this.clientErrors = [];
+          });
+      } catch (err) {
+        console.error("AddWork ERROR", err);
+      }
+    },
+
     // edit
-    editWork() {
+    setDataForEdit() {
       this.title = this.work.title;
       this.credits = this.work.credits;
-      this.videoId = this.work.videos.vimeoId;
       this.description = this.work.description;
-      this.workOrder = this.work.workOrder;
+      this.videoId = this.work.videos.vimeoId;
+      this.selectedImages = this.work.photos;
+    },
+    update() {
+      const formData = new FormData();
+      formData.append("id", this.work.id);
+      formData.append("title", this.title);
+      formData.append("credits", this.credits);
+      formData.append("workOrder", this.workOrder);
+      formData.append("description", this.description);
+      const videos = JSON.stringify({ vimeoId: this.videoId });
+      formData.append("videos", videos);
+
+      for (const photo of this.selectedImages) {
+        formData.append("photos[]", photo.file);
+      }
+      const photoNewInfo = this.selectedImages.map(v => ({
+        isPreview: v.isPreview,
+        fileName: v.file.name,
+        format: v.format,
+        order: v.order
+      }));
+      formData.append(
+        "photosInfo",
+        JSON.stringify({
+          new: photoNewInfo,
+          existing: this.work.photos
+        })
+      );
+      formData.append("removedPhotos", JSON.stringify(this.work.removedPhotos));
+
+      this.isLoading = true;
+      VideosRepository.update(formData)
+        .then(data => {
+          // this.reset();
+          this.setServerStatusInUI(true);
+        })
+        .catch(e => {
+          console.info("Update work ERROR", e);
+          this.setServerStatusInUI(false, e.response.statusText);
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
     deleteExistingImage(id) {
-      console.log(id);
-      // this.work.photos = this.work.photos.map(v => {
-      //   if (v.id === id) {
-      //     v.status = "deleted";
-      //   }
-      //   return v;
-      // });
       this.work.photos = this.work.photos.filter(v => v.id != id);
       if (this.work.removedPhotos) {
         this.work.removedPhotos.push(id);
@@ -508,7 +528,7 @@ export default {
   },
   mounted() {
     if (this.isEdit) {
-      this.editWork();
+      this.setDataForEdit();
     }
     this.setWorkOrder();
   }

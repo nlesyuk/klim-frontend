@@ -78,10 +78,10 @@ export default {
     text-align: center;
     color: white;
     cursor: pointer;
-    transition: all .25s;
+    transition: all 0.25s;
     &:hover {
-      transition: all .25s;
-      opacity: .75ss;
+      transition: all 0.25s;
+      opacity: 0.75ss;
     }
   }
 }

@@ -409,4 +409,54 @@
 
   &-contacts {
   }
+
+  // error
+  $error-yellow: #f7cb41;
+  $error-black: #242227;
+  &__error-list {
+    width: 100%;
+    height: auto;
+    padding: 4px 8px;
+    border-radius: 4px;
+    position: relative;
+    &::before {
+      content: "";
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      background: repeating-linear-gradient(
+        135deg,
+        $error-yellow,
+        $error-yellow 10px,
+        $error-black 10px,
+        $error-black 20px
+      );
+      border-radius: 4px;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      pointer-events: none;
+      z-index: -1;
+    }
+    li {
+      display: block;
+      margin-bottom: 4px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      span {
+        display: inline-block;
+        color: $error-yellow;
+        color: white;
+        background-color: $error-black;
+        font-size: 1.5rem;
+        font-weight: bold;
+        padding: 4px 8px;
+        border-radius: 4px;
+      }
+    }
+  }
 }
