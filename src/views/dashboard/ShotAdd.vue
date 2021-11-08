@@ -163,10 +163,11 @@ export default {
         this.isLoading = true;
 
         const formData = new FormData();
-        const images = JSON.parse(JSON.stringify(this.selectedImages));
-        for (const item of images) {
+
+        for (const item of this.selectedImages) {
           formData.append("photos[]", item.file);
         }
+        const images = JSON.parse(JSON.stringify(this.selectedImages));
         const shots = Array.from(images).map(v => {
           delete v.file;
           delete v.url;
