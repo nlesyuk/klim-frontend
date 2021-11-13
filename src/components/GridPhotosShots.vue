@@ -37,9 +37,12 @@
               </li>
             </ul>
 
-            <a class="grid__lightbox" :href="image.src">
+            <router-link class="grid__lightbox1" tag="a" :to="{ name: 'work', params: { id: image.workId  }}">
               <img :src="image.src" alt="" class="grid__img" loading="lazy" />
-            </a>
+            </router-link>
+            <!-- <a class="grid__lightbox" :href="image.src">
+              <img :src="image.src" alt="" class="grid__img" loading="lazy" />
+            </a> -->
           </figure>
         </div>
       </div>
