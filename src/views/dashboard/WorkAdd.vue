@@ -63,10 +63,65 @@
           ></VueEditor>
         </label>
 
-        <!-- files: add -->
+        <!-- upload work -->
         <div class="dashboard__label">
-          <span>Photos</span>
+          <span>Upload photos</span>
           <input type="file" multiple @change="getFiles" ref="files" />
+        </div>
+
+        <!-- files: edit -->
+        <ul class="dashboard__list-imgs" v-if="isEdit">
+          <li v-for="(file, idx) in selectedImages" :key="idx">
+            <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
+            <button type="button" @click="deleteExistingImage(file.id)">
+              delete
+            </button>
+            <img :src="file.src" alt="edit" />
+
+            <label class="dashboard__label">
+              <span>Please select order of photos if need</span>
+              <select v-model="file.order">
+                <option disabled selected value="null">
+                  Please choose order
+                </option>
+                <option
+                  v-for="(img, index) of selectedImages"
+                  :key="index"
+                  :value="index"
+                >
+                  {{ index }}
+                </option>
+              </select>
+            </label>
+
+            <label class="dashboard__label">
+              <input type="checkbox" v-model="file.isPreview" :value="true" />
+              <span class="inline">Is preview photo?</span>
+            </label>
+
+            <label class="dashboard__label mb0">
+              <input
+                type="radio"
+                :name="`edit-format${idx}`"
+                value="vertical"
+                v-model="file.format"
+              />
+              <span class="inline">vertical</span>
+            </label>
+            <label class="dashboard__label">
+              <input
+                type="radio"
+                :name="`edit-format${idx}`"
+                value="horizontal"
+                v-model="file.format"
+              />
+              <span class="inline">horizontal</span>
+            </label>
+          </li>
+        </ul>
+
+        <!-- files: add -->
+        <div class="dashboard__label" v-else>
           <ul class="dashboard__list-imgs">
             <li v-for="(file, idx) in selectedImages" :key="idx">
               <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
@@ -132,57 +187,6 @@
             </li>
           </ul>
         </div>
-
-        <!-- files: edit -->
-        <ul class="dashboard__list-imgs" v-if="isEdit">
-          <li v-for="(file, idx) in work.photos" :key="idx">
-            <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
-            <button type="button" @click="deleteExistingImage(file.id)">
-              delete
-            </button>
-            <img :src="file.src" alt="edit" />
-
-            <label class="dashboard__label">
-              <span>Please select order of photos if need</span>
-              <select v-model="file.order">
-                <option disabled selected value="null">
-                  Please choose order
-                </option>
-                <option
-                  v-for="(img, index) of work.photos"
-                  :key="index"
-                  :value="index"
-                >
-                  {{ index }}
-                </option>
-              </select>
-            </label>
-
-            <label class="dashboard__label">
-              <input type="checkbox" v-model="file.isPreview" :value="true" />
-              <span class="inline">Is preview photo?</span>
-            </label>
-
-            <label class="dashboard__label mb0">
-              <input
-                type="radio"
-                :name="`edit-format${idx}`"
-                value="vertical"
-                v-model="file.format"
-              />
-              <span class="inline">vertical</span>
-            </label>
-            <label class="dashboard__label">
-              <input
-                type="radio"
-                :name="`edit-format${idx}`"
-                value="horizontal"
-                v-model="file.format"
-              />
-              <span class="inline">horizontal</span>
-            </label>
-          </li>
-        </ul>
 
         <!-- work order -->
         <label class="dashboard__label">
@@ -301,16 +305,29 @@ export default {
   },
   computed: {
     previewWork() {
-      const workPhotos = this.work?.photos ? this.work.photos : [];
-      return {
-        title: this.title,
-        photos: [...this.selectedImages, ...workPhotos],
-        credits: this.credits,
-        description: this.description,
-        videos: {
-          vimeoId: this.videoId
-        }
-      };
+      if (this.isEdit) {
+        return {
+          title: this.title,
+          photos: [...this.selectedImages],
+          credits: this.credits,
+          description: this.description,
+          videos: {
+            vimeoId: this.videoId
+          }
+        };
+      } else {
+        const workPhotos = this.work?.photos ? this.work.photos : [];
+
+        return {
+          title: this.title,
+          photos: [...this.selectedImages, ...workPhotos],
+          credits: this.credits,
+          description: this.description,
+          videos: {
+            vimeoId: this.videoId
+          }
+        };
+      }
     },
     // base
     ...mapState({
@@ -455,7 +472,7 @@ export default {
           })
           .catch(e => {
             console.error("AddWork server ERROR", e);
-            this.setServerStatusInUI(false, e.response.statusText);
+            this.setServerStatusInUI(false, "e.response");
           })
           .finally(() => {
             this.isLoading = false;
@@ -472,39 +489,69 @@ export default {
       this.credits = this.work.credits;
       this.description = this.work.description;
       this.videoId = this.work.videos.vimeoId;
-      this.selectedImages = this.work.photos;
+      this.selectedImages = JSON.parse(JSON.stringify(this.work.photos));
     },
     update() {
+      const WORK = this.work;
       const formData = new FormData();
-      formData.append("id", this.work.id);
+      const videos = JSON.stringify({ vimeoId: this.videoId });
+
+      // photos:
+      // new
+      const newPhotoInfo = this.selectedImages
+        .filter(v => {
+          if (v.file) {
+            formData.append("photos[]", v.file);
+            return true;
+          }
+          return false;
+        })
+        .map(v => ({
+          order: v.order,
+          format: v.format,
+          fileName: v.file.name,
+          isPreview: v.isPreview
+        }));
+      // deleted
+      const deletedPhotoIds =
+        WORK.deletedPhotoIds?.map(id => id || id === 0) || [];
+      // updated
+      const updatePhotoInfo =
+        this.selectedImages?.filter((v, idx) => {
+          const isNew = v.file; // means new photo
+          const current = JSON.stringify(v);
+          const existing = JSON.stringify(WORK.photos[idx]);
+          const isUpdated = current != existing;
+          return isUpdated && !isNew;
+        }) || [];
+      // existing
+      const existingPhotoInfo = WORK.photos.filter(exphoto => {
+        const isUpdated = Array.from(updatePhotoInfo).some(
+          upphoto => upphoto.id === exphoto.id
+        );
+        return !isUpdated;
+      });
+      // payload
+      const photosInfo = {
+        new: newPhotoInfo,
+        existing: existingPhotoInfo,
+        deleted: deletedPhotoIds,
+        updated: updatePhotoInfo
+      };
+      console.log("update", photosInfo);
+
+      // formData:
+      formData.append("id", WORK.id);
       formData.append("title", this.title);
+      formData.append("videos", videos);
       formData.append("credits", this.credits);
       formData.append("workOrder", this.workOrder);
       formData.append("description", this.description);
-      const videos = JSON.stringify({ vimeoId: this.videoId });
-      formData.append("videos", videos);
-
-      for (const photo of this.selectedImages) {
-        formData.append("photos[]", photo.file);
-      }
-      const photoNewInfo = this.selectedImages.map(v => ({
-        isPreview: v.isPreview,
-        fileName: v.file.name,
-        format: v.format,
-        order: v.order
-      }));
-      formData.append(
-        "photosInfo",
-        JSON.stringify({
-          new: photoNewInfo,
-          existing: this.work.photos
-        })
-      );
-      formData.append("removedPhotos", JSON.stringify(this.work.removedPhotos));
+      formData.append("photosInfo", JSON.stringify(photosInfo));
 
       this.isLoading = true;
       VideosRepository.update(formData)
-        .then(data => {
+        .then(() => {
           // this.reset();
           this.setServerStatusInUI(true);
         })
@@ -517,12 +564,16 @@ export default {
         });
     },
     deleteExistingImage(id) {
-      this.work.photos = this.work.photos.filter(v => v.id != id);
-      if (this.work.removedPhotos) {
-        this.work.removedPhotos.push(id);
+      // this.work.photos = this.work.photos.filter(v => v.id != id);
+      this.selectedImages = this.selectedImages.filter(v => v.id != id);
+      if (!id) {
+        return;
+      }
+      if (this.work.deletedPhotoIds) {
+        this.work.deletedPhotoIds.push(id);
       } else {
-        this.work.removedPhotos = [];
-        this.work.removedPhotos.push(id);
+        this.work.deletedPhotoIds = [];
+        this.work.deletedPhotoIds.push(id);
       }
     }
   },
