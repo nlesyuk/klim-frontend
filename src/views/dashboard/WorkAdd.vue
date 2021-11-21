@@ -354,7 +354,9 @@ export default {
         return [];
       }
       const arr = Array.from(this.works).map(v => v.workOrder);
-      return Math.max(...arr) + 2; // 2 bacause we start counting from 0 and need +1 and then +1 again
+      return arr?.length
+        ? Math.max(...arr) + 2 // 2 bacause we start counting from 0 and need +1 and then +1 again
+        : 1;
     }
   },
   validations: {
