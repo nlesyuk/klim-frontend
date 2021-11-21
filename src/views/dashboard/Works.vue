@@ -6,6 +6,7 @@
     <WorkAdd
       v-if="isShowAddWork"
       :work="work"
+      :works="videos"
       :isEdit="isEdit"
       @resetForm="isEdit = false"
       @workCreateSuccessfully="refresh"

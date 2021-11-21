@@ -24,6 +24,22 @@
           </strong>
         </label>
 
+        <label class="dashboard__label">
+          <span>Order</span>
+          <select v-model="workOrder">
+            <option disabled selected value="null">
+              Please choose order
+            </option>
+            <option
+              v-for="(work, index) of worksLength"
+              :key="index"
+              :value="index"
+            >
+              {{ index }}
+            </option>
+          </select>
+        </label>
+
         <label
           :class="[
             'dashboard__label',
@@ -76,6 +92,7 @@
             <button type="button" @click="deleteExistingImage(file.id)">
               delete
             </button>
+            <span>{{ getName(file) }}</span>
             <img :src="file.src" alt="edit" />
 
             <label class="dashboard__label">
@@ -267,13 +284,15 @@ import { VueEditor } from "vue2-editor";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
 const VideosRepository = RepositoryFactory.get("videos");
-import { mapState } from "vuex";
 import { getHeightAndWidthFromDataUrl } from "../../helper/index";
 
 export default {
   props: {
     work: {
       type: Object
+    },
+    works: {
+      type: Array
     },
     isEdit: {
       type: Boolean
@@ -330,15 +349,12 @@ export default {
       }
     },
     // base
-    ...mapState({
-      works: state => state.videos.videos
-    }),
     worksLength() {
       if (!this.works) {
         return [];
       }
       const arr = Array.from(this.works).map(v => v.workOrder);
-      return Math.max(...arr) + 1;
+      return Math.max(...arr) + 2; // 2 bacause we start counting from 0 and need +1 and then +1 again
     }
   },
   validations: {
@@ -391,7 +407,7 @@ export default {
     },
     setWorkOrder() {
       if (this.isEdit) {
-        return;
+        this.workOrder = this.work.workOrder;
       }
       if (this.works) {
         this.workOrder = this.works.length;
@@ -575,6 +591,9 @@ export default {
         this.work.deletedPhotoIds = [];
         this.work.deletedPhotoIds.push(id);
       }
+    },
+    getName(file) {
+      return `${file.src}`.split("/").pop();
     }
   },
   mounted() {
