@@ -1,6 +1,6 @@
 import Repository from "./Repository";
 
-const resources = "slides";
+const resources = "slider";
 
 export default {
   create(payload) {
