@@ -23,7 +23,7 @@
 export default {
   data() {
     return {
-      menu: ["works", "shots", "photos", "contacts"]
+      menu: ["slider", "works", "shots", "photos", "contacts"]
     };
   },
   computed: {

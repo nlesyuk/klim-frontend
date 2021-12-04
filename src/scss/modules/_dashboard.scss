@@ -21,6 +21,12 @@
     color: blue;
     text-decoration: 1px solid underline blue;
   }
+  &__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
 
   &__badge {
     display: inline-block;
@@ -318,7 +324,13 @@
       background-color: indianred;
     }
   }
-
+  // helpers
+  .m0 {
+    margin: 0 !important;
+  }
+  .mb16 {
+    margin-bottom: 16px !important;
+  }
   // pages
   &-works {
     &-add {
@@ -409,7 +421,8 @@
 
   &-contacts {
   }
-
+  &-slider {
+  }
   // error
   $error-yellow: #f7cb41;
   $error-black: #242227;
