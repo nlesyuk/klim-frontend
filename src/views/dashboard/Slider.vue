@@ -4,7 +4,12 @@
       Add slide
     </button>
 
-    <SliderAdd v-if="isShowAddSlide"></SliderAdd>
+    <SliderAdd
+      v-if="isShowAddSlide"
+      :slides="slides"
+      :works="videos"
+      :photos="photos"
+    ></SliderAdd>
 
     <button type="button" @click="refresh" class="dashboard__btn">
       Refresh slides
@@ -37,11 +42,13 @@ export default {
   },
   computed: {
     ...mapState({
-      videos: state => state.videos.videos
+      slides: state => state.slides.slides,
+      videos: state => state.videos.videos,
+      photos: state => state.photos.photos
     })
   },
   methods: {
-    ...mapActions(["getAllVideos"]),
+    ...mapActions(["getSlides", "getAllVideos", "getPhotos"]),
     getPreviewImg(item) {
       const filtered = item.photos.filter(v => v.isVideoPreview);
       return filtered && filtered.length ? filtered[0].src : false;
@@ -62,11 +69,15 @@ export default {
     }
   },
   created() {
+    if (!this.slides) {
+      this.getSlides();
+    }
     if (!this.videos) {
       this.getAllVideos();
+    }
+    if (!this.photos) {
+      this.getPhotos();
     }
   }
 };
 </script>
-
-<style></style>
