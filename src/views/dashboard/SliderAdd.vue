@@ -198,17 +198,28 @@
         </div>
       </div>
       <div class="dashboard__side dashboard__area-preview">
-        <div
-          class="dashboard-works-add__preview-cont"
-          v-if="slideFields.images.length"
-        >
-          <img
-            class="dashboard__img"
-            v-for="(item, index) in slideFields.images"
-            :key="index"
-            :src="item.src"
-            alt="image"
-          />
+        <div class="dashboard-works-add__preview-cont">
+          <template
+            v-if="slideFields.type === 'image' && slideFields.images.length"
+          >
+            <img
+              class="dashboard__img"
+              v-for="(item, index) in slideFields.images"
+              :key="index"
+              :src="item.src"
+              alt="image"
+            />
+          </template>
+          <template
+            v-else-if="
+              slideFields.type === 'video' && slideFields.video.vimeoId
+            "
+          >
+            <VimeoVideoPlayer
+              :id="slideFields.video.vimeoId"
+              previewImg="https://i.vimeocdn.com/video/73907898_640.jpg"
+            />
+          </template>
         </div>
       </div>
     </form>
@@ -217,9 +228,10 @@
 
 <script>
 import { required, minLength } from "vuelidate/lib/validators";
+import VimeoVideoPlayer from "@/components/VimeoVideoPlayer";
 import { getHeightAndWidthFromDataUrl } from "../../helper/index";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
-const SlidersRepository = RepositoryFactory.get("sliders");
+const SlidesRepository = RepositoryFactory.get("slides");
 
 export default {
   props: {
@@ -242,7 +254,9 @@ export default {
       type: Boolean
     }
   },
-  components: {},
+  components: {
+    VimeoVideoPlayer
+  },
   watch: {
     slide() {
       this.setDataForEdit();
@@ -251,7 +265,7 @@ export default {
   data() {
     return {
       slideFields: {
-        title: "test",
+        title: "title1",
         order: null,
         type: "image",
         images: [],
@@ -358,17 +372,16 @@ export default {
         return;
       }
 
-      const type = this.slideFields.type;
+      const { order, type, video, images, workId, photoId } = this.slideFields;
+      console.log("submit-data", order, type, video, images, workId, photoId);
       if (type == "image") {
-        const images = Array.from(this.slideFields.images);
-        if (!images.length) {
+        if (!Array.from(images).length) {
           this.clientErrors.push("Please select at least one image");
           return;
         }
         isImage = true;
       } else if (type == "video") {
-        const video = this.slideFields.video.vimeoId;
-        if (!video) {
+        if (!video.vimeoId) {
           this.clientErrors.push("Please provide vimeo video ID");
           return;
         }
@@ -377,11 +390,14 @@ export default {
         this.clientErrors.push("Something went wrong");
         return;
       }
-      if (!this.slideFields.order) {
-        this.clientErrors.push("Please fill up the order field");
+
+      if (!Number.isInteger(+order)) {
+        this.clientErrors.push(
+          `Please fill up the order field, now is ${order}`
+        );
         return;
       }
-      if (!this.slideFields.workId || !this.slideFields.photoId) {
+      if (!workId || photoId) {
         this.clientErrors.push("Please fill work ID or photo ID field");
         return;
       }
@@ -396,11 +412,21 @@ export default {
     // create
     create(isImage) {
       try {
+        const {
+          title,
+          order,
+          type,
+          video,
+          images,
+          workId,
+          photoId
+        } = this.slideFields;
         const formData = new FormData();
-        const { title, order, type, video, images } = this.slideFields;
+        formData.append("type", type);
         formData.append("title", title);
         formData.append("order", order);
-        formData.append("type", type);
+        formData.append("workId", workId);
+        formData.append("photoId", photoId);
 
         if (isImage) {
           for (const photo of images) {
@@ -417,8 +443,19 @@ export default {
           formData.append("video", JSON.stringify(video));
         }
 
+        console.log(
+          "create",
+          title,
+          order,
+          type,
+          video,
+          images,
+          workId,
+          photoId
+        );
+
         this.isLoading = true;
-        SlidersRepository.create(formData)
+        SlidesRepository.create(formData)
           .then(() => {
             this.reset();
             this.setServerStatusInUI(true);
@@ -500,7 +537,7 @@ export default {
       // formData.append("description", this.description);
       // formData.append("photosInfo", JSON.stringify(photosInfo));
       // this.isLoading = true;
-      // SlidersRepository.update(formData)
+      // SlidesRepository.update(formData)
       //   .then(() => {
       //     // this.reset();
       //     this.setServerStatusInUI(true);
