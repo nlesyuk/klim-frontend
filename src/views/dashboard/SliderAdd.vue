@@ -215,10 +215,7 @@
               slideFields.type === 'video' && slideFields.videos.vimeoId
             "
           >
-            <VimeoVideoPlayer
-              :id="slideFields.videos.vimeoId"
-              previewImg="https://i.vimeocdn.com/video/73907898_640.jpg"
-            />
+            <VimeoVideoPlayer :id="slideFields.videos.vimeoId" />
           </template>
         </div>
       </div>

@@ -15,8 +15,13 @@
       Refresh slides
     </button>
 
-    <div class="works" v-if="videos && videos.length"></div>
-    <div v-else-if="videos && videos.length === 0" class="grid-empty">
+    <Slides
+      v-if="slides && slides.length"
+      :slides="slides"
+      @delete="onDelete"
+      @edit="onEdit"
+    ></Slides>
+    <div v-else-if="slides && slides.length === 0" class="grid-empty">
       Don't have any items yet
     </div>
     <Spiner v-else />
@@ -25,12 +30,14 @@
 
 <script>
 import SliderAdd from "./SliderAdd.vue";
+import Slides from "../../components/Slides.vue";
 import { mapState, mapActions } from "vuex";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
-const VideosRepository = RepositoryFactory.get("videos");
+const SlidesRepository = RepositoryFactory.get("slides");
 
 export default {
   components: {
+    Slides,
     SliderAdd
   },
   data() {
@@ -53,15 +60,21 @@ export default {
       const filtered = item.photos.filter(v => v.isVideoPreview);
       return filtered && filtered.length ? filtered[0].src : false;
     },
-    remove(id) {
-      VideosRepository.delete(id);
+    onDelete(id) {
+      SlidesRepository.delete(id)
+        .then(() => {
+          this.getSlides(); // not good, TODO: remove item from store with mutation
+        })
+        .catch(err => {
+          console.error(err);
+        });
     },
     refresh() {
       this.getAllVideos();
     },
 
     // edit
-    edit(id) {
+    onEdit(id) {
       this.isEdit = true;
       const item = this.videos.filter(v => v.id === id);
       this.work = item?.length ? item[0] : null;

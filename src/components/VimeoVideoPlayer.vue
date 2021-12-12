@@ -27,7 +27,7 @@ export default {
     },
     previewImg: {
       type: String,
-      required: true
+      default: "https://i.vimeocdn.com/video/73907898_640.jpg"
     },
     classes: {
       type: String
