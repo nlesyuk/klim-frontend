@@ -146,7 +146,7 @@
             <span>Vimeo video</span>
             <input
               type="text"
-              v-model="slideFields.video.vimeoId"
+              v-model="slideFields.videos.vimeoId"
               placeholder="vimeo ID"
             />
           </label>
@@ -212,11 +212,11 @@
           </template>
           <template
             v-else-if="
-              slideFields.type === 'video' && slideFields.video.vimeoId
+              slideFields.type === 'video' && slideFields.videos.vimeoId
             "
           >
             <VimeoVideoPlayer
-              :id="slideFields.video.vimeoId"
+              :id="slideFields.videos.vimeoId"
               previewImg="https://i.vimeocdn.com/video/73907898_640.jpg"
             />
           </template>
@@ -269,7 +269,7 @@ export default {
         order: null,
         type: "image",
         images: [],
-        video: {
+        videos: {
           vimeoId: null
         },
         workId: null,
@@ -289,15 +289,11 @@ export default {
     // base
     slidersLength() {
       const slides = this.slides;
-      console.log(slides);
       if (!slides) {
         return [0];
       }
       const arr = Array.from(slides);
-      console.log("slides", arr);
-      return arr?.length
-        ? Math.max(arr.length) + 2 // 2 bacause we start counting from 0 and need +1 and then +1 again
-        : 1;
+      return arr?.length ? Math.max(arr.length) + 1 : 1;
     }
   },
   validations: {
@@ -312,7 +308,7 @@ export default {
       this.slideFields.order = null;
       this.slideFields.type = "image";
       this.slideFields.images = [];
-      this.slideFields.video.vimeoId = null;
+      this.slideFields.videos.vimeoId = null;
 
       this.$emit("resetForm");
     },
@@ -372,8 +368,8 @@ export default {
         return;
       }
 
-      const { order, type, video, images, workId, photoId } = this.slideFields;
-      console.log("submit-data", order, type, video, images, workId, photoId);
+      const { order, type, videos, images, workId, photoId } = this.slideFields;
+      console.log("submit-data", order, type, videos, images, workId, photoId);
       if (type == "image") {
         if (!Array.from(images).length) {
           this.clientErrors.push("Please select at least one image");
@@ -381,7 +377,7 @@ export default {
         }
         isImage = true;
       } else if (type == "video") {
-        if (!video.vimeoId) {
+        if (!videos.vimeoId) {
           this.clientErrors.push("Please provide vimeo video ID");
           return;
         }
@@ -391,7 +387,7 @@ export default {
         return;
       }
 
-      if (!Number.isInteger(+order)) {
+      if (order == null || !Number.isInteger(+order)) {
         this.clientErrors.push(
           `Please fill up the order field, now is ${order}`
         );
@@ -416,7 +412,7 @@ export default {
           title,
           order,
           type,
-          video,
+          videos,
           images,
           workId,
           photoId
@@ -425,8 +421,12 @@ export default {
         formData.append("type", type);
         formData.append("title", title);
         formData.append("order", order);
-        formData.append("workId", workId);
-        formData.append("photoId", photoId);
+        if (workId) {
+          formData.append("workId", workId);
+        }
+        if (photoId) {
+          formData.append("photoId", photoId);
+        }
 
         if (isImage) {
           for (const photo of images) {
@@ -440,7 +440,7 @@ export default {
           );
           formData.append("photosInfo", photoInfo);
         } else {
-          formData.append("video", JSON.stringify(video));
+          formData.append("videos", JSON.stringify(videos));
         }
 
         console.log(
@@ -448,7 +448,7 @@ export default {
           title,
           order,
           type,
-          video,
+          videos,
           images,
           workId,
           photoId
@@ -462,7 +462,7 @@ export default {
           })
           .catch(e => {
             console.error("AddSlide server ERROR", e);
-            this.setServerStatusInUI(false, "e.response");
+            this.setServerStatusInUI(false, e?.response?.data?.message);
           })
           .finally(() => {
             this.isLoading = false;
