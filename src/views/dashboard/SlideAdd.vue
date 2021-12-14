@@ -5,6 +5,9 @@
       @submit.prevent="submit"
     >
       <div class="dashboard__side">
+        <div v-if="slide">
+          {{ slide.id }}
+        </div>
         <label
           :class="[
             'dashboard__label',
@@ -104,9 +107,8 @@
             <span>Upload photo</span>
             <input type="file" @change="getFiles" ref="files" />
           </div>
-
-          <!-- Galerry of uploaded images for add state -->
-          <div class="dashboard__label">
+          <!-- EDIT: Image -->
+          <div v-if="isEdit" class="dashboard__label">
             <ul class="dashboard__list-imgs">
               <li v-for="(file, idx) in slideFields.images" :key="idx">
                 <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
@@ -115,27 +117,19 @@
                 </button>
 
                 <img class="mb16" :src="file.src" alt="add" />
+              </li>
+            </ul>
+          </div>
+          <!-- Galerry of uploaded images for add state -->
+          <div v-else class="dashboard__label">
+            <ul class="dashboard__list-imgs">
+              <li v-for="(file, idx) in slideFields.images" :key="idx">
+                <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
+                <button type="button" @click="removeSelectedImage(file.src)">
+                  remove
+                </button>
 
-                <label class="dashboard__label mb0">
-                  <input
-                    type="radio"
-                    :name="`format${idx}`"
-                    value="vertical"
-                    disabled="disabled"
-                    v-model="file.format"
-                  />
-                  <span class="inline">vertical</span>
-                </label>
-                <label class="dashboard__label">
-                  <input
-                    type="radio"
-                    :name="`format${idx}`"
-                    value="horizontal"
-                    disabled="disabled"
-                    v-model="file.format"
-                  />
-                  <span class="inline">horizontal</span>
-                </label>
+                <img class="mb16" :src="file.src" alt="add" />
               </li>
             </ul>
           </div>
@@ -262,6 +256,7 @@ export default {
   data() {
     return {
       slideFields: {
+        id: null,
         title: "title1",
         order: null,
         type: "image",
@@ -313,7 +308,7 @@ export default {
       this.slideFields.images = [];
       const files = this.$refs.files.files;
 
-      Array.from(files).forEach((file, idx) => {
+      Array.from(files).forEach(file => {
         getHeightAndWidthFromDataUrl(file).then(resolution => {
           const format =
             resolution.height > resolution.width ? "vertical" : "horizontal";
@@ -396,7 +391,7 @@ export default {
       }
 
       if (this.isEdit) {
-        this.update();
+        this.update(isImage);
       } else {
         this.create(isImage);
       }
@@ -414,6 +409,7 @@ export default {
           workId,
           photoId
         } = this.slideFields;
+
         const formData = new FormData();
         formData.append("type", type);
         formData.append("title", title);
@@ -472,92 +468,99 @@ export default {
 
     // edit
     setDataForEdit() {
-      // this.title = this.work.title;
-      // this.credits = this.work.credits;
-      // this.description = this.work.description;
-      // this.videoId = this.work.videos.vimeoId;
-      // this.images = JSON.parse(JSON.stringify(this.work.photos));
+      const {
+        id,
+        title,
+        order,
+        type,
+        image,
+        videos,
+        workId,
+        photoId
+      } = this.slide;
+
+      this.slideFields.id = id;
+      this.slideFields.type = type;
+      this.slideFields.title = title;
+      this.slideFields.order = order;
+      this.slideFields.images = [
+        {
+          src: image
+        }
+      ];
+      this.slideFields.videos = videos;
+      this.slideFields.workId = workId;
+      this.slideFields.photoId = photoId;
     },
-    update() {
-      // const WORK = this.work;
-      // const formData = new FormData();
-      // const videos = JSON.stringify({ vimeoId: this.videoId });
-      // // photos:
-      // // new
-      // const newPhotoInfo = this.images
-      //   .filter(v => {
-      //     if (v.file) {
-      //       formData.append("photos[]", v.file);
-      //       return true;
-      //     }
-      //     return false;
-      //   })
-      //   .map(v => ({
-      //     order: v.order,
-      //     format: v.format,
-      //     fileName: v.file.name,
-      //     isPreview: v.isPreview
-      //   }));
-      // // deleted
-      // const deletedPhotoIds =
-      //   WORK.deletedPhotoIds?.map(id => id || id === 0) || [];
-      // // updated
-      // const updatePhotoInfo =
-      //   this.images?.filter((v, idx) => {
-      //     const isNew = v.file; // means new photo
-      //     const current = JSON.stringify(v);
-      //     const existing = JSON.stringify(WORK.photos[idx]);
-      //     const isUpdated = current != existing;
-      //     return isUpdated && !isNew;
-      //   }) || [];
-      // // existing
-      // const existingPhotoInfo = WORK.photos.filter(exphoto => {
-      //   const isUpdated = Array.from(updatePhotoInfo).some(
-      //     upphoto => upphoto.id === exphoto.id
-      //   );
-      //   return !isUpdated;
-      // });
-      // // payload
-      // const photosInfo = {
-      //   new: newPhotoInfo,
-      //   existing: existingPhotoInfo,
-      //   deleted: deletedPhotoIds,
-      //   updated: updatePhotoInfo
-      // };
-      // console.log("update", photosInfo);
-      // // formData:
-      // formData.append("id", WORK.id);
-      // formData.append("title", this.title);
-      // formData.append("videos", videos);
-      // formData.append("credits", this.credits);
-      // formData.append("order", this.order);
-      // formData.append("description", this.description);
-      // formData.append("photosInfo", JSON.stringify(photosInfo));
-      // this.isLoading = true;
-      // SlidesRepository.update(formData)
-      //   .then(() => {
-      //     // this.reset();
-      //     this.setServerStatusInUI(true);
-      //   })
-      //   .catch(e => {
-      //     console.info("Update work ERROR", e);
-      //     this.setServerStatusInUI(false, e.response.statusText);
-      //   })
-      //   .finally(() => {
-      //     this.isLoading = false;
-      //   });
-    },
-    deleteExistingImage(id) {
-      // this.slideFields.images = this.slideFields.images.filter(v => v.id != id);
-      // if (!id) {
-      //   return;
-      // }
-      // if (this.work.deletedPhotoIds) {
-      //   this.work.deletedPhotoIds.push(id);
-      // } else {
-      //   this.work.deletedPhotoIds = [];
-      //   this.work.deletedPhotoIds.push(id);
-      // }
+    update(isImage) {
+      try {
+        const {
+          title,
+          order,
+          type,
+          videos,
+          images,
+          workId,
+          photoId
+        } = this.slideFields;
+
+        const formData = new FormData();
+        formData.append("type", type);
+        formData.append("title", title);
+        formData.append("order", order);
+        if (workId) {
+          formData.append("workId", workId);
+        }
+        if (photoId) {
+          formData.append("photoId", photoId);
+        }
+
+        if (isImage) {
+          // do check if images are changed
+          // 1
+          for (const photo of images) {
+            formData.append("photos[]", photo.file);
+          }
+          const photoInfo = JSON.stringify(
+            images.map(v => ({
+              fileName: v.file.name,
+              format: v.format
+            }))
+          );
+          formData.append("photosInfo", photoInfo);
+          // 2
+        } else {
+          formData.append("videos", JSON.stringify(videos));
+        }
+
+        console.log(
+          "update",
+          title,
+          order,
+          type,
+          videos,
+          images,
+          workId,
+          photoId
+        );
+
+        this.isLoading = true;
+        SlidesRepository.update(formData)
+          .then(() => {
+            this.reset();
+            this.setServerStatusInUI(true);
+          })
+          .catch(e => {
+            console.error("AddSlide server ERROR", e);
+            this.setServerStatusInUI(false, e?.response?.data?.message);
+          })
+          .finally(() => {
+            this.isLoading = false;
+            this.clientErrors = [];
+          });
+      } catch (err) {
+        console.error("AddSlide ERROR", err);
+      }
     },
     getName(file) {
       return `${file.src}`.split("/").pop();

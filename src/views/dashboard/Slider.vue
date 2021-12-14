@@ -4,14 +4,16 @@
       Add slide
     </button>
 
-    <SliderAdd
+    <SlideAdd
       v-if="isShowAddSlide"
+      :isEdit="isEdit"
+      :slide="slide"
       :slides="slides"
       :works="videos"
       :photos="photos"
-    ></SliderAdd>
+    ></SlideAdd>
 
-    <button type="button" @click="refresh" class="dashboard__btn">
+    <button type="button" @click="onRefresh" class="dashboard__btn">
       Refresh slides
     </button>
 
@@ -29,7 +31,7 @@
 </template>
 
 <script>
-import SliderAdd from "./SliderAdd.vue";
+import SlideAdd from "./SlideAdd.vue";
 import Slides from "../../components/Slides.vue";
 import { mapState, mapActions } from "vuex";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
@@ -38,11 +40,11 @@ const SlidesRepository = RepositoryFactory.get("slides");
 export default {
   components: {
     Slides,
-    SliderAdd
+    SlideAdd
   },
   data() {
     return {
-      work: null,
+      slide: null,
       isEdit: false,
       isShowAddSlide: false
     };
@@ -69,16 +71,16 @@ export default {
           console.error(err);
         });
     },
-    refresh() {
-      this.getAllVideos();
+    onRefresh() {
+      this.getSlides();
     },
 
     // edit
     onEdit(id) {
       this.isEdit = true;
-      const item = this.videos.filter(v => v.id === id);
-      this.work = item?.length ? item[0] : null;
-      this.isShowAddSlide = true; // we use the addWork form for edit a work
+      const item = this.slides?.filter(v => v.id === id);
+      this.slide = item?.length ? item[0] : null;
+      this.isShowAddSlide = true; // we use the AddSlide form for edit a work
     }
   },
   created() {
