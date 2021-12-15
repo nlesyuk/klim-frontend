@@ -300,7 +300,9 @@ export default {
       this.slideFields.order = null;
       this.slideFields.type = "image";
       this.slideFields.images = [];
-      this.slideFields.videos.vimeoId = null;
+      this.slideFields.videos = {
+        vimeoId: null
+      };
 
       this.$emit("resetForm");
     },
@@ -319,6 +321,7 @@ export default {
           });
         });
       });
+      console.log("___", this.slideFields.images);
     },
     removeSelectedImage(src) {
       this.slideFields.images = this.slideFields.images.filter(
@@ -425,13 +428,6 @@ export default {
           for (const photo of images) {
             formData.append("photos[]", photo.file);
           }
-          const photoInfo = JSON.stringify(
-            images.map(v => ({
-              fileName: v.file.name,
-              format: v.format
-            }))
-          );
-          formData.append("photosInfo", photoInfo);
         } else {
           formData.append("videos", JSON.stringify(videos));
         }
@@ -488,7 +484,8 @@ export default {
           src: image
         }
       ];
-      this.slideFields.videos = videos;
+      this.slideFields.videos =
+        typeof videos === "string" ? JSON.parse(videos) : videos;
       this.slideFields.workId = workId;
       this.slideFields.photoId = photoId;
     },
@@ -515,20 +512,11 @@ export default {
           formData.append("photoId", photoId);
         }
 
+        const image = images?.[0];
         if (isImage) {
-          // do check if images are changed
-          // 1
-          for (const photo of images) {
-            formData.append("photos[]", photo.file);
+          if (image?.src?.includes("blob")) {
+            formData.append("photos[]", image.file);
           }
-          const photoInfo = JSON.stringify(
-            images.map(v => ({
-              fileName: v.file.name,
-              format: v.format
-            }))
-          );
-          formData.append("photosInfo", photoInfo);
-          // 2
         } else {
           formData.append("videos", JSON.stringify(videos));
         }
