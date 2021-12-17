@@ -247,8 +247,6 @@
 }
 
 //
-.home {
-}
 .works {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -279,9 +277,6 @@
   }
 }
 
-.hidden {
-  display: none;
-}
 //
 .slider {
   position: relative;
@@ -443,23 +438,6 @@
   iframe {
     display: block;
     width: 100%;
-  }
-}
-
-// additional
-.dev-author {
-  display: block;
-  width: 120px;
-  text-align: center;
-  text-decoration: none;
-  margin: 0 auto;
-  margin-top: 30px;
-  font-size: 1rem;
-  color: #ededed;
-  @include transition-default;
-  &:hover {
-    color: purple;
-    @include transition-default;
   }
 }
 

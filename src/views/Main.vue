@@ -1,13 +1,10 @@
 <template>
   <div class="home">
     <Slider />
-    <div class="works" v-if="allVideos && allVideos.length">
-      <work-preview
-        v-for="(video, idx) in allVideos"
-        :key="idx"
-        :work="video"
-      ></work-preview>
-    </div>
+    <WorksGrid
+      v-if="allVideos && allVideos.length"
+      :works="allVideos"
+    ></WorksGrid>
     <p
       v-else-if="allVideos && allVideos.length === 0"
       class="home__empty-category"
@@ -19,14 +16,14 @@
 </template>
 
 <script>
-import WorkPreview from "../components/WorkPreview";
+import WorksGrid from "../components/WorksGrid";
 import Slider from "./Slider";
 import { mapActions, mapState } from "vuex";
 
 export default {
   name: "Works",
   components: {
-    WorkPreview,
+    WorksGrid,
     Slider
   },
   computed: {

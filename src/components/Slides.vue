@@ -25,6 +25,22 @@
           >
             Delete
           </button>
+          <button
+            type="button"
+            class="dashboard__btn-inline"
+            title="id"
+            disabled
+          >
+            {{ item.id }}
+          </button>
+          <button
+            type="button"
+            class="dashboard__btn-inline"
+            title="order"
+            disabled
+          >
+            {{ item.order }}
+          </button>
         </div>
       </div>
       <template v-if="item.type === 'image'">

@@ -16,30 +16,13 @@
       Refresh works
     </button>
 
-    <div class="works" v-if="videos && videos.length">
-      <WorkPreview v-for="(video, idx) in videos" :key="idx" :work="video">
-        <ul class="dashboard__list" slot="default">
-          <li>
-            <button
-              type="button"
-              class="dashboard__btn-inline"
-              @click.prevent="remove(video.id)"
-            >
-              Remove
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-              class="dashboard__btn-inline"
-              @click.prevent="edit(video.id)"
-            >
-              Edit
-            </button>
-          </li>
-        </ul>
-      </WorkPreview>
-    </div>
+    <WorksGrid
+      v-if="videos && videos.length"
+      :works="videos"
+      :isAdmin="true"
+      @delete="onDelete"
+      @edit="onEdit"
+    ></WorksGrid>
     <div v-else-if="videos && videos.length === 0" class="grid-empty">
       Don't have any items yet
     </div>
@@ -49,7 +32,7 @@
 
 <script>
 import WorkAdd from "./WorkAdd.vue";
-import WorkPreview from "../../components/WorkPreview.vue";
+import WorksGrid from "../../components/WorksGrid.vue";
 import { mapState, mapActions } from "vuex";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
 const VideosRepository = RepositoryFactory.get("videos");
@@ -57,7 +40,7 @@ const VideosRepository = RepositoryFactory.get("videos");
 export default {
   components: {
     WorkAdd,
-    WorkPreview
+    WorksGrid
   },
   data() {
     return {
@@ -73,23 +56,17 @@ export default {
   },
   methods: {
     ...mapActions(["getAllVideos"]),
-    getPreviewImg(item) {
-      const filtered = item.photos.filter(v => v.isVideoPreview);
-      return filtered && filtered.length ? filtered[0].src : false;
-    },
-    remove(id) {
-      VideosRepository.delete(id);
-    },
     refresh() {
       this.getAllVideos();
     },
-
-    // edit
-    edit(id) {
+    onEdit(id) {
       this.isEdit = true;
       const item = this.videos.filter(v => v.id === id);
       this.work = item?.length ? item[0] : null;
       this.isShowAddWork = true; // we use the addWork form for edit a work
+    },
+    onDelete(id) {
+      VideosRepository.delete(id);
     }
   },
   created() {
@@ -99,5 +76,3 @@ export default {
   }
 };
 </script>
-
-<style></style>

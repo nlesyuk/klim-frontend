@@ -7,7 +7,6 @@
       contact me
       <a :href="`mailto:${contacts.email}`">{{ contacts.email }}</a>
     </p>
-    <a href="#" class="dev-author">created by @NazarDevux</a>
   </footer>
 </template>
 
