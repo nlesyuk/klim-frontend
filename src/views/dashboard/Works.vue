@@ -20,12 +20,22 @@
       <WorkPreview v-for="(video, idx) in videos" :key="idx" :work="video">
         <ul class="dashboard__list" slot="default">
           <li>
-            <button type="button" @click.prevent="remove(video.id)">
+            <button
+              type="button"
+              class="dashboard__btn-inline"
+              @click.prevent="remove(video.id)"
+            >
               Remove
             </button>
           </li>
           <li>
-            <button type="button" @click.prevent="edit(video.id)">Edit</button>
+            <button
+              type="button"
+              class="dashboard__btn-inline"
+              @click.prevent="edit(video.id)"
+            >
+              Edit
+            </button>
           </li>
         </ul>
       </WorkPreview>
