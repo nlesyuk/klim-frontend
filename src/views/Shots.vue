@@ -14,7 +14,7 @@
 
     <transition name="fade" mode="out-in">
       <template v-if="toggle">
-        <GridPhotosShots v-if="filteredShots.length" :images="filteredShots" />
+        <PhotosGrid v-if="filteredShots.length" :images="filteredShots" />
         <p v-else-if="filteredShots.length === 0" class="home__empty-category">
           Don't have any shots yet
         </p>
@@ -24,12 +24,12 @@
   </div>
 </template>
 <script>
-import GridPhotosShots from "../components/GridPhotosShots";
+import PhotosGrid from "../components/PhotosGrid";
 import { mapActions, mapState } from "vuex";
 
 export default {
   components: {
-    GridPhotosShots
+    PhotosGrid
   },
   data() {
     return {

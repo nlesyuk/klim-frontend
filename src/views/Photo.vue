@@ -1,17 +1,17 @@
 <template>
   <div class="photos">
-    <GridPhotos v-if="photo && photo.photos.length" :images="photo.photos" />
+    <PhotosGrid v-if="photo && photo.photos.length" :images="photo.photos" />
     <Spiner v-else />
   </div>
 </template>
 <script>
-import GridPhotos from "../components/GridPhotos";
+import PhotosGrid from "../components/PhotosGrid";
 import { RepositoryFactory } from "./../repositories/RepositoryFactory";
 const PhotosRepository = RepositoryFactory.get("photos");
 
 export default {
   components: {
-    GridPhotos
+    PhotosGrid
   },
   data() {
     return {

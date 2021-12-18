@@ -8,7 +8,7 @@
         <h1>{{ work.title }}</h1>
         <p v-html="work.description"></p>
       </div>
-      <GridPhotos
+      <PhotosGrid
         v-show="work.photos"
         :images="work.photos"
         :isWorks="isPreview"
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import GridPhotos from "../components/GridPhotos";
+import PhotosGrid from "../components/PhotosGrid";
 import VimeoVideoPlayer from "../components/VimeoVideoPlayer";
 import { RepositoryFactory } from "./../repositories/RepositoryFactory";
 const VideosRepository = RepositoryFactory.get("videos");
@@ -51,7 +51,7 @@ export default {
     }
   },
   components: {
-    GridPhotos,
+    PhotosGrid,
     VimeoVideoPlayer
   },
   data() {

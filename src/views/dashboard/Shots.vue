@@ -20,13 +20,13 @@
       Refresh shots
     </button>
 
-    <GridPhotosShots
+    <PhotosGridShots
       v-if="filteredPhotos"
       :images="filteredPhotos"
       :isManage="true"
       @removeImg="remove"
       @editImg="edit"
-    ></GridPhotosShots>
+    ></PhotosGridShots>
     <Spiner v-else />
   </section>
 </template>
@@ -34,14 +34,14 @@
 <script>
 import ShotAdd from "./ShotAdd.vue";
 import ShotEdit from "./ShotEdit.vue";
-import GridPhotosShots from "../../components/GridPhotosShots";
+import PhotosGridShots from "../../components/PhotosGridShots";
 import { mapState, mapActions } from "vuex";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
 const ShotRepository = RepositoryFactory.get("shots");
 
 export default {
   components: {
-    GridPhotosShots,
+    PhotosGridShots,
     ShotAdd,
     ShotEdit
   },

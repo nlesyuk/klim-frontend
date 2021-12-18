@@ -149,7 +149,7 @@
       </div>
       <div class="dashboard__side dashboard__area-preview">
         <div class="photos" v-if="images.length">
-          <GridPhotos :images="images" />
+          <PhotosGrid :images="images" />
         </div>
       </div>
     </form>
@@ -157,7 +157,7 @@
 </template>
 
 <script>
-import GridPhotos from "../../components/GridPhotos";
+import PhotosGrid from "../../components/PhotosGrid";
 import { mapState } from "vuex";
 import { required, minLength } from "vuelidate/lib/validators";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
@@ -173,7 +173,7 @@ export default {
     }
   },
   components: {
-    GridPhotos
+    PhotosGrid
   },
   data() {
     return {
