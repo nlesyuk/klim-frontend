@@ -15,33 +15,50 @@
           }"
         >
           <figure
-            v-for="(image, index) in arrImages"
+            v-for="(item, index) in arrImages"
             :key="index"
             class="grid__item"
           >
             <ul class="dashboard__list" v-if="isManage">
               <li>
-                <span class="dashboard__badge badge-green m0">
-                  id: {{ image.id }}
-                </span>
-              </li>
-              <li>
-                <button type="button" @click.prevent="remove(image.id)">
+                <button
+                  type="button"
+                  class="dashboard__btn-inline"
+                  @click.prevent="remove(item.id)"
+                >
                   Remove
                 </button>
               </li>
               <li>
-                <button type="button" @click.prevent="edit(image.id)">
+                <button
+                  type="button"
+                  class="dashboard__btn-inline"
+                  @click.prevent="edit(item.id)"
+                >
                   Edit
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  class="dashboard__btn-inline"
+                  title="id"
+                  disabled
+                >
+                  {{ item.id }}
                 </button>
               </li>
             </ul>
 
-            <router-link class="grid__lightbox1" tag="a" :to="{ name: 'work', params: { id: image.workId  }}">
-              <img :src="image.src" alt="" class="grid__img" loading="lazy" />
+            <router-link
+              class="grid__lightbox1"
+              tag="a"
+              :to="{ name: 'work', params: { id: item.workId } }"
+            >
+              <img :src="item.src" alt="" class="grid__img" loading="lazy" />
             </router-link>
-            <!-- <a class="grid__lightbox" :href="image.src">
-              <img :src="image.src" alt="" class="grid__img" loading="lazy" />
+            <!-- <a class="grid__lightbox" :href="item.src">
+              <img :src="item.src" alt="" class="grid__img" loading="lazy" />
             </a> -->
           </figure>
         </div>
