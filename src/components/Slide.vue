@@ -14,6 +14,14 @@
       :class="['vimeoPlayer', { hidden: !isPlaying }]"
       @click="pauseVideo"
     ></div>
+    <button
+      type="button"
+      @click="goTo"
+      class="slider__slide-btn"
+      title="click on me"
+    >
+      show work
+    </button>
   </figure>
 </template>
 
@@ -169,16 +177,16 @@ export default {
 
     //
     goTo() {
-      if (this.source?.hasOwnProperty("photo_id")) {
+      if (this.source?.hasOwnProperty("photoId")) {
         this.$router.push({
           name: "photo",
-          params: { id: this.source.photo_id }
+          params: { id: this.source.photoId }
         });
       }
-      if (this.source?.hasOwnProperty("work_id")) {
+      if (this.source?.hasOwnProperty("workId")) {
         this.$router.push({
           name: "work",
-          params: { id: this.source.work_id }
+          params: { id: this.source.workId }
         });
       }
     }
