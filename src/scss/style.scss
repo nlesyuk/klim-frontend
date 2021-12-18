@@ -70,13 +70,15 @@
       }
     }
 
-    // vsm mobile menu
-    .vsm-section_menu {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 50px;
+    // vsm menu
+    // fix bug when dropdown mobile menu is hidden
+    // but size of hidden menu have negative effect for layout
+    .vsm-background {
+      @media screen and (max-width: 1120px) and (min-width: 768px) {
+        width: auto;
+      }
     }
+    // vsm mobile menu
     .vsm-section_mob {
       .vsm-mob-line,
       .vsm-mob-close:before,
