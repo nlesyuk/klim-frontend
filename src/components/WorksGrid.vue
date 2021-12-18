@@ -3,7 +3,7 @@
     <router-link
       tag="figure"
       class="work"
-      v-for="(item, idx) in works"
+      v-for="(item, idx) in sortedWorks"
       :key="idx"
       :to="{ path: `/work/${item.id}` }"
       :style="getPreviewStyle(item.id)"
@@ -69,6 +69,15 @@ export default {
     isAdmin: {
       type: Boolean,
       default: false
+    }
+  },
+  computed: {
+    sortedWorks() {
+      const works = this.works;
+      if (!works?.length) {
+        return [];
+      }
+      return works?.sort((a, b) => a.order - b.order);
     }
   },
   methods: {
