@@ -5,9 +5,10 @@
       @submit.prevent="submit"
     >
       <div class="dashboard__side">
-        <div v-if="slide">
-          {{ slide.id }}
-        </div>
+        <label v-if="slide" class="dashboard__label">
+          <span>Slide id: {{ slide.id }}</span>
+        </label>
+
         <label
           :class="[
             'dashboard__label',
@@ -86,6 +87,7 @@
               name="type"
               value="image"
               v-model="slideFields.type"
+              :disabled="isEdit"
             />
             <span class="inline">image</span>
           </label>
@@ -95,6 +97,7 @@
               name="type"
               value="video"
               v-model="slideFields.type"
+              :disabled="isEdit"
             />
             <span class="inline">video</span>
           </label>
@@ -321,7 +324,6 @@ export default {
           });
         });
       });
-      console.log("___", this.slideFields.images);
     },
     removeSelectedImage(src) {
       this.slideFields.images = this.slideFields.images.filter(
@@ -354,9 +356,6 @@ export default {
 
     // send work to a server:
     async submit() {
-      let isImage;
-      console.log("submit");
-
       this.clientErrors = [];
       if (this.$v.$invalid) {
         this.$v.$touch();
@@ -364,19 +363,17 @@ export default {
       }
 
       const { order, type, videos, images, workId, photoId } = this.slideFields;
-      console.log("submit-data", order, type, videos, images, workId, photoId);
+      const isImage = type == "image";
       if (type == "image") {
         if (!Array.from(images).length) {
           this.clientErrors.push("Please select at least one image");
           return;
         }
-        isImage = true;
       } else if (type == "video") {
         if (!videos.vimeoId) {
           this.clientErrors.push("Please provide vimeo video ID");
           return;
         }
-        isImage = false;
       } else {
         this.clientErrors.push("Something went wrong");
         return;
@@ -484,14 +481,21 @@ export default {
           src: image
         }
       ];
-      this.slideFields.videos =
-        typeof videos === "string" ? JSON.parse(videos) : videos;
+      if (videos) {
+        this.slideFields.videos =
+          typeof videos === "string" ? JSON.parse(videos) : videos;
+      } else {
+        this.slideFields.videos = {
+          vimeoId: null
+        };
+      }
       this.slideFields.workId = workId;
       this.slideFields.photoId = photoId;
     },
     update(isImage) {
       try {
         const {
+          id,
           title,
           order,
           type,
@@ -502,6 +506,7 @@ export default {
         } = this.slideFields;
 
         const formData = new FormData();
+        formData.append("id", id);
         formData.append("type", type);
         formData.append("title", title);
         formData.append("order", order);
