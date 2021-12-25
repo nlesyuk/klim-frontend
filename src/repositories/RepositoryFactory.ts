@@ -3,13 +3,15 @@ import VideosRepository from "./VideosRepository";
 import ShotsRepository from "./ShotsRepository";
 import GeneralRepository from "./GeneralRepository";
 import SlidesRepository from "./SlidesRepository";
+import CategoriesRepository from "./CategoriesRepository";
 
 const repositories = {
   shots: ShotsRepository,
   videos: VideosRepository,
   photos: PhotosRepository,
   slides: SlidesRepository,
-  general: GeneralRepository
+  general: GeneralRepository,
+  categories: CategoriesRepository
 };
 
 export const RepositoryFactory = {

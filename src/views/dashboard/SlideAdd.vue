@@ -149,7 +149,7 @@
           </label>
         </template>
 
-        <!-- work order -->
+        <!-- client errors -->
         <label class="dashboard__label">
           <ul v-if="clientErrors.length" class="dashboard__error-list">
             <li v-for="error in clientErrors" :key="error">
@@ -183,6 +183,7 @@
           >
             Reset
           </button>
+          <!-- server errors/response -->
           <div class="dashboard__status">
             <div class="dashboard__status--success" v-if="isSuccess">
               Success

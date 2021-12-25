@@ -1,5 +1,6 @@
 import { RepositoryFactory } from "../../repositories/RepositoryFactory";
 const PhotosRepository = RepositoryFactory.get("photos");
+const CategoriesRepository = RepositoryFactory.get("categories");
 
 export default {
   state: {
@@ -10,9 +11,17 @@ export default {
     async getPhotos({ commit }) {
       try {
         const { data } = await PhotosRepository.get();
-        commit("setPhotos", data.photos);
-        commit("setCategories", data.categories);
-        console.log("getAllPhotos", data);
+        console.log("STORE getPhotos", data);
+        commit("setPhotos", data);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    async getCategories({ commit }) {
+      try {
+        const { data } = await CategoriesRepository.get();
+        console.log("STORE getPhotos", data);
+        commit("setPhotos", data);
       } catch (e) {
         console.error(e);
       }

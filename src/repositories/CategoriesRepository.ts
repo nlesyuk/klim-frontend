@@ -1,6 +1,6 @@
 import Repository from "./Repository";
 
-const resources = "photos";
+const resources = "category";
 
 export default {
   create(payload) {
@@ -16,6 +16,6 @@ export default {
     return Repository.put(`${resources}`, payload);
   },
   delete(id) {
-    return Repository.delete(`${resources}/${id}`);
+    return Repository.put(`${resources}/${id}`);
   }
 };
