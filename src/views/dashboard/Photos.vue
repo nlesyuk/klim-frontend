@@ -18,24 +18,48 @@
 
     <div class="dashboard-photos__container" v-if="isPhotosFilled > 0">
       <PhotoPreview
-        v-for="(photo, idx) in photos"
+        v-for="(item, idx) in photos"
         :key="idx"
-        :collection="photo"
+        :collection="item"
         :collectionType="idx % 2 ? 'left' : 'right'"
       >
-        <ul class="dashboard__list" slot="default">
+        <ul class="dashboard__list" v-if="isManage">
           <li>
-            <button type="button" @click.prevent="remove(photo.id)">
+            <button
+              type="button"
+              class="dashboard__btn-inline"
+              @click.prevent="remove(item.id)"
+            >
               Remove
             </button>
           </li>
           <li>
-            <button type="button" @click.prevent="edit(photo.id)">Edit</button>
+            <button
+              type="button"
+              class="dashboard__btn-inline"
+              @click.prevent="edit(item.id)"
+            >
+              Edit
+            </button>
           </li>
-        </ul>
-        <ul class="dashboard__list dashboard__list--right" slot="category">
-          <li v-for="(category, index) in photo.category" :key="index">
-            <span class="dashboard__badge badge-blue">{{ category }}</span>
+          <li>
+            <button
+              type="button"
+              class="dashboard__btn-inline"
+              title="id"
+              disabled
+            >
+              {{ item.id }}
+            </button>
+          </li>
+          <li>
+            <span
+              class="dashboard__badge badge-blue"
+              v-for="(category, index) in item.category"
+              :key="index"
+            >
+              {{ category }}
+            </span>
           </li>
         </ul>
       </PhotoPreview>
@@ -62,6 +86,7 @@ export default {
   data() {
     return {
       isEdit: false,
+      isManage: true,
       isShowAddPhoto: false,
       photoCollection: null
     };

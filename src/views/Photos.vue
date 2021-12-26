@@ -23,6 +23,9 @@ export default {
     PhotoPreview
   },
   computed: {
+    ...mapState({
+      allPhotos: state => state.photos.photos
+    }),
     photos() {
       let res;
       if (this.$route.path.includes("commerce")) {
@@ -31,10 +34,7 @@ export default {
         res = this.allPhotos?.filter(v => !v.category.includes("commerce"));
       }
       return res && res.length ? res : this.allPhotos;
-    },
-    ...mapState({
-      allPhotos: state => state.photos.photos
-    })
+    }
   },
   methods: {
     ...mapActions(["getPhotos"])
