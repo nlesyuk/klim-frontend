@@ -26,9 +26,19 @@
         <label class="dashboard__label">
           <span>Credits</span>
           <VueEditor
-            id="editor2"
+            id="editor1"
             v-model="credits"
             placeholder="credits"
+          ></VueEditor>
+        </label>
+
+        <!-- Description -->
+        <label class="dashboard__label">
+          <span>Description</span>
+          <VueEditor
+            id="editor2"
+            v-model="description"
+            placeholder="description"
           ></VueEditor>
         </label>
 
@@ -152,6 +162,25 @@
           </ul>
         </label>
 
+        <!-- work order -->
+        <label class="dashboard__label">
+          <select v-model="order">
+            <option disabled selected value="null">
+              Please choose order
+            </option>
+            <option
+              v-for="(item, index) in allPhotoCollections"
+              :key="index"
+              :value="index"
+            >
+              {{ index }}
+              <template v-if="index + 1 === allPhotoCollections">
+                (automate setted position)
+              </template>
+            </option>
+          </select>
+        </label>
+
         <!-- btns -->
         <div class="dashboard__btns-container">
           <button
@@ -245,8 +274,10 @@ export default {
       id: null,
       title: "title",
       credits: "credits",
+      description: "description",
       category: null,
       selectedImages: [],
+      order: null,
       // general:
       isLoading: false,
       isSuccess: false,
@@ -260,10 +291,29 @@ export default {
       minLength: minLength(2)
     }
   },
+  watch: {
+    allPhotoCollections: {
+      handler(v) {
+        console.log("111", v);
+        if (!this.isEdit) {
+          // v is length but order could be length - 1 because it is index
+          this.order = v - 1;
+        }
+      },
+      immediate: true
+    }
+  },
   computed: {
     ...mapState({
-      categories: state => state.photos.categories
+      categories: state => state.photos.categories,
+      allPhotos: state => state.photos.photos
     }),
+    allPhotoCollections() {
+      if (!this.allPhotos?.length) {
+        return 1;
+      }
+      return [...this.allPhotos].length + 1;
+    },
     hostName() {
       return window.location.host;
     },
@@ -352,8 +402,24 @@ export default {
         this.$v.$touch();
         return;
       }
-      if (!this.selectedImages?.length) {
+
+      const images = Array.from(this.selectedImages);
+      if (images.length) {
+        const isHasPreview = images.filter(v => v.isPreview);
+        if (isHasPreview.length != 3) {
+          this.clientErrors.push("Please choose 3 preview images");
+          return;
+        }
+      } else {
         this.clientErrors.push("Please select at least one image");
+        return;
+      }
+      if (!this.order) {
+        this.clientErrors.push("Please select order");
+        return;
+      }
+      if (!this.title) {
+        this.clientErrors.push("Please fill title");
         return;
       }
 
@@ -371,7 +437,10 @@ export default {
       try {
         const formData = new FormData();
         formData.append("title", this.title);
+        formData.append("order", this.order);
         formData.append("credits", this.credits);
+        formData.append("description", this.description);
+
         if (this.category) {
           formData.append("category", this.category);
         }

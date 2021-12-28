@@ -103,7 +103,8 @@ export default {
 
       const res = this.$route.path.includes("commerce")
         ? photos.filter(v => v.category.includes("commerce"))
-        : photos.filter(v => !v.category.includes("commerce"));
+        : // : photos.filter(v => !v.category.includes("commerce"));
+          photos;
 
       return res.length ? res : this.allPhotos;
     },
