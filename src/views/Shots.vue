@@ -14,7 +14,11 @@
 
     <transition name="fade" mode="out-in">
       <template v-if="toggle">
-        <PhotosGrid v-if="filteredShots.length" :images="filteredShots" />
+        <PhotosGrid
+          v-if="filteredShots.length"
+          :images="filteredShots"
+          :is-shots="true"
+        />
         <p v-else-if="filteredShots.length === 0" class="home__empty-category">
           Don't have any shots yet
         </p>

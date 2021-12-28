@@ -37,6 +37,15 @@
               </li>
             </ul>
 
+            <button
+              v-if="isShots"
+              type="button"
+              class="grid__btn"
+              @click="goTo(image)"
+            >
+              MORE
+            </button>
+
             <a class="grid__lightbox" :href="image.src">
               <img :src="image.src" alt="" class="grid__img" loading="lazy" />
             </a>
@@ -82,6 +91,15 @@
                 </button>
               </li>
             </ul>
+
+            <button
+              v-if="isShots"
+              type="button"
+              class="grid__btn"
+              @click="goTo(image)"
+            >
+              MORE
+            </button>
 
             <a class="grid__lightbox" :href="image.src">
               <img :src="image.src" alt="" class="grid__img" loading="lazy" />
@@ -140,6 +158,20 @@ export default {
         this.lightbox = null;
       }
     },
+    goTo(item) {
+      if (item?.hasOwnProperty("photoId")) {
+        this.$router.push({
+          name: "photo",
+          params: { id: item.photoId }
+        });
+      }
+      if (item?.hasOwnProperty("workId")) {
+        this.$router.push({
+          name: "work",
+          params: { id: item.workId }
+        });
+      }
+    },
     remove(id) {
       this.$emit("removeImg", id);
     },
@@ -154,13 +186,15 @@ export default {
       const sortOrder = (f, s) =>
         f?.order && s?.order ? f.order - s.order : 0;
 
-      if (this.isShots) {
-        const str = JSON.stringify(this.images);
-        const arr = JSON.parse(str).sort(sortOrder);
-        return {
-          vartical: chunk(arr, 3)
-        };
-      }
+      // type of render grid 1: vertical, 2: horizontal 3: big on left, big on right
+      // if (this.isShots) {
+      //   const str = JSON.stringify(this.images);
+      //   const arr = JSON.parse(str).sort(sortOrder);
+      //   return {
+      //     vartical: chunk(arr, 3)
+      //   };
+      // }
+
       if (this.isWorks) {
         const str = JSON.stringify(this.images);
         const arr = JSON.parse(str).sort(sortOrder);

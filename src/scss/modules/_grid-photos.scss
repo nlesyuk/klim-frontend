@@ -92,6 +92,12 @@
   &__item {
     background: $base-gradient;
     position: relative;
+    overflow: hidden;
+    &:hover {
+      .grid__btn {
+        top: 21px;
+      }
+    }
   }
   &__img {
     display: block;
@@ -131,5 +137,27 @@
     font-weight: bold;
     text-align: center;
     color: $accent;
+  }
+
+  &__btn {
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    background-color: $primary;
+    text-align: center;
+    color: honeydew;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    z-index: 15;
+    // pointer-events: none;
+    @include transition-default;
+    &:hover {
+      background-color: white;
+      color: $primary;
+      @include transition-default;
+    }
   }
 }
