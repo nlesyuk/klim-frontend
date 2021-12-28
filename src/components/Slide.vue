@@ -1,5 +1,5 @@
 <template>
-  <figure :class="[classes, 'slider__slide']" @click="goTo">
+  <figure :class="[classes, 'slider__slide']">
     <!-- img -->
     <img
       v-if="source.type === 'image'"
@@ -20,7 +20,7 @@
       class="slider__slide-btn"
       title="click on me"
     >
-      show work
+      more
     </button>
   </figure>
 </template>
@@ -94,7 +94,7 @@ export default {
         responsive: true
       });
       this.player.setQuality("720p").then(function(quality) {
-        console.log("quality was successfully set", quality);
+        // console.log("quality was successfully set", quality);
       });
 
       return this.player.ready();
@@ -102,9 +102,9 @@ export default {
     playVideo() {
       if (!this.player) {
         console.log("playVideo - player is not installed", this.currentSlide);
-        this.installVimeo().then(() => {
+        Promise.resolve(this.installVimeo()).then(() => {
           console.log("playVideo - then play", this.currentSlide);
-          this.player.play();
+          this.player?.play();
           this.isPlaying = true;
         });
         return;
@@ -114,7 +114,6 @@ export default {
         console.log("playVideo - play()", this.currentSlide);
         this.player.setCurrentTime(0).then(time => {
           this.player.play();
-          console.log(this.player);
           this.isPlaying = true;
         });
       }

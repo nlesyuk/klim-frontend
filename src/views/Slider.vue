@@ -43,7 +43,7 @@ export default {
       hooperSettings: {
         autoPlay: true,
         itemsToShow: 1,
-        playSpeed: 10 * 1000,
+        playSpeed: 5 * 1000,
         centerMode: true,
         hoverPause: true,
         wheelControl: false,
