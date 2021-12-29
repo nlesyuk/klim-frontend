@@ -5,6 +5,11 @@
       @submit.prevent="submit"
     >
       <div class="dashboard__side">
+        <!-- id -->
+        <label v-if="id" class="dashboard__label">
+          <span>id: {{ id }}</span>
+        </label>
+
         <!-- title -->
         <label
           :class="[
@@ -26,7 +31,7 @@
         <label class="dashboard__label">
           <span>Credits</span>
           <VueEditor
-            id="editor1"
+            class="vue2editor"
             v-model="credits"
             placeholder="credits"
           ></VueEditor>
@@ -36,7 +41,7 @@
         <label class="dashboard__label">
           <span>Description</span>
           <VueEditor
-            id="editor2"
+            class="vue2editor"
             v-model="description"
             placeholder="description"
           ></VueEditor>
@@ -66,14 +71,16 @@
           </a>
         </label>
 
-        <!-- files: add -->
+        <!-- files -->
         <div class="dashboard__label">
+          <!-- upload -->
           <span>Pleae upload photos</span>
           <input type="file" multiple @change="getFiles" ref="files" />
+          <!-- add/edit -->
           <ul class="dashboard__list-imgs">
             <li v-for="(file, idx) in selectedImages" :key="idx">
               <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
-              <button type="button" @click="removeSelectedImage(file.src)">
+              <button type="button" @click="removeSelectedImage(file)">
                 delete
               </button>
               <img :src="file.src" alt="preview" />
@@ -93,12 +100,12 @@
                   </option>
                 </select>
               </label>
-
+              <!-- preview -->
               <label class="dashboard__label">
                 <input type="checkbox" v-model="file.isPreview" :value="true" />
                 <span class="inline">Is preview photo?</span>
               </label>
-
+              <!-- aspect retio -->
               <label class="dashboard__label mb0">
                 <input
                   type="radio"
@@ -121,49 +128,9 @@
           </ul>
         </div>
 
-        <!-- files: edit -->
-        <ul class="dashboard__list-imgs" v-if="isEdit">
-          <li v-for="(file, idx) in photoCollection.photos" :key="idx">
-            <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
-            <button type="button" @click="removeSelectedImage(file.src)">
-              delete
-            </button>
-            <img :src="file.src" alt="edit" />
-
-            <label class="dashboard__label">
-              <span>Please select order of photos if need</span>
-              <select v-model="file.order">
-                <option disabled selected value="null">
-                  Please choose order
-                </option>
-                <option
-                  v-for="(img, index) of images"
-                  :key="index"
-                  :value="index"
-                >
-                  {{ index }}
-                </option>
-              </select>
-            </label>
-
-            <label class="dashboard__label">
-              <input type="checkbox" v-model="file.isPreview" :value="true" />
-              <span class="inline">Is preview photo?</span>
-            </label>
-          </li>
-        </ul>
-
-        <!-- client errors -->
-        <label class="dashboard__label">
-          <ul v-if="clientErrors.length" class="dashboard__error-list">
-            <li v-for="error in clientErrors" :key="error">
-              <span>{{ error }}</span>
-            </li>
-          </ul>
-        </label>
-
         <!-- work order -->
         <label class="dashboard__label">
+          <span>Order</span>
           <select v-model="order">
             <option disabled selected value="null">
               Please choose order
@@ -174,11 +141,20 @@
               :value="index"
             >
               {{ index }}
-              <template v-if="index + 1 === allPhotoCollections">
+              <template v-if="index + 1 === allPhotoCollections && !isEdit">
                 (automate setted position)
               </template>
             </option>
           </select>
+        </label>
+
+        <!-- client errors -->
+        <label class="dashboard__label">
+          <ul v-if="clientErrors.length" class="dashboard__error-list">
+            <li v-for="error in clientErrors" :key="error">
+              <span>{{ error }}</span>
+            </li>
+          </ul>
         </label>
 
         <!-- btns -->
@@ -220,23 +196,6 @@
         </div>
       </div>
 
-      <!-- <div class="dashboard__btns-container">
-          <p v-if="isSelectedPreview" class="dashboard__badge badge-red">
-            You must select 3 items as preview
-          </p>
-          <button
-            type="submit"
-            class="dashboard__submit"
-            :disabled="!isAllowCreate"
-          >
-            Add
-          </button>
-          <button type="reset" class="dashboard__submit" @click="reset">
-            Reset
-          </button>
-        </div>
-      </div> -->
-
       <!-- PREVIEW -->
       <div class="dashboard__side dashboard__area-preview">
         <div class="photos" v-if="images.length">
@@ -273,11 +232,12 @@ export default {
     return {
       id: null,
       title: "title",
-      credits: "credits",
-      description: "description",
-      category: null,
-      selectedImages: [],
       order: null,
+      credits: "credits",
+      category: null,
+      description: "description",
+      selectedImages: [],
+      removedImages: [],
       // general:
       isLoading: false,
       isSuccess: false,
@@ -309,15 +269,17 @@ export default {
       allPhotos: state => state.photos.photos
     }),
     allPhotoCollections() {
-      if (!this.allPhotos?.length) {
-        return 1;
+      const count = Array.from(this.allPhotos)?.length;
+      if (this.isEdit) {
+        return this.order > count ? this.order + 1 : count;
       }
-      return [...this.allPhotos].length + 1;
+      return count ? count : 1;
     },
     hostName() {
       return window.location.host;
     },
     images() {
+      return this.selectedImages?.length ?? 1;
       return this.isEdit
         ? [...this.selectedImages, ...this.photoCollection.photos]
         : this.selectedImages;
@@ -365,18 +327,22 @@ export default {
         const src = URL.createObjectURL(file);
         getHeightAndWidthFromDataUrl(src).then(resol => {
           const format = resol.height > resol.width ? "vertical" : "horizontal";
+          const index = this.selectedImages.length ?? 1;
           this.selectedImages.push({
             src,
             file,
-            order: idx,
+            order: index,
             format,
             isPreview: false
           });
         });
       });
     },
-    removeSelectedImage(src) {
-      this.selectedImages = this.selectedImages.filter(v => v.src != src);
+    removeSelectedImage(image) {
+      if (this.isEdit) {
+        this.removedImages.push(image.id);
+      }
+      this.selectedImages = this.selectedImages.filter(v => v.src != image.src);
     },
     setServerStatusInUI(isSuccess, statusText) {
       if (isSuccess) {
@@ -476,28 +442,123 @@ export default {
         console.error("PhotosAdd server ERROR", e);
       }
     },
+
     // edit
+    setDataForEdit() {
+      const {
+        id,
+        title,
+        order,
+        photos,
+        credits,
+        category,
+        description
+      } = this.photoCollection;
+
+      this.id = id;
+      this.title = title;
+      this.order = order;
+      this.credits = credits;
+      this.category = category;
+      this.description = description;
+      this.selectedImages = JSON.parse(JSON.stringify(photos));
+    },
     update() {
       console.log("UPDATE");
-      const formData = new FormData();
+
       try {
-        PhotosRepository.update(formData);
+        const formData = new FormData();
+
+        // photos:
+        const oldPhotos = Array.from(this.photoCollection.photos);
+        // new
+        const newPhotoInfo = this.selectedImages
+          .filter(v => {
+            if (v.file) {
+              formData.append("photos[]", v.file);
+              return true;
+            }
+            return false;
+          })
+          .map(v => ({
+            order: v.order,
+            format: v.format,
+            fileName: v.file.name,
+            isPreview: v.isPreview
+          }));
+        // deleted
+        const deletedPhotoIds = oldPhotos
+          .filter(v => {
+            const isExist = this.selectedImages.some(
+              item => item?.id === v?.id
+            );
+            return !isExist;
+          })
+          .map(v => v?.id);
+        console.log("deletedPhotoIds", deletedPhotoIds);
+        // updated
+        const updatePhotoInfo =
+          this.selectedImages?.filter((v, idx) => {
+            const isNew = v.file; // means new photo
+            const current = JSON.stringify(v);
+            const existing = JSON.stringify(oldPhotos[idx]);
+            const isUpdated = current != existing;
+            return isUpdated && !isNew;
+          }) || [];
+        // existing
+        const existingPhotoInfo = oldPhotos.filter(exphoto => {
+          const isUpdated = Array.from(updatePhotoInfo).some(
+            upphoto => upphoto.id === exphoto.id
+          );
+          return !isUpdated;
+        });
+
+        // payload
+        const photosInfo = {
+          new: newPhotoInfo,
+          existing: existingPhotoInfo,
+          deleted: deletedPhotoIds,
+          updated: updatePhotoInfo
+        };
+        console.log("payload", photosInfo);
+
+        formData.append("title", this.title);
+        formData.append("order", this.order);
+        formData.append("credits", this.credits);
+        formData.append("description", this.description);
+        formData.append("photosInfo", JSON.stringify(photosInfo));
+        if (this.category) {
+          formData.append("category", this.category);
+        }
+
+        // return;
+        this.isLoading = true;
+        PhotosRepository.update(formData)
+          .then(() => {
+            // this.reset();
+            this.setServerStatusInUI(true);
+          })
+          .catch(e => {
+            console.info("Update photos ERROR", e);
+            this.setServerStatusInUI(false, e.response.statusText);
+          })
+          .finally(() => {
+            this.isLoading = false;
+          });
       } catch (e) {
         this.serverError = e.message;
-      }
-    },
-    editePhotoCollection() {
-      this.title = this.photoCollection.title;
-      if (this.photoCollection.category?.length) {
-        console.log();
-        this.category = this.photoCollection.category[0];
       }
     }
   },
   mounted() {
     if (this.isEdit) {
-      this.editePhotoCollection();
+      this.setDataForEdit();
     }
   }
 };
 </script>
+<style lang="scss">
+.vue2editor .ql-editor {
+  min-height: 50px;
+}
+</style>

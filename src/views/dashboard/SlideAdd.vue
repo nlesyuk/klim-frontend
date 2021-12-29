@@ -5,10 +5,12 @@
       @submit.prevent="submit"
     >
       <div class="dashboard__side">
+        <!-- id -->
         <label v-if="slide" class="dashboard__label">
           <span>Slide id: {{ slide.id }}</span>
         </label>
 
+        <!-- Title -->
         <label
           :class="[
             'dashboard__label',
@@ -105,12 +107,12 @@
 
         <!-- IMG section -->
         <template v-if="slideFields.type === 'image'">
-          <!-- upload work -->
+          <!-- upload -->
           <div class="dashboard__label">
             <span>Upload photo</span>
             <input type="file" @change="getFiles" ref="files" />
           </div>
-          <!-- EDIT: Image -->
+          <!-- EDIT -->
           <div v-if="isEdit" class="dashboard__label">
             <ul class="dashboard__list-imgs">
               <li v-for="(file, idx) in slideFields.images" :key="idx">
@@ -123,7 +125,7 @@
               </li>
             </ul>
           </div>
-          <!-- Galerry of uploaded images for add state -->
+          <!-- ADD -->
           <div v-else class="dashboard__label">
             <ul class="dashboard__list-imgs">
               <li v-for="(file, idx) in slideFields.images" :key="idx">
@@ -158,6 +160,7 @@
           </ul>
         </label>
 
+        <!-- btns -->
         <div class="dashboard__btns-container">
           <button
             type="submit"

@@ -570,7 +570,7 @@ export default {
       this.isLoading = true;
       VideosRepository.update(formData)
         .then(() => {
-          // this.reset();
+          this.reset();
           this.setServerStatusInUI(true);
         })
         .catch(e => {

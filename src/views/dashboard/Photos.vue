@@ -9,6 +9,7 @@
     </button>
     <PhotoAdd
       v-if="isShowAddPhoto"
+      :isEdit="isEdit"
       :photoCollection="photoCollection"
     ></PhotoAdd>
 
