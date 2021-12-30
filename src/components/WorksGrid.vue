@@ -97,7 +97,7 @@ export default {
     edit(id) {
       this.$emit("edit", id);
     },
-    delete(id) {
+    remove(id) {
       this.$emit("delete", id);
     }
   }

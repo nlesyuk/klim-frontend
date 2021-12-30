@@ -8,6 +8,7 @@
         <p class="dashboard__text">
           * для корректного відображення всі фото мають бути одного розміру
         </p>
+
         <label
           :class="[
             'dashboard__label',
@@ -26,7 +27,7 @@
 
         <label class="dashboard__label">
           <span>Order</span>
-          <select v-model="workOrder">
+          <select v-model="order">
             <option disabled selected value="null">
               Please choose order
             </option>
@@ -212,7 +213,7 @@
               <span>{{ error }}</span>
             </li>
           </ul>
-          <select v-model="workOrder" v-if="worksLength.length">
+          <select v-model="order" v-if="worksLength.length">
             <option disabled selected value="null">
               Please choose order
             </option>
@@ -313,7 +314,7 @@ export default {
       credits: "credits",
       videoId: "521769877",
       description: "description",
-      workOrder: null,
+      order: null,
       selectedImages: [],
       // general:
       isLoading: false,
@@ -353,7 +354,7 @@ export default {
       if (!this.works) {
         return [];
       }
-      const arr = Array.from(this.works).map(v => v.workOrder);
+      const arr = Array.from(this.works).map(v => v.order);
       return arr?.length
         ? Math.max(...arr) + 2 // 2 bacause we start counting from 0 and need +1 and then +1 again
         : 1;
@@ -383,7 +384,7 @@ export default {
       this.description = "";
       this.credits = "";
       this.videoId = "";
-      this.workOrder = null;
+      this.order = null;
       this.selectedImages = [];
       this.$emit("resetForm");
     },
@@ -407,12 +408,12 @@ export default {
     removeSelectedImage(src) {
       this.selectedImages = this.selectedImages.filter(v => v.src != src);
     },
-    setWorkOrder() {
+    setOrder() {
       if (this.isEdit) {
-        this.workOrder = this.work.workOrder;
+        this.order = this.work.order;
       }
       if (this.works) {
-        this.workOrder = this.works.length;
+        this.order = this.works.length;
       }
     },
     setServerStatusInUI(isSuccess, statusText) {
@@ -464,7 +465,7 @@ export default {
         const formData = new FormData();
         formData.append("title", this.title);
         formData.append("credits", this.credits);
-        formData.append("workOrder", this.workOrder);
+        formData.append("order", this.order);
         formData.append("description", this.description);
         const videos = JSON.stringify({ vimeoId: this.videoId });
         formData.append("videos", videos);
@@ -563,7 +564,7 @@ export default {
       formData.append("title", this.title);
       formData.append("videos", videos);
       formData.append("credits", this.credits);
-      formData.append("workOrder", this.workOrder);
+      formData.append("order", this.order);
       formData.append("description", this.description);
       formData.append("photosInfo", JSON.stringify(photosInfo));
 
@@ -602,7 +603,7 @@ export default {
     if (this.isEdit) {
       this.setDataForEdit();
     }
-    this.setWorkOrder();
+    this.setOrder();
   }
 };
 </script>
