@@ -31,7 +31,8 @@ export default {
       if (this.$route.path.includes("commerce")) {
         res = this.allPhotos?.filter(v => v.category.includes("commerce"));
       } else {
-        res = this.allPhotos?.filter(v => !v.category.includes("commerce"));
+        // res = this.allPhotos;
+        res = this.allPhotos?.filter(v => !v?.category?.includes("commerce"));
       }
       return res && res.length ? res : this.allPhotos;
     }

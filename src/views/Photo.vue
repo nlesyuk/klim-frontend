@@ -1,9 +1,16 @@
 <template>
   <div class="photos">
     <template v-if="photo">
-      <h1>{{ photo.title }}</h1>
+      <img
+        v-if="firstPreview"
+        :src="firstPreview.src"
+        alt="main preview"
+        class="photos__preview image-responsive"
+      />
+      <h1 class="photos__title">{{ photo.title }}</h1>
+      <p class="photos__description" v-html="photo.descriptions"></p>
       <PhotosGrid :images="photos" />
-      <p>{{ photo.credits }}</p>
+      <p class="photos__credits" v-html="photo.credits"></p>
     </template>
     <Spiner v-else />
   </div>
@@ -28,6 +35,15 @@ export default {
     }
   },
   computed: {
+    firstPreview() {
+      if (this.photo) {
+        const previews = this.photo?.photos.filter(v => v.isPreview);
+        if (previews?.length) {
+          return previews[0];
+        }
+      }
+      return false;
+    },
     photos() {
       return this.photo ? this.photo.photos : [];
     }
@@ -38,8 +54,8 @@ export default {
     try {
       const { data } = await PhotosRepository.getById(+this.$route.params.id);
       console.log("data", data);
-      this.photo = data[0];
-      this.setTitle(data[0].title);
+      this.photo = data;
+      // this.setTitle(data[0].title);
     } catch (e) {
       console.error(e);
     }

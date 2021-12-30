@@ -273,7 +273,7 @@ export default {
       if (this.isEdit) {
         return this.order > count ? this.order + 1 : count;
       }
-      return count ? count : 1;
+      return count ? count + 1 : 1;
     },
     hostName() {
       return window.location.host;
@@ -380,7 +380,7 @@ export default {
         this.clientErrors.push("Please select at least one image");
         return;
       }
-      if (!this.order) {
+      if (!this.order && this.order !== 0) {
         this.clientErrors.push("Please select order");
         return;
       }
