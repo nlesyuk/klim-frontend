@@ -65,7 +65,7 @@
         <label class="dashboard__label">
           <span>Description under title</span>
           <VueEditor
-            id="editor1"
+            class="vue2editor"
             v-model="description"
             placeholder="description"
           ></VueEditor>
@@ -74,7 +74,7 @@
         <label class="dashboard__label">
           <span>Credits</span>
           <VueEditor
-            id="editor2"
+            class="vue2editor"
             v-model="credits"
             placeholder="credits"
           ></VueEditor>
