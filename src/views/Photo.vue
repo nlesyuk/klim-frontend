@@ -45,7 +45,11 @@ export default {
       return false;
     },
     photos() {
-      return this.photo ? this.photo.photos : [];
+      const photo = this.photo;
+      if (photo) {
+        return photo?.photos?.filter(v => v.id != this.firstPreview?.id);
+      }
+      return [];
     }
   },
   methods: {},

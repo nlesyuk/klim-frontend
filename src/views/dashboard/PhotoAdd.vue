@@ -522,6 +522,7 @@ export default {
         };
         console.log("payload", photosInfo);
 
+        formData.append("id", this.id);
         formData.append("title", this.title);
         formData.append("order", this.order);
         formData.append("credits", this.credits);

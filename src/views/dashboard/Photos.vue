@@ -54,6 +54,16 @@
             </button>
           </li>
           <li>
+            <button
+              type="button"
+              class="dashboard__btn-inline"
+              title="order"
+              disabled
+            >
+              {{ item.order }}
+            </button>
+          </li>
+          <li>
             <span
               class="dashboard__badge badge-blue"
               v-for="(category, index) in item.category"
