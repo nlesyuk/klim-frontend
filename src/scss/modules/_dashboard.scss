@@ -70,6 +70,11 @@ $media-sm: 992px;
       grid-template-columns: repeat(3, 1fr);
       grid-gap: 20px;
     }
+    &--contacts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 20px;
+    }
   }
   // in
   &__side {

@@ -1,70 +1,153 @@
 <template>
   <section class="dashboard-contacts">
-    <form class="dashboard__form" @submit.prevent="update">
-      <!--  -->
-      <label
-        :class="[
-          'dashboard__label',
-          { 'dashboard__label-error': $v.email.$dirty && $v.email.$error }
-        ]"
-      >
-        <span>email</span>
-        <input type="email" v-model="email" />
-      </label>
-      <!--  -->
-      <label
-        :class="[
-          'dashboard__label',
-          { 'dashboard__label-error': $v.phone.$dirty && $v.phone.$error }
-        ]"
-      >
-        <span>phone</span>
-        <input type="text" v-model="phone" />
-      </label>
-      <!--  -->
-      <label
-        :class="[
-          'dashboard__label',
-          { 'dashboard__label-error': $v.vimeo.$dirty && $v.vimeo.$error }
-        ]"
-      >
-        <span>vimeo</span>
-        <input type="text" v-model="vimeo" />
-      </label>
-      <!--  -->
-      <label
-        :class="[
-          'dashboard__label',
-          { 'dashboard__label-error': $v.facebook.$dirty && $v.facebook.$error }
-        ]"
-      >
-        <span>facebook</span>
-        <input type="text" v-model="facebook" />
-      </label>
-      <!--  -->
-      <label
-        :class="[
-          'dashboard__label',
-          { 'dashboard__label-error': $v.telegram.$dirty && $v.telegram.$error }
-        ]"
-      >
-        <span>telegram</span>
-        <input type="text" v-model="telegram" />
-      </label>
-      <!--  -->
-      <label
-        :class="[
-          'dashboard__label',
-          {
-            'dashboard__label-error': $v.instagram.$dirty && $v.instagram.$error
-          }
-        ]"
-      >
-        <span>instagram</span>
-        <input type="text" v-model="instagram" />
-      </label>
+    <form
+      class="dashboard__form dashboard__form--contacts"
+      @submit.prevent="update"
+    >
+      <!-- BASE -->
+      <div class="dashboard__form-item">
+        <!--  -->
+        <label
+          :class="[
+            'dashboard__label',
+            { 'dashboard__label-error': $v.email.$dirty && $v.email.$error }
+          ]"
+        >
+          <span>email</span>
+          <input type="email" v-model="email" />
+        </label>
+        <!--  -->
+        <label
+          :class="[
+            'dashboard__label',
+            { 'dashboard__label-error': $v.phone.$dirty && $v.phone.$error }
+          ]"
+        >
+          <span>phone</span>
+          <input type="text" v-model="phone" />
+        </label>
+        <!--  -->
+        <label
+          :class="[
+            'dashboard__label',
+            { 'dashboard__label-error': $v.vimeo.$dirty && $v.vimeo.$error }
+          ]"
+        >
+          <span>vimeo</span>
+          <input type="text" v-model="vimeo" />
+        </label>
+        <!--  -->
+        <label
+          :class="[
+            'dashboard__label',
+            {
+              'dashboard__label-error': $v.facebook.$dirty && $v.facebook.$error
+            }
+          ]"
+        >
+          <span>facebook</span>
+          <input type="text" v-model="facebook" />
+        </label>
+        <!--  -->
+        <label
+          :class="[
+            'dashboard__label',
+            {
+              'dashboard__label-error': $v.telegram.$dirty && $v.telegram.$error
+            }
+          ]"
+        >
+          <span>telegram</span>
+          <input type="text" v-model="telegram" />
+        </label>
+        <!--  -->
+        <label
+          :class="[
+            'dashboard__label',
+            {
+              'dashboard__label-error':
+                $v.instagram.$dirty && $v.instagram.$error
+            }
+          ]"
+        >
+          <span>instagram</span>
+          <input type="text" v-model="instagram" />
+        </label>
+      </div>
 
-      <!--  -->
+      <!-- CREDITS -->
+      <div class="dashboard__form-item">
+        <label class="dashboard__label">
+          <span>Description</span>
+          <VueEditor
+            class="vue2editor"
+            v-model="description"
+            placeholder="description"
+          ></VueEditor>
+        </label>
+      </div>
+
+      <!-- PHOTO -->
+      <div class="dashboard__form-item">
+        <!-- upload work -->
+        <div class="dashboard__label">
+          <span>Upload photo</span>
+          <input type="file" multiple @change="getFiles" ref="files" />
+        </div>
+        <!-- files: edit -->
+        <ul class="dashboard__list-imgs">
+          <li v-for="(file, idx) in selectedImages" :key="idx">
+            <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
+            <button type="button" @click="deleteExistingImage(file.id)">
+              delete
+            </button>
+            <span>{{ getName(file) }}</span>
+            <img :src="file.src" alt="edit" />
+
+            <label class="dashboard__label">
+              <span>Please select order of photos if need</span>
+              <select v-model="file.order">
+                <option disabled selected value="null">
+                  Please choose order
+                </option>
+                <option
+                  v-for="(img, index) of selectedImages"
+                  :key="index"
+                  :value="index"
+                >
+                  {{ index }}
+                </option>
+              </select>
+            </label>
+
+            <label class="dashboard__label">
+              <input type="checkbox" v-model="file.isPreview" :value="true" />
+              <span class="inline">Is preview photo?</span>
+            </label>
+
+            <label class="dashboard__label mb0">
+              <input
+                type="radio"
+                :name="`edit-format${idx}`"
+                value="vertical"
+                v-model="file.format"
+              />
+              <span class="inline">vertical</span>
+            </label>
+            <label class="dashboard__label">
+              <input
+                type="radio"
+                :name="`edit-format${idx}`"
+                value="horizontal"
+                v-model="file.format"
+              />
+              <span class="inline">horizontal</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+
+      <!-- SUBMIT -->
       <div class="dashboard__btns-container">
         <button
           type="submit"
@@ -82,6 +165,8 @@
 </template>
 
 <script>
+import { VueEditor } from "vue2-editor";
+import { getHeightAndWidthFromDataUrl } from "../../helper/index";
 import { required } from "vuelidate/lib/validators";
 import { mapState, mapActions } from "vuex";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
@@ -95,7 +180,9 @@ export default {
       vimeo: null,
       facebook: null,
       telegram: null,
-      instagram: null
+      instagram: null,
+      description: null,
+      selectedImages: []
     };
   },
   validations: {
@@ -118,6 +205,9 @@ export default {
       required
     }
   },
+  components: {
+    VueEditor
+  },
   computed: {
     ...mapState({
       contacts: state => state.general.contacts
@@ -132,26 +222,51 @@ export default {
         this.telegram &&
         this.instagram
       );
+    },
+    //
+    previewWork() {
+      const workPhotos = this.work?.photos ? this.work.photos : [];
+
+      return {
+        title: this.title,
+        photos: [...this.selectedImages, ...workPhotos],
+        credits: this.credits,
+        description: this.description,
+        videos: {
+          vimeoId: this.videoId
+        }
+      };
+    },
+    // base
+    worksLength() {
+      if (!this.works) {
+        return [];
+      }
+      const arr = Array.from(this.works).map(v => v.order);
+      return arr?.length
+        ? Math.max(...arr) + 2 // 2 bacause we start counting from 0 and need +1 and then +1 again
+        : 1;
     }
   },
   methods: {
+    // base
     ...mapActions(["getContacts"]),
-    update() {
-      if (this.$v.$invalid) {
-        this.$v.$touch();
-        return;
-      }
+    getFiles() {
+      const files = this.$refs.files.files;
 
-      const payload = {
-        email: this.email,
-        phone: this.phone,
-        vimeo: this.vimeo,
-        telegram: this.telegram,
-        facebook: this.facebook,
-        instagram: this.instagram
-      };
-
-      GeneralRepository.updateContacts(payload);
+      Array.from(files).forEach((file, idx) => {
+        getHeightAndWidthFromDataUrl(file).then(resolution => {
+          const format =
+            resolution.height > resolution.width ? "vertical" : "horizontal";
+          this.selectedImages.push({
+            file,
+            order: idx,
+            isPreview: false,
+            format,
+            src: URL.createObjectURL(file)
+          });
+        });
+      });
     },
     reset() {
       this.email = null;
@@ -173,6 +288,27 @@ export default {
       this.facebook = facebook;
       this.telegram = telegram;
       this.instagram = instagram;
+    },
+    getName(file) {
+      return `${file.src}`.split("/").pop();
+    },
+    // update
+    update() {
+      if (this.$v.$invalid) {
+        this.$v.$touch();
+        return;
+      }
+
+      const payload = {
+        email: this.email,
+        phone: this.phone,
+        vimeo: this.vimeo,
+        telegram: this.telegram,
+        facebook: this.facebook,
+        instagram: this.instagram
+      };
+
+      GeneralRepository.updateContacts(payload);
     }
   },
   created() {
