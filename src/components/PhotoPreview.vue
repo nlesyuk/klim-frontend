@@ -62,7 +62,10 @@ export default {
       return allPreviewPhotos.length ? allPreviewPhotos.slice(0, 3) : [];
     },
     isVertical() {
-      return this.photos.every(v => v.isVertical);
+      if (this.photos) {
+        return this.photos.slice(0, 3).every(v => v.format === "vertical");
+      }
+      return false;
     }
   }
 };
