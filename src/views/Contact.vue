@@ -68,8 +68,7 @@ import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
-      isActivateCalendar: false,
-      contacts1: null
+      isActivateCalendar: false
     };
   },
   computed: {
