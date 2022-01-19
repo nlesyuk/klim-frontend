@@ -2,7 +2,7 @@
   <section class="dashboard-contacts">
     <form
       class="dashboard__form dashboard__form--contacts"
-      @submit.prevent="update"
+      @submit.prevent="submit"
     >
       <!-- BASE -->
       <div class="dashboard__form-item">
@@ -95,54 +95,14 @@
           <input type="file" multiple @change="getFiles" ref="files" />
         </div>
         <!-- files: edit -->
-        <ul class="dashboard__list-imgs">
+        <ul class="dashboard__list-imgs dashboard__list-imgs--single">
           <li v-for="(file, idx) in selectedImages" :key="idx">
             <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
-            <button type="button" @click="deleteExistingImage(file.id)">
+            <button type="button" @click="selectedImages = []">
               delete
             </button>
             <span>{{ getName(file) }}</span>
             <img :src="file.src" alt="edit" />
-
-            <label class="dashboard__label">
-              <span>Please select order of photos if need</span>
-              <select v-model="file.order">
-                <option disabled selected value="null">
-                  Please choose order
-                </option>
-                <option
-                  v-for="(img, index) of selectedImages"
-                  :key="index"
-                  :value="index"
-                >
-                  {{ index }}
-                </option>
-              </select>
-            </label>
-
-            <label class="dashboard__label">
-              <input type="checkbox" v-model="file.isPreview" :value="true" />
-              <span class="inline">Is preview photo?</span>
-            </label>
-
-            <label class="dashboard__label mb0">
-              <input
-                type="radio"
-                :name="`edit-format${idx}`"
-                value="vertical"
-                v-model="file.format"
-              />
-              <span class="inline">vertical</span>
-            </label>
-            <label class="dashboard__label">
-              <input
-                type="radio"
-                :name="`edit-format${idx}`"
-                value="horizontal"
-                v-model="file.format"
-              />
-              <span class="inline">horizontal</span>
-            </label>
           </li>
         </ul>
       </div>
@@ -154,7 +114,7 @@
           class="dashboard__submit"
           :disabled="!isAllowUpdate"
         >
-          Update contacts
+          {{ isContactAlreadyExist ? "Update" : "Create" }} contacts
         </button>
         <button type="reset" class="dashboard__submit" @click="reset">
           Reset
@@ -182,7 +142,8 @@ export default {
       telegram: null,
       instagram: null,
       description: null,
-      selectedImages: []
+      selectedImages: [],
+      isContactAlreadyExist: false
     };
   },
   validations: {
@@ -213,7 +174,6 @@ export default {
       contacts: state => state.general.contacts
     }),
     isAllowUpdate() {
-      // return true;
       return (
         this.email &&
         this.phone &&
@@ -281,19 +241,31 @@ export default {
         return false;
       }
 
-      const { email, phone, vimeo, facebook, telegram, instagram } = contacts;
+      const {
+        email,
+        phone,
+        vimeo,
+        facebook,
+        telegram,
+        instagram,
+        description
+      } = contacts;
+
       this.email = email;
       this.phone = phone;
       this.vimeo = vimeo;
       this.facebook = facebook;
       this.telegram = telegram;
       this.instagram = instagram;
+      this.description = description;
+      this.isContactAlreadyExist = true;
     },
     getName(file) {
       return `${file.src}`.split("/").pop();
     },
-    // update
-    update() {
+
+    // submit
+    submit() {
       if (this.$v.$invalid) {
         this.$v.$touch();
         return;
@@ -305,10 +277,17 @@ export default {
         vimeo: this.vimeo,
         telegram: this.telegram,
         facebook: this.facebook,
-        instagram: this.instagram
+        instagram: this.instagram,
+        description: this.description
       };
 
-      GeneralRepository.updateContacts(payload);
+      if (this.isContactAlreadyExist) {
+        // update
+        GeneralRepository.updateContacts(payload);
+      } else {
+        // create
+        GeneralRepository.createContacts(payload);
+      }
     }
   },
   created() {

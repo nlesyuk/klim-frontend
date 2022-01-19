@@ -323,6 +323,10 @@ $media-sm: 992px;
       grid-template-columns: repeat(6, 1fr);
       grid-gap: 10px;
       position: relative;
+      &--single {
+        grid-template-columns: repeat(1, 1fr);
+      }
+
       button {
         display: inline-block;
       }
