@@ -1,56 +1,59 @@
 <template>
   <div class="contact">
     <div class="contact__main">
-      <figure class="contact__figure">
-        <img
-          src="@/assets/contact-image.jpg"
-          class="contact__img"
-          loading="lazy"
-        />
-      </figure>
-      <div class="contact__info" v-if="contacts">
-        <span class="contact__text">
-          Email
-          <a :href="`mailto:${contacts.email}`">{{ contacts.email }}</a>
-        </span>
-        <span class="contact__text">
-          phone number
-          <a :href="`tel:${phone}`">{{ contacts.phone }}</a>
-        </span>
-        <div class="contact__text">
-          sociale media
-          <ul class="contact__social">
-            <li>
-              <a :href="contacts.facebook" target="_blank">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                  <use xlink:href="#svg-sprite--facebook"></use>
-                </svg>
-              </a>
-            </li>
-            <li>
-              <a :href="contacts.instagram" target="_blank">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                  <use xlink:href="#svg-sprite--instagram"></use>
-                </svg>
-              </a>
-            </li>
-            <li>
-              <a :href="contacts.telegram" target="_blank">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                  <use xlink:href="#svg-sprite--telegram"></use>
-                </svg>
-              </a>
-            </li>
-            <li>
-              <a :href="contacts.vimeo" target="_blank">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                  <use xlink:href="#svg-sprite--vimeo"></use>
-                </svg>
-              </a>
-            </li>
-          </ul>
+      <div class="contact__top-container">
+        <figure class="contact__figure">
+          <img
+            src="@/assets/contact-image.jpg"
+            class="contact__img"
+            loading="lazy"
+          />
+        </figure>
+        <div class="contact__info" v-if="contacts">
+          <span class="contact__text">
+            Email
+            <a :href="`mailto:${contacts.email}`">{{ contacts.email }}</a>
+          </span>
+          <span class="contact__text">
+            phone number
+            <a :href="`tel:${phone}`">{{ contacts.phone }}</a>
+          </span>
+          <div class="contact__text">
+            sociale media
+            <ul class="contact__social">
+              <li>
+                <a :href="contacts.facebook" target="_blank">
+                  <svg width="24" height="24" viewBox="0 0 24 24">
+                    <use xlink:href="#svg-sprite--facebook"></use>
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a :href="contacts.instagram" target="_blank">
+                  <svg width="24" height="24" viewBox="0 0 24 24">
+                    <use xlink:href="#svg-sprite--instagram"></use>
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a :href="contacts.telegram" target="_blank">
+                  <svg width="24" height="24" viewBox="0 0 24 24">
+                    <use xlink:href="#svg-sprite--telegram"></use>
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a :href="contacts.vimeo" target="_blank">
+                  <svg width="24" height="24" viewBox="0 0 24 24">
+                    <use xlink:href="#svg-sprite--vimeo"></use>
+                  </svg>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
+      <div class="contact__description" v-html="contacts.description"></div>
     </div>
     <iframe
       v-if="isActivateCalendar"
@@ -72,6 +75,11 @@ export default {
     };
   },
   computed: {
+    image() {
+      return this.contacts?.image
+        ? this.contacts.image
+        : "@/assets/contact-image.jpg";
+    },
     phone() {
       if (!this.contacts) return null;
       return this.contacts.phone.replace(/[^\w\s]/gi, "").replace(/\s/gi, "");

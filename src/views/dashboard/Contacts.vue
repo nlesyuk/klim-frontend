@@ -98,9 +98,9 @@
         <ul class="dashboard__list-imgs dashboard__list-imgs--single">
           <li v-for="(file, idx) in selectedImages" :key="idx">
             <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
-            <button type="button" @click="selectedImages = []">
+            <!-- <button type="button" @click="selectedImages = []">
               delete
-            </button>
+            </button> -->
             <span>{{ getName(file) }}</span>
             <img :src="file.src" alt="edit" />
           </li>
@@ -119,14 +119,24 @@
         <button type="reset" class="dashboard__submit" @click="reset">
           Reset
         </button>
+        <!-- server errors/response -->
+        <div class="dashboard__status">
+          <div class="dashboard__status--success" v-if="isSuccess">
+            Success
+          </div>
+          <div class="dashboard__status--fail" v-if="serverError">
+            Server error: {{ serverError }}
+          </div>
+        </div>
+        <Spiner v-if="isLoading" :isCenter="false" />
       </div>
     </form>
   </section>
 </template>
 
 <script>
+import { getHeightAndWidthFromDataUrl, getName } from "../../helper/index";
 import { VueEditor } from "vue2-editor";
-import { getHeightAndWidthFromDataUrl } from "../../helper/index";
 import { required } from "vuelidate/lib/validators";
 import { mapState, mapActions } from "vuex";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
@@ -135,6 +145,7 @@ const GeneralRepository = RepositoryFactory.get("general");
 export default {
   data() {
     return {
+      // fields
       email: null,
       phone: null,
       vimeo: null,
@@ -143,7 +154,12 @@ export default {
       instagram: null,
       description: null,
       selectedImages: [],
-      isContactAlreadyExist: false
+      // general
+      isContactAlreadyExist: false,
+      isLoading: false,
+      isSuccess: false,
+      clientErrors: [],
+      serverError: null
     };
   },
   validations: {
@@ -191,7 +207,7 @@ export default {
         title: this.title,
         photos: [...this.selectedImages, ...workPhotos],
         credits: this.credits,
-        description: this.description,
+        description: this.description ?? "",
         videos: {
           vimeoId: this.videoId
         }
@@ -212,6 +228,7 @@ export default {
     // base
     ...mapActions(["getContacts"]),
     getFiles() {
+      this.selectedImages = [];
       const files = this.$refs.files.files;
 
       Array.from(files).forEach((file, idx) => {
@@ -248,7 +265,8 @@ export default {
         facebook,
         telegram,
         instagram,
-        description
+        description,
+        image
       } = contacts;
 
       this.email = email;
@@ -258,11 +276,10 @@ export default {
       this.telegram = telegram;
       this.instagram = instagram;
       this.description = description;
+      this.selectedImages.push({ src: image });
       this.isContactAlreadyExist = true;
     },
-    getName(file) {
-      return `${file.src}`.split("/").pop();
-    },
+    getName: getName,
 
     // submit
     submit() {
@@ -271,22 +288,30 @@ export default {
         return;
       }
 
-      const payload = {
-        email: this.email,
-        phone: this.phone,
-        vimeo: this.vimeo,
-        telegram: this.telegram,
-        facebook: this.facebook,
-        instagram: this.instagram,
-        description: this.description
-      };
+      const formData = new FormData();
+      formData.append("email", this.email);
+      formData.append("phone", this.phone);
+      formData.append("vimeo", this.vimeo);
+      formData.append("telegram", this.telegram);
+      formData.append("facebook", this.facebook);
+      formData.append("instagram", this.instagram);
+      formData.append("description", this.description);
+      const image = this.selectedImages?.[0];
+      if (image) {
+        formData.append("photos[]", image.file);
+      }
 
+      this.isLoading = true;
       if (this.isContactAlreadyExist) {
         // update
-        GeneralRepository.updateContacts(payload);
+        GeneralRepository.updateContacts(formData).finally(() => {
+          this.isLoading = false;
+        });
       } else {
         // create
-        GeneralRepository.createContacts(payload);
+        GeneralRepository.createContacts(formData).finally(() => {
+          this.isLoading = false;
+        });
       }
     }
   },

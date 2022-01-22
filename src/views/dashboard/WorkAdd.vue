@@ -285,7 +285,7 @@ import { VueEditor } from "vue2-editor";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
 const VideosRepository = RepositoryFactory.get("videos");
-import { getHeightAndWidthFromDataUrl } from "../../helper/index";
+import { getHeightAndWidthFromDataUrl, getName } from "../../helper/index";
 
 export default {
   props: {
@@ -431,6 +431,7 @@ export default {
         }, 20 * 1000);
       }
     },
+    getName: getName,
 
     // send work to a server:
     async submit() {
@@ -594,9 +595,6 @@ export default {
         this.work.deletedPhotoIds = [];
         this.work.deletedPhotoIds.push(id);
       }
-    },
-    getName(file) {
-      return `${file.src}`.split("/").pop();
     }
   },
   mounted() {

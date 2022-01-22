@@ -38,3 +38,10 @@ export function getHeightAndWidthFromDataUrl(file) {
     img.src = src;
   });
 }
+
+export function getName(file) {
+  if (!file?.src) {
+    return "noname";
+  }
+  return `${file.src}`.split("/").pop();
+}

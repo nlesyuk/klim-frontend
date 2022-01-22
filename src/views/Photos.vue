@@ -1,6 +1,6 @@
 <template>
   <div class="photos">
-    <template v-if="photos">
+    <template v-if="photos && photos.length">
       <PhotoPreview
         v-for="(photo, idx) in photos"
         :key="idx"
@@ -8,7 +8,7 @@
         :collectionType="idx % 2 ? 'left' : 'right'"
       />
     </template>
-    <p v-else-if="photos !== null" class="home__empty-category">
+    <p v-else-if="photos && photos.length === 0" class="home__empty-category">
       Don't have any photos yet
     </p>
     <Spiner v-else />
