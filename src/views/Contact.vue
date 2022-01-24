@@ -1,15 +1,11 @@
 <template>
   <div class="contact">
-    <div class="contact__main">
+    <div class="contact__main" v-if="contacts">
       <div class="contact__top-container">
         <figure class="contact__figure">
-          <img
-            src="@/assets/contact-image.jpg"
-            class="contact__img"
-            loading="lazy"
-          />
+          <img :src="image" class="contact__img" loading="lazy" />
         </figure>
-        <div class="contact__info" v-if="contacts">
+        <div class="contact__info">
           <span class="contact__text">
             Email
             <a :href="`mailto:${contacts.email}`">{{ contacts.email }}</a>
@@ -77,7 +73,7 @@ export default {
   computed: {
     image() {
       return this.contacts?.image
-        ? this.contacts.image
+        ? `${this.contacts.image}`
         : "@/assets/contact-image.jpg";
     },
     phone() {
@@ -93,14 +89,14 @@ export default {
   },
   mounted() {
     this.setTitle("Contact");
+    if (!this.contacts) {
+      this.getContacts();
+    }
 
     // /contact/?calendar=on
     if (this.$route.query.calendar === "on") {
       this.isActivateCalendar = true;
       this.setTitle("Calendar");
-    }
-    if (!this.contacts) {
-      this.getContacts();
     }
   }
 };

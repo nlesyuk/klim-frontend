@@ -199,20 +199,6 @@ export default {
         this.instagram
       );
     },
-    //
-    previewWork() {
-      const workPhotos = this.work?.photos ? this.work.photos : [];
-
-      return {
-        title: this.title,
-        photos: [...this.selectedImages, ...workPhotos],
-        credits: this.credits,
-        description: this.description ?? "",
-        videos: {
-          vimeoId: this.videoId
-        }
-      };
-    },
     // base
     worksLength() {
       if (!this.works) {
@@ -252,6 +238,8 @@ export default {
       this.facebook = null;
       this.telegram = null;
       this.instagram = null;
+      this.description = null;
+      this.selectedImages = [];
     },
     setContacts(contacts) {
       if (!contacts) {
@@ -275,7 +263,7 @@ export default {
       this.facebook = facebook;
       this.telegram = telegram;
       this.instagram = instagram;
-      this.description = description;
+      this.description = description ?? "";
       this.selectedImages.push({ src: image });
       this.isContactAlreadyExist = true;
     },
