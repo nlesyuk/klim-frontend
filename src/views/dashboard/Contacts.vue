@@ -304,12 +304,15 @@ export default {
     }
   },
   created() {
-    if (!this.contacts) {
-      this.getContacts().then(contacts => {
-        this.setContacts(contacts);
-      });
-    }
-    this.setContacts(this.contacts);
+    setTimeout(() => {
+      // not good but
+      if (!this.contacts) {
+        this.getContacts().then(contacts => {
+          this.setContacts(contacts);
+        });
+      }
+      this.setContacts(this.contacts);
+    }, 0);
   }
 };
 </script>
