@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ test }}
     <template v-if="chunkedImages && chunkedImages.vertical">
       <div
         class="grid-container"
@@ -46,7 +47,7 @@
               MORE
             </button>
 
-            <a class="grid__lightbox" :href="image.src">
+            <a class="grid__lightbox" :href="image.src" ref="lightbox">
               <img :src="image.src" alt="" class="grid__img" loading="lazy" />
             </a>
           </figure>
@@ -101,7 +102,7 @@
               MORE
             </button>
 
-            <a class="grid__lightbox" :href="image.src">
+            <a class="grid__lightbox" :href="image.src" ref="lightbox">
               <img :src="image.src" alt="" class="grid__img" loading="lazy" />
             </a>
           </figure>
@@ -149,7 +150,8 @@ export default {
   methods: {
     installLightBox() {
       this.lightbox = new SimpleLightbox({
-        elements: ".grid-container .grid__lightbox"
+        // elements: ".grid-container .grid__lightbox",
+        elements: this.$refs.lightbox
       });
     },
     uninstallLightBox() {
