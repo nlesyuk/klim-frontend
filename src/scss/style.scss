@@ -348,6 +348,7 @@
     padding: 26px 0;
   }
 }
+
 //
 .works {
   display: grid;
@@ -369,6 +370,7 @@
     }
     p {
       color: $primaryHalf;
+      color: $grey;
       @include reset-vue2editor;
     }
   }
