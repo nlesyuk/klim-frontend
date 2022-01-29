@@ -4,10 +4,8 @@
 
     <template v-if="work">
       <VimeoVideoPlayer :id="work.videos.vimeoId" :previewImg="previewImg" />
-      <div class="work-page__text">
-        <h1>{{ work.title }}</h1>
-        <p v-html="work.description"></p>
-      </div>
+      <h1 class="work-page__title">{{ work.title }}</h1>
+      <p class="work-page__description" v-html="work.description"></p>
       <PhotosGrid
         v-show="work.photos"
         :images="work.photos"

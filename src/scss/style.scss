@@ -329,9 +329,9 @@
   }
   &__title {
     font-size: 2.5rem;
-    color: $primary;
     line-height: 1;
     padding: 24px 0 16px;
+    color: $grey;
   }
   &__description,
   &__credits {
@@ -357,28 +357,21 @@
 }
 //
 .work-page {
-  &__text {
-    font-family: $font;
-    font-size: 1.6rem;
-    line-height: 1.2;
+  &__title {
     padding: 26px 0;
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 16px;
-      color: $primary;
-      line-height: 1;
-    }
-    p {
-      color: $primaryHalf;
-      color: $grey;
-      @include reset-vue2editor;
-    }
+    font: 2.5rem/1 $font;
+    color: $grey;
+    margin-bottom: 16px;
+  }
+  &__description {
+    font: 1.6rem/1.2 $font;
+    color: $grey;
+    margin-bottom: 26px;
   }
   &__credits {
-    font-family: $font;
-    font-size: 1.6rem;
-    line-height: 1.2;
+    font: 1.6rem/1.2 $font;
     padding: 26px 0;
+    color: $grey;
     @include reset-vue2editor;
   }
 }

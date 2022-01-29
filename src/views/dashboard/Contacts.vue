@@ -114,7 +114,7 @@
           class="dashboard__submit"
           :disabled="!isAllowUpdate"
         >
-          {{ isContactAlreadyExist ? "Update" : "Create" }} contacts
+          {{ isContactAlreadyExist ? "Update" : "Create" }}
         </button>
         <button type="reset" class="dashboard__submit" @click="reset">
           Reset
