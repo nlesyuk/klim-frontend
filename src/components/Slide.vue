@@ -1,5 +1,5 @@
 <template>
-  <figure :class="[classes, 'slider__slide']">
+  <figure :class="[classes, 'slider__slide']" @click="goTo">
     <!-- img -->
     <img
       v-if="source.type === 'image'"
@@ -15,6 +15,7 @@
       @click="pauseVideo"
     ></div>
     <button
+      v-if="false"
       type="button"
       @click="goTo"
       class="slider__slide-btn"
