@@ -11,6 +11,7 @@ export default {
         const { data } = await SlidesRepository.get();
         commit("setSlides", data);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.error(e);
       }
     }

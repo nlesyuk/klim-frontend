@@ -138,7 +138,7 @@ export default {
     ...mapActions(["getAllVideos"]),
     getFiles() {
       const files = this.$refs.files.files;
-      Array.from(files).forEach((file, idx) => {
+      Array.from(files).forEach(file => {
         getHeightAndWidthFromDataUrl(file).then(resol => {
           const format = resol.height > resol.width ? "vertical" : "horizontal";
           this.selectedImages.push({
@@ -175,10 +175,11 @@ export default {
         });
         formData.append("shots", JSON.stringify(shots));
 
-        const { data } = await ShotsRepository.create(formData);
+        await ShotsRepository.create(formData);
         this.isSuccess = true;
         this.reset();
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.error(e);
         this.serverError = e.response.statusText;
       } finally {

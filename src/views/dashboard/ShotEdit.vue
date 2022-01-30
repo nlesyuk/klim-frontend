@@ -168,11 +168,7 @@ export default {
           data[pair[0]] = pair[1];
         }
 
-        // eslint-disable-next-line no-console
-        console.log("update", data);
-        const res = await ShotRepository.update(formData);
-        // eslint-disable-next-line no-console
-        console.log("upload-response", res.data);
+        await ShotRepository.update(formData);
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error(e);

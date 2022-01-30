@@ -322,7 +322,7 @@ export default {
         });
       }
 
-      Array.from(files).forEach((file, idx) => {
+      Array.from(files).forEach(file => {
         const src = URL.createObjectURL(file);
         getHeightAndWidthFromDataUrl(src).then(resol => {
           const format = resol.height > resol.width ? "vertical" : "horizontal";
@@ -398,7 +398,6 @@ export default {
 
     // create
     create() {
-      console.log("CREATE");
       try {
         const formData = new FormData();
         formData.append("title", this.title);
@@ -429,7 +428,8 @@ export default {
             this.setServerStatusInUI(true);
           })
           .catch(e => {
-            console.error("PhotosAdd server ERROR", e);
+            // eslint-disable-next-line no-console
+            console.error(e);
             this.setServerStatusInUI(false, e?.response?.data?.message);
           })
           .finally(() => {
@@ -438,6 +438,7 @@ export default {
           });
       } catch (e) {
         this.serverError = e.message;
+        // eslint-disable-next-line no-console
         console.error("PhotosAdd server ERROR", e);
       }
     },
@@ -463,8 +464,6 @@ export default {
       this.selectedImages = JSON.parse(JSON.stringify(photos));
     },
     update() {
-      console.log("UPDATE");
-
       try {
         const formData = new FormData();
 
@@ -494,7 +493,6 @@ export default {
             return !isExist;
           })
           .map(v => v?.id);
-        console.log("deletedPhotoIds", deletedPhotoIds);
         // updated
         const updatePhotoInfo =
           this.selectedImages?.filter((v, idx) => {
@@ -519,7 +517,6 @@ export default {
           deleted: deletedPhotoIds,
           updated: updatePhotoInfo
         };
-        console.log("payload", photosInfo);
 
         formData.append("id", this.id);
         formData.append("title", this.title);
@@ -539,7 +536,8 @@ export default {
             this.setServerStatusInUI(true);
           })
           .catch(e => {
-            console.info("Update photos ERROR", e);
+            // eslint-disable-next-line no-console
+            console.error(e);
             this.setServerStatusInUI(false, e.response.statusText);
           })
           .finally(() => {

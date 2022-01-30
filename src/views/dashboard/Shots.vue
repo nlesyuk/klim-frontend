@@ -69,9 +69,9 @@ export default {
       try {
         this.isLoading = true;
         this.filteredPhotos = this.filteredPhotos.filter(v => v.id != id);
-        const res = await ShotRepository.delete(id);
-        console.log("REMOVE", res);
+        await ShotRepository.delete(id);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.error("REMOVE ERROR", e);
       } finally {
         this.isLoading = false;
@@ -104,6 +104,7 @@ export default {
         this.getAllVideos();
       }
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(err);
     }
   }

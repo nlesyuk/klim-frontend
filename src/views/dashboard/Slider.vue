@@ -68,6 +68,7 @@ export default {
           this.getSlides(); // not good, TODO: remove item from store with mutation
         })
         .catch(err => {
+          // eslint-disable-next-line no-console
           console.error(err);
         });
     },

@@ -491,6 +491,7 @@ export default {
             this.setServerStatusInUI(true);
           })
           .catch(e => {
+            // eslint-disable-next-line no-console
             console.error("AddWork server ERROR", e);
             this.setServerStatusInUI(false, "e.response");
           })
@@ -499,6 +500,7 @@ export default {
             this.clientErrors = [];
           });
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.error("AddWork ERROR", err);
       }
     },
@@ -558,7 +560,6 @@ export default {
         deleted: deletedPhotoIds,
         updated: updatePhotoInfo
       };
-      console.log("update", photosInfo);
 
       // formData:
       formData.append("id", WORK.id);
@@ -576,6 +577,7 @@ export default {
           this.setServerStatusInUI(true);
         })
         .catch(e => {
+          // eslint-disable-next-line no-console
           console.info("Update work ERROR", e);
           this.setServerStatusInUI(false, e.response.statusText);
         })

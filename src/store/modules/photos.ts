@@ -11,18 +11,18 @@ export default {
     async getPhotos({ commit }) {
       try {
         const { data } = await PhotosRepository.get();
-        console.log("STORE getPhotos", data);
         commit("setPhotos", data);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.error(e);
       }
     },
     async getCategories({ commit }) {
       try {
         const { data } = await CategoriesRepository.get();
-        console.log("STORE getPhotos", data);
         commit("setPhotos", data);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.error(e);
       }
     }

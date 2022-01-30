@@ -65,7 +65,6 @@ export default {
   watch: {
     currentSlide(id) {
       if (this.source.type !== "video") {
-        console.log("WATCH", this.source.type, this.currentSlide);
         return;
       }
       this.launchVideo(id, this.slideId);
@@ -73,13 +72,13 @@ export default {
   },
   methods: {
     installVimeo() {
-      console.log("installVimeo data:", this.source.type, this.currentSlide);
+      // console.log("installVimeo data:", this.source.type, this.currentSlide);
       if (
         !this.source?.video?.vimeoId ||
         this.source.type !== "video" ||
         this.player
       ) {
-        console.log("installVimeo - was installed or wrong type");
+        // console.log("installVimeo - was installed or wrong type");
         return;
       }
 
@@ -95,16 +94,17 @@ export default {
         responsive: true
       });
       this.player.setQuality("720p").then(function(quality) {
-        // console.log("quality was successfully set", quality);
+        // eslint-disable-next-line no-console
+        console.log("quality was successfully set", quality);
       });
 
       return this.player.ready();
     },
     playVideo() {
       if (!this.player) {
-        console.log("playVideo - player is not installed", this.currentSlide);
+        // console.log("playVideo - player is not installed", this.currentSlide);
         Promise.resolve(this.installVimeo()).then(() => {
-          console.log("playVideo - then play", this.currentSlide);
+          // console.log("playVideo - then play", this.currentSlide);
           this.player?.play();
           this.isPlaying = true;
         });
@@ -112,7 +112,8 @@ export default {
       }
 
       if (this.player) {
-        console.log("playVideo - play()", this.currentSlide);
+        // console.log("playVideo - play()", this.currentSlide);
+        // eslint-disable-next-line
         this.player.setCurrentTime(0).then(time => {
           this.player.play();
           this.isPlaying = true;
@@ -123,11 +124,11 @@ export default {
       if (!this.player) this.installVimeo();
 
       if (this.isPaused) {
-        console.log("pauseVideo - play", this.currentSlide);
+        // console.log("pauseVideo - play", this.currentSlide);
         this.player?.play();
         this.isPaused = false;
       } else {
-        console.log("pauseVideo - pause", this.currentSlide);
+        // console.log("pauseVideo - pause", this.currentSlide);
         this.player?.pause().then(() => {
           this.player.setCurrentTime(0);
         });
@@ -141,16 +142,16 @@ export default {
       }
 
       if (!this.player) {
-        console.log("launchVideo - install player", this.currentSlide);
+        // console.log("launchVideo - install player", this.currentSlide);
         this.installVimeo();
         return;
       }
 
       if (this.player && currentSlideId === slideId) {
-        console.log("launchVideo - play", this.currentSlide);
+        // console.log("launchVideo - play", this.currentSlide);
         this.playVideo();
       } else {
-        console.log("launchVideo - pause", this.currentSlide);
+        // console.log("launchVideo - pause", this.currentSlide);
         // this.player?.setCurrentTime(0);
         this.pauseVideo();
       }

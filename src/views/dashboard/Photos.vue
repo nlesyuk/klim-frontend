@@ -141,8 +141,6 @@ export default {
       const item = this.allPhotos.filter(v => v.id === id);
       this.photoCollection = item?.length ? item[0] : null;
       this.isShowAddPhoto = true;
-
-      console.log("photoCollection", this.photoCollection);
     }
   },
   created() {

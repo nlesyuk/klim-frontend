@@ -13,6 +13,7 @@ export default {
         commit("setShots", data);
         return Promise.resolve(data);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.error(e);
         return Promise.reject(e);
       }

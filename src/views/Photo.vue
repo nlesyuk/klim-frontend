@@ -36,11 +36,6 @@ export default {
       photo: null
     };
   },
-  watch: {
-    photo(v) {
-      console.log("photo w", v);
-    }
-  },
   computed: {
     // 1
     firstPreview() {
@@ -85,10 +80,9 @@ export default {
     this.setTitle("Photo");
     try {
       const { data } = await PhotosRepository.getById(+this.$route.params.id);
-      console.log("data", data);
       this.photo = data;
-      // this.setTitle(data[0].title);
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(e);
     }
   }

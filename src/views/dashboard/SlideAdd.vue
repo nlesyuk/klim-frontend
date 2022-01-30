@@ -437,17 +437,6 @@ export default {
           formData.append("videos", JSON.stringify(videos));
         }
 
-        console.log(
-          "create",
-          title,
-          order,
-          type,
-          videos,
-          images,
-          workId,
-          photoId
-        );
-
         this.isLoading = true;
         SlidesRepository.create(formData)
           .then(() => {
@@ -455,7 +444,8 @@ export default {
             this.setServerStatusInUI(true);
           })
           .catch(e => {
-            console.error("AddSlide server ERROR", e);
+            // eslint-disable-next-line no-console
+            console.error(e);
             this.setServerStatusInUI(false, e?.response?.data?.message);
           })
           .finally(() => {
@@ -463,6 +453,7 @@ export default {
             this.clientErrors = [];
           });
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.error("AddSlide ERROR", err);
       }
     },
@@ -534,17 +525,6 @@ export default {
           formData.append("videos", JSON.stringify(videos));
         }
 
-        console.log(
-          "update",
-          title,
-          order,
-          type,
-          videos,
-          images,
-          workId,
-          photoId
-        );
-
         this.isLoading = true;
         SlidesRepository.update(formData)
           .then(() => {
@@ -552,7 +532,8 @@ export default {
             this.setServerStatusInUI(true);
           })
           .catch(e => {
-            console.error("AddSlide server ERROR", e);
+            // eslint-disable-next-line no-console
+            console.error(e);
             this.setServerStatusInUI(false, e?.response?.data?.message);
           })
           .finally(() => {
@@ -560,6 +541,7 @@ export default {
             this.clientErrors = [];
           });
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.error("AddSlide ERROR", err);
       }
     },

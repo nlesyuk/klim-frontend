@@ -67,11 +67,9 @@ export default {
   },
   methods: {
     onEdit(item) {
-      console.log("edit", item);
       this.$emit("edit", item);
     },
     onDelete(item) {
-      console.log("delete", item);
       this.$emit("delete", item);
     }
   }

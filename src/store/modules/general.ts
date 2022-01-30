@@ -11,6 +11,7 @@ export default {
         const { data } = await RepositoryGeneral.getContacts();
         commit("setContacts", data);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.error(e);
       }
     }

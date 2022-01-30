@@ -60,13 +60,12 @@ export default {
     ...mapActions(["getSlides"]),
     onSlideChange(object) {
       this.currentSlide = object.currentSlide;
-      // console.log("onSlideChange", object);
     }
   },
   mounted() {
     // api
     if (!this.allSlides) {
-      this.getSlides().then(data => {
+      this.getSlides().then(() => {
         this.currentSlide = 1;
       });
     }

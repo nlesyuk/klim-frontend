@@ -1,3 +1,4 @@
+<!-- eslint-disable -->
 <template>
   <svg
     style="display:none"
