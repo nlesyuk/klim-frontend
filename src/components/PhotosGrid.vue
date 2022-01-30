@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ test }}
     <template v-if="chunkedImages && chunkedImages.vertical">
       <div
         class="grid-container"

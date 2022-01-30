@@ -45,7 +45,7 @@
         </label>
 
         <!-- Work -->
-        <label class="dashboard__label">
+        <label class="dashboard__label" v-if="slideFields.type === 'video'">
           <span>Link slide to work</span>
           <select v-model="slideFields.workId">
             <option disabled selected value="null">
@@ -62,9 +62,9 @@
         </label>
 
         <!-- Photo -->
-        <label class="dashboard__label">
+        <label class="dashboard__label" v-if="slideFields.type === 'image'">
           <span>
-            Link slide to photo collection (temporary it doesn't work)
+            Link slide to photo collection
           </span>
           <select v-model="slideFields.photoId">
             <option disabled selected value="null">
@@ -389,8 +389,12 @@ export default {
         );
         return;
       }
-      if (!workId || photoId) {
-        this.clientErrors.push("Please fill work ID or photo ID field");
+      if (!workId) {
+        this.clientErrors.push("Please fill work ID field");
+        return;
+      }
+      if (!photoId) {
+        this.clientErrors.push("Please fill photo ID field");
         return;
       }
 

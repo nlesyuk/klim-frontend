@@ -177,17 +177,18 @@ export default {
 
     //
     goTo() {
-      if (this.source?.hasOwnProperty("photoId")) {
-        this.$router.push({
-          name: "photo",
-          params: { id: this.source.photoId }
-        });
-      }
-      if (this.source?.hasOwnProperty("workId")) {
-        this.$router.push({
-          name: "work",
-          params: { id: this.source.workId }
-        });
+      if (this.source?.hasOwnProperty("photoId") && this.source?.photoId) {
+        // this.$router.push({
+        //   name: "photo",
+        //   params: { id: `${this.source.photoId}` }
+        // });
+        this.$router.push({ path: `/photo/${this.source.photoId}` });
+      } else if (this.source?.hasOwnProperty("workId") && this.source?.workId) {
+        // this.$router.push({
+        //   name: "work",
+        //   params: { id: this.source.workId }
+        // });
+        this.$router.push({ path: `/work/${this.source.workId}` });
       }
     }
   },
