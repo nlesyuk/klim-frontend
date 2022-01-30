@@ -310,10 +310,10 @@ export default {
   },
   data() {
     return {
-      title: "title",
-      credits: "credits",
-      videoId: "521769877",
-      description: "description",
+      title: "",
+      credits: "",
+      videoId: "",
+      description: "",
       order: null,
       selectedImages: [],
       // general:
@@ -368,10 +368,10 @@ export default {
     description: {
       minLength: minLength(2)
     },
-    credits: {
-      required,
-      minLength: minLength(2)
-    },
+    // credits: {
+    //   required,
+    //   minLength: minLength(2)
+    // },
     videoId: {
       required,
       minLength: minLength(9),

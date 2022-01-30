@@ -231,11 +231,11 @@ export default {
   data() {
     return {
       id: null,
-      title: "title",
+      title: "",
       order: null,
-      credits: "credits",
+      credits: "",
       category: null,
-      description: "description",
+      description: "",
       selectedImages: [],
       removedImages: [],
       // general:
@@ -254,7 +254,6 @@ export default {
   watch: {
     allPhotoCollections: {
       handler(v) {
-        console.log("111", v);
         if (!this.isEdit) {
           // v is length but order could be length - 1 because it is index
           this.order = v - 1;
