@@ -409,7 +409,7 @@ export default {
       }
 
       if (!workId && !photoId) {
-        this.clientErrors.push("Please fill work or work ID field");
+        this.clientErrors.push("Please fill work or photo ID field");
         return;
       }
 
