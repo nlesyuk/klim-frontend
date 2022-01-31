@@ -45,14 +45,17 @@
         </label>
 
         <!-- Work -->
-        <label class="dashboard__label" v-if="slideFields.type === 'video'">
-          <span>Link slide to work</span>
+        <label class="dashboard__label">
+          <span>
+            Link slide to work
+            <b v-if="slideFields.workId === ''">- DISABLED</b>
+          </span>
           <select v-model="slideFields.workId">
             <option disabled selected value="null">
               Please choose work
             </option>
             <option
-              v-for="(item, index) of works"
+              v-for="(item, index) of preparedWorks"
               :key="index"
               :value="item.id"
             >
@@ -62,16 +65,17 @@
         </label>
 
         <!-- Photo -->
-        <label class="dashboard__label" v-if="slideFields.type === 'image'">
+        <label class="dashboard__label">
           <span>
             Link slide to photo collection
+            <b v-if="slideFields.photoId === ''">- DISABLED</b>
           </span>
           <select v-model="slideFields.photoId">
             <option disabled selected value="null">
               Please choose photo collection
             </option>
             <option
-              v-for="(item, index) of photos"
+              v-for="(item, index) of preparedPhotos"
               :key="index"
               :value="item.id"
             >
@@ -278,7 +282,11 @@ export default {
       isLoading: false,
       isSuccess: false,
       clientErrors: [],
-      serverError: null
+      serverError: null,
+      disableValue: {
+        id: "",
+        title: "disable"
+      }
     };
   },
   computed: {
@@ -293,6 +301,16 @@ export default {
       }
       const arr = Array.from(slides);
       return arr?.length ? Math.max(arr.length) + 1 : 1;
+    },
+    preparedWorks() {
+      const works = this.works;
+      const disableValue = this.disableValue;
+      return !works ? [disableValue] : [disableValue, ...works];
+    },
+    preparedPhotos() {
+      const photos = this.photos;
+      const disableValue = this.disableValue;
+      return !photos ? [disableValue] : [disableValue, ...photos];
     }
   },
   validations: {
@@ -422,10 +440,10 @@ export default {
         formData.append("type", type);
         formData.append("title", title);
         formData.append("order", order);
-        if (workId) {
+        if (workId || workId === "") {
           formData.append("workId", workId);
         }
-        if (photoId) {
+        if (photoId || photoId === "") {
           formData.append("photoId", photoId);
         }
 

@@ -365,9 +365,9 @@ export default {
       required,
       minLength: minLength(2)
     },
-    description: {
-      minLength: minLength(2)
-    },
+    // description: {
+    //   minLength: minLength(2)
+    // },
     // credits: {
     //   required,
     //   minLength: minLength(2)
