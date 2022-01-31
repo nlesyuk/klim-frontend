@@ -407,14 +407,20 @@ export default {
         );
         return;
       }
-      if (!workId) {
-        this.clientErrors.push("Please fill work ID field");
+
+      if (!workId && !photoId) {
+        this.clientErrors.push("Please fill work or work ID field");
         return;
       }
-      if (!photoId) {
-        this.clientErrors.push("Please fill photo ID field");
-        return;
-      }
+
+      // if (!workId) {
+      //   this.clientErrors.push("Please fill work ID field");
+      //   return;
+      // }
+      // if (!photoId) {
+      //   this.clientErrors.push("Please fill photo ID field");
+      //   return;
+      // }
 
       if (this.isEdit) {
         this.update(isImage);
