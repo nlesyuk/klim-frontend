@@ -49,9 +49,10 @@
   &__title {
     display: block;
     padding: 20px 0;
-    font: bold 2rem/1 $font;
+    font: bold 1.6rem/1 $font;
     text-transform: uppercase;
     color: $primary;
+    color: $grey;
     margin-bottom: 30px;
     text-decoration: none;
     @include transition-default;
