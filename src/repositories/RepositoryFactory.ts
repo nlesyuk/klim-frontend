@@ -4,8 +4,10 @@ import ShotsRepository from "./ShotsRepository";
 import GeneralRepository from "./GeneralRepository";
 import SlidesRepository from "./SlidesRepository";
 import CategoriesRepository from "./CategoriesRepository";
+import AuthRepository from "./AuthRepository";
 
 const repositories = {
+  auth: AuthRepository,
   shots: ShotsRepository,
   videos: VideosRepository,
   photos: PhotosRepository,
@@ -17,3 +19,5 @@ const repositories = {
 export const RepositoryFactory = {
   get: name => repositories[name]
 };
+
+export default RepositoryFactory;

@@ -1,9 +1,14 @@
 <template>
   <section class="login">
-    <form action="#" class="login__form" @submit.prevent="submit">
+    <form action="#" class="login__form" @submit.prevent="login">
       <label class="login__label">
-        <span>Email</span>
-        <input type="email" name="email" v-model="email" placeholder="Email" />
+        <span>Username</span>
+        <input
+          type="text"
+          name="email"
+          v-model="username"
+          placeholder="Email"
+        />
       </label>
       <label class="login__label">
         <span>Password</span>
@@ -17,21 +22,42 @@
       <button type="submit" class="login__btn">
         Login
       </button>
+      <p v-if="serverError" class="login__error">{{ serverError }}</p>
     </form>
   </section>
 </template>
 
 <script>
+// is in progress
+import RepositoryFactory from "@/repositories/RepositoryFactory";
+const AuthRepository = RepositoryFactory.get("auth");
+
 export default {
   data() {
     return {
-      email: "",
-      password: ""
+      username: "",
+      password: "",
+      serverError: null
     };
   },
   methods: {
-    submit() {
-      // console.log("1");
+    async login() {
+      try {
+        const payload = {
+          username: this.username,
+          password: this.password
+        };
+
+        const response = await AuthRepository.login(payload);
+        // console.log(response);
+      } catch (error) {
+        // console.error(error);
+        this.handlerServerError(error);
+      }
+    },
+    handlerServerError(error) {
+      // console.log(error);
+      this.serverError = error.response.data.message;
     }
   }
 };
