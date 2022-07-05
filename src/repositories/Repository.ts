@@ -11,6 +11,7 @@ const apiVersion = `api`; // add /api/v1
 const baseURL = `${baseDomain}/${apiVersion}`;
 
 const instance = axios.create({
+  timeout: 1000,
   baseURL
 });
 
