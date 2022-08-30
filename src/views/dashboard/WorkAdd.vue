@@ -468,8 +468,7 @@ export default {
         formData.append("credits", this.credits);
         formData.append("order", this.order);
         formData.append("description", this.description);
-        const videos = JSON.stringify({ vimeoId: this.videoId });
-        formData.append("videos", videos);
+        formData.append("videos", JSON.stringify({ vimeoId: this.videoId }));
 
         for (const photo of this.selectedImages) {
           formData.append("photos[]", photo.file);
@@ -483,7 +482,6 @@ export default {
           }))
         );
         formData.append("photosInfo", photoInfo);
-
         this.isLoading = true;
         VideosRepository.create(formData)
           .then(() => {
@@ -493,7 +491,7 @@ export default {
           .catch(e => {
             // eslint-disable-next-line no-console
             console.error("AddWork server ERROR", e);
-            this.setServerStatusInUI(false, "e.response");
+            this.setServerStatusInUI(false, e.response?.data?.message);
           })
           .finally(() => {
             this.isLoading = false;
