@@ -49,7 +49,11 @@
           </div>
         </div>
       </div>
-      <div class="contact__description" v-html="contacts.description"></div>
+      <div
+        class="contact__description"
+        v-if="description"
+        v-html="description"
+      ></div>
     </div>
     <iframe
       v-if="isActivateCalendar"
@@ -82,7 +86,10 @@ export default {
     },
     ...mapState({
       contacts: state => state.general.contacts
-    })
+    }),
+    description() {
+      return JSON.parse(this.contacts?.description);
+    }
   },
   methods: {
     ...mapActions(["getContacts"])
