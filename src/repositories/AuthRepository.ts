@@ -3,12 +3,12 @@ const resources = "auth";
 
 export default {
   login(payload) {
-    return Repository.post(`${resources}/login`, payload);
+    return Repository.post(`${resources}/signin`, payload);
   },
-  registration(payload) {
-    return Repository.post(`${resources}/registration`, payload);
+  register(payload) {
+    return Repository.post(`${resources}/signup`, payload);
   },
-  reset(payload) {
-    return Repository.post(`${resources}/reset`, payload);
+  logout(payload) {
+    return Repository.post(`${resources}/logout`, payload);
   }
 };

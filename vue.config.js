@@ -27,5 +27,8 @@ module.exports = {
   },
   chainWebpack: config => {
     config.resolve.alias.set("Repositories", resolve("src/repositories/"));
+  },
+  devServer: {
+    // port: 8081
   }
 };

@@ -29,6 +29,14 @@ export default {
   computed: {
     isDasboardRoute() {
       return this.$route.name === "dashboard";
+    },
+    currentUser() {
+      return this.$store.state.auth.user;
+    }
+  },
+  mounted() {
+    if (!this.currentUser) {
+      this.$router.push("/login");
     }
   }
 };

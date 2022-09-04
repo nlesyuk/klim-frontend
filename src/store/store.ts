@@ -7,10 +7,9 @@ import videos from "./modules/videos";
 import photos from "./modules/photos";
 import shots from "./modules/shots";
 import slides from "./modules/slides";
+import auth from "./modules/auth";
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
   actions: {
     init({ dispatch }) {
       dispatch("getContacts");
@@ -21,6 +20,7 @@ export default new Vuex.Store({
     videos,
     photos,
     shots,
-    slides
+    slides,
+    auth
   }
 });

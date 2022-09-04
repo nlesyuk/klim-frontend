@@ -31,6 +31,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 Based on RESTfull API
 [repo link](https://github.com/nlesyuk/klim-backend)
 
+### AUth based on
+[link](https://www.bezkoder.com/jwt-vue-vuex-authentication/)
+https://www.youtube.com/watch?v=iD49_NIQ-R4
 
 ### Tasks:
 Dashboard:
