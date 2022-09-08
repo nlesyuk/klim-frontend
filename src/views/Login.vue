@@ -26,70 +26,80 @@
       <button type="submit" class="login__btn">
         Login
       </button>
-      <p v-if="serverError" class="login__error">{{ serverError }}</p>
+      <p v-if="error" class="login__error">{{ error }}</p>
+      <!-- <button type="button" @click="getAccessToken">
+        refresh token
+      </button>
+      <button type="button" @click="setLoggedIn">
+        setLoggedIn
+      </button> -->
     </form>
   </section>
 </template>
 
 <script>
-// is in progress
-import RepositoryFactory from "@/repositories/RepositoryFactory";
-const AuthRepository = RepositoryFactory.get("auth");
-import { mapActions, mapState } from "vuex";
-
+import { mapActions, mapMutations } from "vuex";
+import AuthService from "../services/auth.service";
+let s = true;
 export default {
   data() {
     return {
       username: "test",
-      password: "123",
-      serverError: null
+      password: "1234",
+      error: null
     };
   },
   computed: {
+    userRefreshToken() {
+      return this.$store.state.auth.user?.refreshToken;
+    },
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
     }
   },
-  created() {
-    if (this.loggedIn) {
-      this.$router.push("/dashboard");
+  async created() {
+    // get data from LS and then send RT to server
+    // if RT still fresh - update store and redirect to /dashboard
+    // if not stay on login page
+    if (!this.loggedIn && this.userRefreshToken) {
+      // this.$router.push("/dashboard");
+      await this.getAccessToken();
     }
   },
   methods: {
-    ...mapActions("auth", ["login"]),
+    ...mapActions("auth", ["login", "refreshToken"]),
+    ...mapMutations("auth", ["setLoggedIn"]),
     async handleLogin() {
       try {
-        const { username, password } = this;
-        const payload = {
+        const user = {
           username: this.username,
           password: this.password
         };
-        console.log(username, password);
-
-        // const response = await AuthRepository.login(payload);
-        // console.log(response);
-
         this.loading = true;
 
-        if (username && password) {
-          await this.login(payload);
-          this.loading = false;
-          this.$router.push("/dashboard");
-        }
+        const response = await this.login(user);
+        console.log(response);
+
+        // if (username && password) {
+        //   await this.login(payload);
+        //   this.loading = false;
+        //   this.$router.push("/dashboard");
+        // }
+        this.error = "";
       } catch (error) {
+        this.error = error;
+      } finally {
         this.loading = false;
-        this.message =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
-        console.log(">>>", this.message);
-        // console.error(error);
-        this.handlerServerError(error);
       }
     },
-    handlerServerError(error) {
-      // console.log(error);
-      this.serverError = error.response.data.message;
+
+    async getAccessToken() {
+      await this.refreshToken(this.userRefreshToken);
+    },
+
+    async setLoggedIn() {
+      s = !s;
+      this.setLoggedIn(s);
     }
   }
 };
@@ -102,6 +112,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+
   &__profile-img {
     display: block;
     max-width: 80px;
@@ -110,11 +121,14 @@ export default {
     margin-bottom: 32px;
   }
   &__form {
-    width: 400px;
+    width: 320px;
     max-width: 100%;
     background-color: rgba(0, 0, 0, 0.03);
     margin: 0 auto;
+    border-radius: 8px;
     padding: 3.5rem;
+    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
+      rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
   }
   &__label {
     display: block;
@@ -129,7 +143,8 @@ export default {
       box-sizing: border-box;
       padding: 1.25rem;
       border: 1px solid #ccc;
-      border-radius: 3px;
+      border-radius: 4px;
+      color: rgb(137, 137, 137);
     }
   }
   &__btn {
@@ -138,18 +153,34 @@ export default {
     width: 100%;
     padding: 1.5rem;
     border: none;
-    background-color: #999;
-    font-weight: 500;
-    border-radius: 3px;
-    text-align: center;
+    background-color: rgb(205, 205, 205);
+    border: 1px solid rgb(199, 199, 199);
     color: white;
+    color: rgb(110, 110, 110);
+    font-weight: 500;
+    border-radius: 4px;
+    text-align: center;
     cursor: pointer;
     transition: all 0.25s;
     &:hover {
       transition: all 0.25s;
       opacity: 0.75ss;
-      background-color: #555;
+      background-color: rgb(136, 136, 136);
+      color: black;
     }
+  }
+  &__error {
+    display: block;
+    width: 100%;
+    font-size: 1.25rem;
+    padding: 8px 0;
+    text-align: center;
+    background-color: #f6e5e6;
+    color: #6d4044;
+    margin-top: 8px;
+    border: 1px solid #eddedf;
+    border-radius: 4px;
+    cursor: default;
   }
 }
 </style>
