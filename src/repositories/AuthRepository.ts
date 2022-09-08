@@ -2,13 +2,16 @@ import Repository from "./Repository";
 const resources = "auth";
 
 export default {
-  login(payload) {
+  signin(payload) {
     return Repository.post(`${resources}/signin`, payload);
   },
-  register(payload) {
+  signup(payload) {
     return Repository.post(`${resources}/signup`, payload);
   },
-  logout(payload) {
-    return Repository.post(`${resources}/logout`, payload);
+  signout(userId) {
+    return Repository.post(`${resources}/logout`, { userId });
+  },
+  refreshToken(refreshToken) {
+    return Repository.post(`${resources}/refreshtoken`, { refreshToken });
   }
 };

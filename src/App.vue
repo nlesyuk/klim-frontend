@@ -1,13 +1,14 @@
 <template>
   <main id="app" class="container">
-    <svg-sprite></svg-sprite>
-    <Header></Header>
+    <svg-sprite />
+    <TheDashboardNav v-if="loggedIn" />
+    <Header />
     <section class="content">
       <transition name="fade" mode="out-in">
         <router-view />
       </transition>
     </section>
-    <Footer></Footer>
+    <Footer />
   </main>
 </template>
 
@@ -15,12 +16,17 @@
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
 import SvgSprite from "./components/SVG-sprite.vue";
+import { mapGetters } from "vuex";
 
 export default {
+  computed: {
+    ...mapGetters("auth", ["loggedIn"])
+  },
   components: {
     Header,
     Footer,
-    SvgSprite
+    SvgSprite,
+    TheDashboardNav: () => import("./views/dashboard/TheDashboardNav.vue")
   }
 };
 </script>

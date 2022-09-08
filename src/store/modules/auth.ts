@@ -1,18 +1,24 @@
-import { RepositoryFactory } from "../../repositories/RepositoryFactory";
-const AuthRepository = RepositoryFactory.get("auth");
+import AuthService, { userStorageService } from "@/services/auth.service";
+import { IUser } from "@/helper/interfaces";
 
-const userRaw: string | null = localStorage.getItem("user");
-const user: object | null = userRaw ? JSON.parse(userRaw) : null;
-const initialState = user
-  ? { status: { loggedIn: true }, user }
-  : { status: { loggedIn: false }, user: null };
+const user: IUser = userStorageService.get();
 
 export default {
   namespaced: true,
-  state: initialState,
+  state: {
+    status: {
+      loggedIn: false
+    },
+    user: user
+  },
+  getters: {
+    loggedIn(state) {
+      return state.status.loggedIn;
+    }
+  },
   mutations: {
     loginSuccess(state, user) {
-      console.log("loginSuccess");
+      console.log("loginSuccess", user);
       state.status.loggedIn = true;
       state.user = user;
     },
@@ -29,43 +35,70 @@ export default {
     },
     registerFailure(state) {
       state.status.loggedIn = false;
+    },
+    setAccessRefreshTokens(state, tokens) {
+      const { accessToken, refreshToken } = tokens;
+      state.user = {
+        ...state.user,
+        accessToken,
+        refreshToken
+      };
+    },
+    //
+    setLoggedIn(state, isLoggedIn) {
+      state.status.loggedIn = isLoggedIn;
     }
   },
   actions: {
     async login({ commit }, user) {
-      console.log("login1", user);
       try {
-        const res = await AuthRepository.login(user);
-        // shoul you move that in service?
-        if (res?.data?.accessToken) {
-          localStorage.setItem("user", JSON.stringify(res.data));
-        }
-        console.log("login", res.data);
-        commit("loginSuccess", res.data);
-        return Promise.resolve(res);
+        const userData = await AuthService.login(user);
+        console.log("loginSuccess", userData);
+        commit("loginSuccess", userData);
+        return Promise.resolve(userData);
       } catch (error) {
-        console.log("loginFF", error);
-        commit("loginFailure", error);
+        console.log("loginFailure", error);
+        commit("loginFailure");
         return Promise.reject(error);
       }
     },
-    async logout({ commit }) {
+
+    async logout({ commit, state }) {
       try {
-        const res = await AuthRepository.logout();
-        console.log("logout", res);
+        const userId = state.user?.id;
+        console.log("state", state.user);
+        const res = await AuthService.logout(userId);
+        console.log("Vuex logout", res);
         commit("logout");
       } catch (error) {
         // somthing went wrong with logout
+        console.log("Vuex logout", error);
       }
     },
-    async register({ commit }, user) {
+
+    async signup({ commit }, user) {
       try {
-        const res = await AuthRepository.register(user);
-        console.log("registerSuccess", res);
+        const res = await AuthService.signup(user);
+        console.log("Vuex register", res);
         commit("registerSuccess", res);
         return Promise.resolve(res);
       } catch (error) {
-        commit("registerFailure", error);
+        commit("Vuex registerFailure", error);
+        return Promise.reject(error);
+      }
+    },
+
+    async refreshToken({ commit }, refrshToken) {
+      try {
+        const res = await AuthService.refreshToken(refrshToken);
+        const { accessToken, refreshToken } = res.data;
+        const tokens = { accessToken, refreshToken };
+
+        console.log("Vuex refreshToken", tokens);
+        commit("setAccessRefreshTokens", tokens);
+        return Promise.resolve(tokens);
+      } catch (error) {
+        commit("Vuex refreshToken", error);
         return Promise.reject(error);
       }
     }

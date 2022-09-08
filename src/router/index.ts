@@ -1,7 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Main from "../views/Main.vue";
-import NotFound from "../views/NotFound.vue";
+import store from "../store";
+// import { mapState } from "vuex";
+// import { Store } from "vuex";
 
 Vue.use(VueRouter);
 
@@ -107,23 +109,25 @@ const router = new VueRouter({
     {
       path: "*",
       name: "not-found",
-      component: NotFound
+      component: () => import("../views/NotFound.vue")
     }
   ]
 });
 
 router.beforeEach((to, from, next) => {
+  const isLoggedIn = store.getters["auth/loggedIn"];
   const privatePages = ["/dashboard"];
   const isAuthRequired = privatePages.includes(to.path);
   const loggedIn = localStorage.getItem("user");
+
+  console.log(">>>>|", isLoggedIn);
   console.log("ROUTER", to.path, loggedIn);
   // trying to access a restricted page + not logged in
   // redirect to login page
   if (isAuthRequired && !loggedIn) {
     next("/login");
-  } else {
-    next();
   }
+  next();
 });
 
 export default router;
