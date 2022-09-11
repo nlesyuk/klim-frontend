@@ -1,7 +1,11 @@
+export const keys = {
+  user: "user"
+};
+
 export default class StorageService {
   key: string;
 
-  constructor(key = "user") {
+  constructor(key = keys.user) {
     this.key = key;
   }
 

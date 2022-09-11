@@ -2,8 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Main from "../views/Main.vue";
 import store from "../store";
-// import { mapState } from "vuex";
-// import { Store } from "vuex";
+import StorageService, { keys } from "../services/storage.service";
+const userStorageService = new StorageService(keys.user);
 
 Vue.use(VueRouter);
 
@@ -115,16 +115,27 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  // 1
   const isLoggedIn = store.getters["auth/loggedIn"];
-  const privatePages = ["/dashboard"];
-  const isAuthRequired = privatePages.includes(to.path);
-  const loggedIn = localStorage.getItem("user");
+  // 2
+  const privatePages = ["dashboard"];
+  const isAuthRequired = `${to.path}`
+    .split("/")
+    .some(v => privatePages.includes(v));
+  // 3 weak check
+  const user = userStorageService.get();
+  const hasTokens =
+    user?.hasOwnProperty("accessToken") && user?.hasOwnProperty("refreshToken");
 
-  console.log(">>>>|", isLoggedIn);
-  console.log("ROUTER", to.path, loggedIn);
+  console.log("ROUTER-beforeEach", {
+    isLoggedIn,
+    isAuthRequired,
+    path: to.path,
+    user
+  });
   // trying to access a restricted page + not logged in
   // redirect to login page
-  if (isAuthRequired && !loggedIn) {
+  if (isAuthRequired && !isLoggedIn && !hasTokens) {
     next("/login");
   }
   next();

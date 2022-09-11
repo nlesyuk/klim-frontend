@@ -66,9 +66,7 @@ export default {
     async logout({ commit, state }) {
       try {
         const userId = state.user?.id;
-        console.log("state", state.user);
-        const res = await AuthService.logout(userId);
-        console.log("Vuex logout", res);
+        await AuthService.logout(userId);
         commit("logout");
       } catch (error) {
         // somthing went wrong with logout

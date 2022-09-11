@@ -1,19 +1,34 @@
-import RepositoryFactory from "@/repositories/RepositoryFactory";
+import { RepositoryFactory } from "../repositories/RepositoryFactory";
+console.log(RepositoryFactory);
 const AuthRepository = RepositoryFactory.get("auth");
 import StorageService from "./storage.service";
-export const userStorageService = new StorageService("user");
 import { IUser } from "@/helper/interfaces";
 
+export const userStorageService = new StorageService("user");
+
 class AuthService {
-  async login(user) {
+  static instance;
+
+  public static getInstance() {
+    if (!AuthService.instance) {
+      console.log("auth new instance");
+      AuthService.instance = new AuthService();
+    }
+    console.log("auth old instance");
+    return AuthService.instance;
+  }
+
+  async login(userCredentials) {
     try {
-      const res = await AuthRepository.signin(user);
-      const userData = res?.data;
+      const res = await AuthRepository.signin(userCredentials);
+      const user = res?.data;
       console.log("rawUser", res);
-      if (userData?.accessToken) {
-        userStorageService.set(userData); // save User data client storage
+      if (user?.accessToken) {
+        console.log("AUTH_SERVICE, LS is UPDATED");
+        userStorageService.set(user); // save User data client storage
       }
-      return Promise.resolve(userData);
+
+      return Promise.resolve(user);
     } catch (error) {
       console.error(error);
       const msg = error?.response?.data?.message;
@@ -21,7 +36,7 @@ class AuthService {
     }
   }
 
-  async logout(userId) {
+  async logout(userId: number) {
     try {
       if (userId) {
         await AuthRepository.signout(userId);
@@ -48,25 +63,31 @@ class AuthService {
 
   async refreshToken(token) {
     try {
-      let res;
       if (token) {
-        res = await AuthRepository.refreshToken(token);
+        const res = await AuthRepository.refreshToken(token);
+        console.log("AUth refreshToken", res);
+        const user: IUser | null = userStorageService.get();
+        userStorageService.set({
+          ...user
+        });
+        user?.accessToken;
+
+        return Promise.resolve(res);
       }
-      return Promise.resolve(res);
+      throw new Error("Token doesn't provided");
     } catch (error) {
       console.error(error);
       return Promise.reject(error);
     }
   }
 
-  authHeader() {
-    // ?
+  getAccessTokenFromStorage() {
     const user: IUser | null = userStorageService.get();
-    return user?.accessToken ? { "x-access-token": user.accessToken } : {};
+    return user?.accessToken;
   }
 }
 
-export default new AuthService();
+export default AuthService.getInstance();
 
 // Автологин выглядит примерно так. Вы делаете запрос с фронта, он падает
 // потому что протух токен, ловим ошибку по логину и с рефреш токеном идём на

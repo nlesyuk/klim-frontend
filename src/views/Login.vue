@@ -1,6 +1,6 @@
 <template>
   <section class="login">
-    <form action="#" class="login__form" @submit.prevent="handleLogin">
+    <form action="#" class="login__form" @submit.prevent="getLogin">
       <img
         src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
         class="login__profile-img"
@@ -26,27 +26,28 @@
       <button type="submit" class="login__btn">
         Login
       </button>
+      <p v-if="loading">Loading...</p>
       <p v-if="error" class="login__error">{{ error }}</p>
-      <!-- <button type="button" @click="getAccessToken">
+      <button type="button" @click="getAccessToken">
         refresh token
       </button>
       <button type="button" @click="setLoggedIn">
         setLoggedIn
-      </button> -->
+      </button>
     </form>
   </section>
 </template>
 
 <script>
 import { mapActions, mapMutations } from "vuex";
-import AuthService from "../services/auth.service";
-let s = true;
+
 export default {
   data() {
     return {
       username: "test",
       password: "1234",
-      error: null
+      error: null,
+      loading: false
     };
   },
   computed: {
@@ -61,15 +62,24 @@ export default {
     // get data from LS and then send RT to server
     // if RT still fresh - update store and redirect to /dashboard
     // if not stay on login page
+    console.log("CREATED", this.loggedIn, this.userRefreshToken);
     if (!this.loggedIn && this.userRefreshToken) {
-      // this.$router.push("/dashboard");
-      await this.getAccessToken();
+      try {
+        await this.getAccessToken();
+        await this.setToLoggedIn(true);
+        this.$router.push("/dashboard");
+      } catch (error) {
+        console.error(error);
+      }
+    } else if (this.loggedIn) {
+      this.$router.push("/dashboard");
     }
   },
   methods: {
     ...mapActions("auth", ["login", "refreshToken"]),
     ...mapMutations("auth", ["setLoggedIn"]),
-    async handleLogin() {
+
+    async getLogin() {
       try {
         const user = {
           username: this.username,
@@ -79,12 +89,8 @@ export default {
 
         const response = await this.login(user);
         console.log(response);
+        this.$router.push("/dashboard");
 
-        // if (username && password) {
-        //   await this.login(payload);
-        //   this.loading = false;
-        //   this.$router.push("/dashboard");
-        // }
         this.error = "";
       } catch (error) {
         this.error = error;
@@ -97,9 +103,8 @@ export default {
       await this.refreshToken(this.userRefreshToken);
     },
 
-    async setLoggedIn() {
-      s = !s;
-      this.setLoggedIn(s);
+    async setToLoggedIn(isLoggedIn = false) {
+      this.setLoggedIn(isLoggedIn);
     }
   }
 };

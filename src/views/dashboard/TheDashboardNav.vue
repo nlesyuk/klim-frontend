@@ -17,7 +17,7 @@
       >
         dashboard
       </router-link>
-      <button class="dashboard-nav__menu-item" role="logout" @click="logout">
+      <button class="dashboard-nav__menu-item" role="logout" @click="logoutFn">
         <svg
           width="14"
           height="14"
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   data() {
@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     ...mapActions("auth", ["logout"]),
-    async logoutC() {
+    async logoutFn() {
       try {
         await this.logout();
       } catch (error) {}

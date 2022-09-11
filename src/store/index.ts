@@ -7,7 +7,7 @@ import videos from "./modules/videos";
 import photos from "./modules/photos";
 import shots from "./modules/shots";
 import slides from "./modules/slides";
-import auth from "./modules/auth";
+import auth from "./modules/auth.module";
 
 export default new Vuex.Store({
   actions: {

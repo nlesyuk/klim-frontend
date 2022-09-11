@@ -1,5 +1,6 @@
 import Repository from "./Repository";
-const resources = "auth";
+
+const resources = `auth`;
 
 export default {
   signin(payload) {
