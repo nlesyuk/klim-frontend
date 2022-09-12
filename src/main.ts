@@ -11,6 +11,8 @@ Vue.component("Spiner", Spiner);
 Vue.component("Error", Error);
 
 // plugins
+import messagePlugin from "./utils/message.plugin";
+Vue.use(messagePlugin);
 import VueStripeMenu from "vue-stripe-menu";
 Vue.use(VueStripeMenu);
 import "vue-stripe-menu/dist/vue-stripe-menu.css";
