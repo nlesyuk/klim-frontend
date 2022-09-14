@@ -14,7 +14,7 @@ export default {
         autotimeout: 5000,
         type: 3
       });
-      console.log("myNotify", myNotify);
+      // console.log("myNotify", myNotify);
     };
 
     Vue.prototype.$error = function(message) {
@@ -27,7 +27,7 @@ export default {
         autotimeout: 5000,
         type: 3
       });
-      console.log("myNotify", myNotify);
+      // console.log("myNotify", myNotify);
     };
   }
 };

@@ -1,8 +1,8 @@
 <template>
-  <section class="dashboard-nav">
+  <section class="dashboard-nav" v-if="!isDashboard">
     <nav class="dashboard-nav__menu">
       <router-link
-        v-for="item in menu"
+        v-for="item in $options.menu"
         :key="item"
         tag="button"
         class="dashboard-nav__menu-item"
@@ -37,12 +37,16 @@
 
 <script>
 import { mapActions } from "vuex";
+import { menu } from "@/helper/constants";
 
 export default {
-  data() {
-    return {
-      menu: ["slider", "works", "shots", "photos", "contacts"]
-    };
+  menu,
+  computed: {
+    isDashboard() {
+      const path = this.$route.path;
+      const isIncludes = path.split("/").some(v => ["dashboard"].includes(v));
+      return isIncludes;
+    }
   },
   methods: {
     ...mapActions("auth", ["logout"]),
@@ -50,7 +54,8 @@ export default {
       try {
         await this.logout();
       } catch (error) {}
-      console.log("logout");
+      // eslint-disable-next-line no-console
+      console.error("logout", error);
     }
   }
 };

@@ -16,3 +16,7 @@ export default {
     return Repository.post(`${resources}/refreshtoken`, { refreshToken });
   }
 };
+
+export function getRefreshToken(axios, refreshToken) {
+  return axios.post(`${resources}/refreshtoken`, { refreshToken });
+}

@@ -28,12 +28,6 @@
       </button>
       <p v-if="loading">Loading...</p>
       <p v-if="error" class="login__error">{{ error }}</p>
-      <button type="button" @click="getAccessToken">
-        refresh token
-      </button>
-      <button type="button" @click="setLoggedIn">
-        setLoggedIn
-      </button>
     </form>
   </section>
 </template>
@@ -59,17 +53,18 @@ export default {
     }
   },
   async created() {
-    // get data from LS and then send RT to server
-    // if RT still fresh - update store and redirect to /dashboard
+    // get data from LS and then send RefreshToken to server
+    // if RefreshToken still fresh - update store and redirect to /dashboard
     // if not stay on login page
-    console.log("CREATED", this.loggedIn, this.userRefreshToken);
     if (!this.loggedIn && this.userRefreshToken) {
       try {
         await this.getAccessToken();
         await this.setToLoggedIn(true);
         this.$router.push("/dashboard");
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(error);
+        this.$error(error);
       }
     } else if (this.loggedIn) {
       this.$router.push("/dashboard");
@@ -87,8 +82,7 @@ export default {
         };
         this.loading = true;
 
-        const response = await this.login(user);
-        console.log(response);
+        await this.login(user);
         this.$router.push("/dashboard");
 
         this.error = "";

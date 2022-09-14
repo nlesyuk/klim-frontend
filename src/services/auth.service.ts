@@ -22,16 +22,19 @@ class AuthService {
     try {
       const res = await AuthRepository.signin(userCredentials);
       const user = res?.data;
-      console.log("rawUser", res);
       if (user?.accessToken) {
-        console.log("AUTH_SERVICE, LS is UPDATED");
         userStorageService.set(user); // save User data client storage
       }
 
       return Promise.resolve(user);
     } catch (error) {
-      console.error(error);
-      const msg = error?.response?.data?.message;
+      console.log(error);
+      let msg = error?.response?.data?.message
+        ? error?.response?.data?.message
+        : error?.message;
+      if (!msg) {
+        msg = "Unknow an Error";
+      }
       return Promise.reject(msg);
     }
   }

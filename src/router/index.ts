@@ -122,20 +122,10 @@ router.beforeEach((to, from, next) => {
   const isAuthRequired = `${to.path}`
     .split("/")
     .some(v => privatePages.includes(v));
-  // 3 weak check
-  const user = userStorageService.get();
-  const hasTokens =
-    user?.hasOwnProperty("accessToken") && user?.hasOwnProperty("refreshToken");
 
-  console.log("ROUTER-beforeEach", {
-    isLoggedIn,
-    isAuthRequired,
-    path: to.path,
-    user
-  });
   // trying to access a restricted page + not logged in
   // redirect to login page
-  if (isAuthRequired && !isLoggedIn && !hasTokens) {
+  if (isAuthRequired && !isLoggedIn) {
     next("/login");
   }
   next();

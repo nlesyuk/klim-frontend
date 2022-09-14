@@ -5,17 +5,25 @@ $media-lg: 1600px;
 $media-md: 1200px;
 $media-sm: 992px;
 
+$btn-primary: #3081fb;
+$btn-primary-hover: #8fbcff;
+$btn-submit: #06c4e1;
+$btn-submit-hover: #1cdefb;
+
+// https://getcssscan.com/css-box-shadow-examples
+
 .dashboard {
-  // general
+  min-height: 80vh;
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
+    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+  padding: 12px 12px 32px;
+  background: linear-gradient(to right, #fafafa, #f3f3f3);
+
   &__title {
-    width: 100%;
-    box-sizing: border-box;
-    background-color: #e2e2e2;
-    color: #999;
-    padding: 0.5rem;
-    text-align: center;
-    font-size: 1.5rem;
-    letter-spacing: 3px;
+    font-size: 2rem;
+    color: #c9c9c9ad;
   }
   &__text {
     margin: 16px 0 8px;
@@ -52,10 +60,10 @@ $media-sm: 992px;
       background-color: yellowgreen;
     }
     &.badge-red {
-      background-color: red;
+      background-color: rgb(223, 82, 82);
     }
     &.badge-blue {
-      background-color: blue;
+      background-color: rgb(106, 106, 244);
     }
     &.m0 {
       margin: 0 !important;
@@ -212,6 +220,7 @@ $media-sm: 992px;
   &__menu {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     @media screen and (max-width: $media-sm) {
       flex-wrap: wrap;
@@ -219,23 +228,51 @@ $media-sm: 992px;
 
     li {
       width: 100%;
+      margin: 2px;
       @media screen and (max-width: $media-sm) {
-        width: 50%;
+        width: calc(50% - 4px);
+      }
+
+      &:last-child {
+        width: 50px;
+        @media screen and (max-width: $media-sm) {
+          width: calc(50% - 2px);
+        }
       }
     }
     &-item {
-      color: #4d4c4c;
       width: 100%;
-      background-color: #c5ffbe;
-      border: 1px solid white;
       padding: 1rem;
       text-transform: uppercase;
       cursor: pointer;
       @include transition-default;
 
+      background-color: rgb(204, 219, 232);
+      border: 1px solid rgb(204, 219, 252);
+      color: rgb(110, 110, 110);
+      border-radius: 4px;
+      color: #222;
+      box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+        rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+
       &[class*="-exact-active"],
       &:hover {
-        background-color: #33cd00;
+        background-color: rgb(204, 219, 252);
+        @include transition-default;
+      }
+    }
+    &-logout {
+      width: 100%;
+      padding: 0 8px;
+      background-color: transparent;
+      fill: #999;
+      cursor: pointer;
+      border: none;
+      margin: 0;
+      box-sizing: border-box;
+      &:hover {
+        fill: black;
+        background-color: none !important;
         @include transition-default;
       }
     }
@@ -246,7 +283,8 @@ $media-sm: 992px;
     width: auto;
     padding: 1rem;
     border: none;
-    background-color: DarkSalmon;
+    border-radius: 4px;
+    background-color: $btn-submit;
     cursor: pointer;
     margin-right: 2px;
     @include transition-default;
@@ -254,7 +292,7 @@ $media-sm: 992px;
       margin-right: 0;
     }
     &:hover {
-      background-color: Salmon;
+      background-color: $btn-submit-hover;
       @include transition-default;
     }
     &:disabled {
@@ -271,14 +309,15 @@ $media-sm: 992px;
   &__btn {
     display: inline-block;
     border: none;
-    background-color: Wheat;
+    background-color: $btn-primary;
     padding: 8px 16px;
-    border-radius: 50px;
+    border-radius: 5px;
     cursor: pointer;
     margin: 10px;
+    margin-left: 0;
     @include transition-default;
     &:hover {
-      background-color: Tan;
+      background-color: $btn-primary-hover;
       @include transition-default;
     }
     &:disabled {
@@ -471,6 +510,9 @@ $media-sm: 992px;
       display: block;
       width: 100%;
       position: relative;
+      border: 1px solid #c4c4c4;
+      border-radius: 4px;
+      box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
       &:nth-child(odd) {
         background-color: yellowgreen;
       }
@@ -485,8 +527,10 @@ $media-sm: 992px;
         display: block;
         width: 100%;
         max-width: 100%;
+        border-radius: 4px;
       }
     }
+
     &__top {
       position: absolute;
       top: 0;
@@ -498,6 +542,7 @@ $media-sm: 992px;
       padding: 0.5rem;
       z-index: 2;
     }
+
     &__title {
       display: block;
       font: 2rem/1.25 "Open Sans", sans-serif;
@@ -505,6 +550,7 @@ $media-sm: 992px;
       border-radius: 5px;
       background-color: rgba(0, 162, 255, 0.247);
     }
+
     &__btns {
       display: flex;
       justify-content: space-between;

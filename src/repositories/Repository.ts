@@ -1,6 +1,7 @@
 import axios from "axios";
 import StorageService, { keys } from "../services/storage.service";
 const userStorageService = new StorageService(keys.user);
+import { getRefreshToken } from "./AuthRepository";
 
 const baseDomain =
   process.env.VUE_APP_SERVER_ENVIRONMENT === "prod"
@@ -18,7 +19,6 @@ instance.interceptors.request.use(
   req => {
     req.headers.domain = process.env.VUE_APP_DOMAIN || "klimstepan.com";
     const user = userStorageService.get();
-    console.log("interceptors.request", user?.accessToken);
     if (user?.accessToken) {
       req.headers["x-access-token"] = user.accessToken;
     }
@@ -34,29 +34,41 @@ instance.interceptors.response.use(
   res => res,
   async err => {
     const originalConfig = err.config;
+    console.log("interceptors.response", originalConfig);
 
-    // console.log("interceptors.response", originalConfig);
-    // if (err.response) {
-    //   // Access Token was expired
-    //   if (err.response.status === 401 && !originalConfig._retry) {
-    //     originalConfig._retry = true;
-    //     try {
-    //       const rs = await refreshToken();
-    //       const { accessToken } = rs.data;
-    //       window.localStorage.setItem("accessToken", accessToken);
-    //       instance.defaults.headers.common["x-access-token"] = accessToken;
-    //       return instance(originalConfig);
-    //     } catch (_error) {
-    //       if (_error.response && _error.response.data) {
-    //         return Promise.reject(_error.response.data);
-    //       }
-    //       return Promise.reject(_error);
-    //     }
-    //   }
-    //   if (err.response.status === 403 && err.response.data) {
-    //     return Promise.reject(err.response.data);
-    //   }
-    // }
+    if (err.response) {
+      // Access Token was expired
+      if (
+        err.response.status === 401 &&
+        !originalConfig._retry &&
+        !originalConfig.url.includes("auth")
+      ) {
+        originalConfig._retry = true;
+        try {
+          const user = userStorageService.get();
+          if (!user?.refreshToken) {
+          }
+          const rs = await getRefreshToken(instance, user?.refreshToken);
+          const { accessToken, refreshToken } = rs.data;
+          console.log("res_interceptor", rs.data);
+          userStorageService.set({
+            ...user,
+            accessToken,
+            refreshToken
+          });
+
+          instance.defaults.headers.common["x-access-token"] = accessToken;
+          return instance(originalConfig);
+        } catch (_error) {
+          // const msg = _error?.response?.data;
+          // msg ? msg : _error;
+          return Promise.reject(_error);
+        }
+      }
+      if (err.response.status === 403 && err.response.data) {
+        return Promise.reject(err.response.data);
+      }
+    }
 
     return Promise.reject(err);
   }
