@@ -6,7 +6,6 @@
         class="login__profile-img"
       />
       <label class="login__label">
-        <!-- <span>Username</span> -->
         <input
           type="text"
           name="email"
@@ -15,7 +14,6 @@
         />
       </label>
       <label class="login__label">
-        <!-- <span>Password</span> -->
         <input
           type="password"
           name="password"
