@@ -2,8 +2,6 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Main from "../views/Main.vue";
 import store from "../store";
-import StorageService, { keys } from "../services/storage.service";
-const userStorageService = new StorageService(keys.user);
 
 Vue.use(VueRouter);
 

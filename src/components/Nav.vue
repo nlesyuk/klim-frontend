@@ -1,6 +1,6 @@
 <template>
   <vsm-menu
-    :menu="menu"
+    :menu="myMenu"
     :base-width="380"
     :screen-offset="10"
     element="div"
@@ -99,6 +99,106 @@ export default {
         }
       ]
     };
+  },
+  computed: {
+    myMenu() {
+      // const user = process.env.VUE_APP_DOMAIN;
+      const user = "derzhanovska.com";
+      const classes = ["header__nav-item"];
+      let menu;
+      if (user === "klimstepan.com") {
+        menu = [
+          {
+            title: "Works",
+            attributes: {
+              class: classes
+            },
+            listeners: {
+              click: () => {
+                if (this.$route.path === "/") return;
+                this.$router.push("/");
+              }
+            }
+          },
+          // 2
+          {
+            title: "Shots",
+            attributes: {
+              class: classes
+            },
+            listeners: {
+              click: () => {
+                if (this.$route.path === "/shots") return;
+                this.$router.push("/shots");
+              }
+            },
+            dropdown: "ShotsSubmenu",
+            content: ShotsSubmenu
+          },
+          // 3
+          {
+            title: "Photo",
+            attributes: {
+              class: classes
+            },
+            listeners: {
+              click: () => {
+                if (this.$route.path === "/photo") return;
+                this.$router.push("/photo");
+              }
+            },
+            dropdown: "PhotosSubmenu",
+            content: PhotosSubmenu
+          }
+        ];
+      } else if (user === "derzhanovska.com") {
+        menu = [
+          {
+            title: "Home",
+            attributes: {
+              class: classes
+            },
+            listeners: {
+              click: () => {
+                if (this.$route.path === "/") return;
+                this.$router.push("/");
+              }
+            }
+          },
+          {
+            title: "Photo",
+            attributes: {
+              class: classes
+            },
+            listeners: {
+              click: () => {
+                if (this.$route.path === "/photo") return;
+                this.$router.push("/photo");
+              }
+            },
+            dropdown: "PhotosSubmenu",
+            content: PhotosSubmenu
+          }
+        ];
+      }
+
+      const baseMenu = [
+        {
+          title: "Contact",
+          attributes: {
+            class: classes
+          },
+          listeners: {
+            click: () => {
+              if (this.$route.path === "/contact") return;
+              this.$router.push("/contact");
+            }
+          }
+        }
+      ];
+
+      return menu.concat(baseMenu);
+    }
   },
   methods: {
     closeMobMenu(e) {
