@@ -88,7 +88,13 @@ export default {
       contacts: state => state.general.contacts
     }),
     description() {
-      return JSON.parse(this.contacts?.description);
+      try {
+        const res = JSON.parse(this.contacts?.description);
+        return res;
+      } catch (e) {
+        const res = this.contacts?.description;
+        return res;
+      }
     }
   },
   methods: {

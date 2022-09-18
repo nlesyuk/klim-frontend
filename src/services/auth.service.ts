@@ -1,5 +1,4 @@
 import { RepositoryFactory } from "../repositories/RepositoryFactory";
-console.log(RepositoryFactory);
 const AuthRepository = RepositoryFactory.get("auth");
 import StorageService from "./storage.service";
 import { IUser } from "@/helper/interfaces";
@@ -11,10 +10,8 @@ class AuthService {
 
   public static getInstance() {
     if (!AuthService.instance) {
-      console.log("auth new instance");
       AuthService.instance = new AuthService();
     }
-    console.log("auth old instance");
     return AuthService.instance;
   }
 
