@@ -48,7 +48,7 @@
         </label>
 
         <!-- Сategory -->
-        <label class="dashboard__label">
+        <!-- <label class="dashboard__label">
           <span>Сategory (it's field can be empty)</span>
           <select v-model="category">
             <option disabled selected value="null">
@@ -68,6 +68,27 @@
             target="_blank"
           >
             Link to the commerce category
+          </a>
+        </label> -->
+
+        <!-- Categories -->
+        <label class="dashboard__label" v-if="categories">
+          <span>Categories</span>
+
+          <label
+            class="dashboard__checkbox"
+            v-for="cat in categories"
+            :key="cat"
+          >
+            <input type="checkbox" :value="cat" v-model="choosedCategories" />
+            {{ cat }}
+          </label>
+          <a
+            :href="`//${hostName}/photo/commerce`"
+            class="dashboard__link"
+            target="_blank"
+          >
+            Link to the <b>commerce</b> category
           </a>
         </label>
 
@@ -235,6 +256,7 @@ export default {
       order: null,
       credits: "",
       category: null,
+      choosedCategories: [],
       description: "",
       selectedImages: [],
       removedImages: [],

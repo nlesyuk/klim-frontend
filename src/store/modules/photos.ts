@@ -1,11 +1,20 @@
 import { RepositoryFactory } from "../../repositories/RepositoryFactory";
 const PhotosRepository = RepositoryFactory.get("photos");
 const CategoriesRepository = RepositoryFactory.get("categories");
+import {
+  photographerCategories,
+  cinematographerCategories
+} from "@/helper/constants";
+
+const categories =
+  process.env.VUE_APP_DOMAIN === "klimstepan.com"
+    ? cinematographerCategories
+    : photographerCategories;
 
 export default {
   state: {
     photos: null,
-    categories: null
+    categories: categories
   },
   actions: {
     async getPhotos({ commit }) {
