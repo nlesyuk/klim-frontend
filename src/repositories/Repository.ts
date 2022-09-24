@@ -2,22 +2,16 @@ import axios from "axios";
 import StorageService, { keys } from "../services/storage.service";
 const userStorageService = new StorageService(keys.user);
 import { getRefreshToken } from "./AuthRepository";
-
-const baseDomain =
-  process.env.VUE_APP_SERVER_ENVIRONMENT === "prod"
-    ? process.env.VUE_APP_SERVER_PRODUCTION
-    : process.env.VUE_APP_SERVER_DEV;
-
-const apiVersion = `api`; // add /api/v1
+import { domain, APIURL } from "@/helper/constants";
 
 const instance = axios.create({
   timeout: 1000,
-  baseURL: `${baseDomain}/${apiVersion}`
+  baseURL: APIURL
 });
 
 instance.interceptors.request.use(
   req => {
-    req.headers.domain = process.env.VUE_APP_DOMAIN || "klimstepan.com";
+    req.headers.domain = domain;
     const user = userStorageService.get();
     if (user?.accessToken) {
       req.headers["x-access-token"] = user.accessToken;
@@ -25,9 +19,7 @@ instance.interceptors.request.use(
 
     return req;
   },
-  error => {
-    return Promise.reject(error);
-  }
+  error => Promise.reject(error)
 );
 
 instance.interceptors.response.use(
