@@ -19,6 +19,7 @@
 import WorksGrid from "../components/WorksGrid";
 import Slider from "./Slider";
 import { mapActions, mapState } from "vuex";
+import { setTitle } from "@/helper/";
 
 export default {
   name: "Works",
@@ -49,7 +50,7 @@ export default {
     ...mapActions(["getAllVideos"])
   },
   mounted() {
-    this.setTitle("Works");
+    setTitle("Works");
 
     if (!this.videos) {
       this.getAllVideos();

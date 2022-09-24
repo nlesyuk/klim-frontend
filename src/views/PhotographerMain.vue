@@ -21,6 +21,7 @@ import TheCategoryFilter from "../components/TheCategoryFilter";
 import PhotosPreviewGrid from "../components/PhotosPreviewGrid";
 import Slider from "./Slider";
 import { mapActions, mapState } from "vuex";
+import { setTitle } from "@/helper";
 
 export default {
   components: {
@@ -61,7 +62,7 @@ export default {
     ...mapActions(["getPhotos"])
   },
   mounted() {
-    this.setTitle("Portfolio");
+    setTitle("Portfolio");
 
     if (!this.photos) {
       this.getPhotos();

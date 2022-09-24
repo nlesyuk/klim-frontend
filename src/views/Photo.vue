@@ -25,6 +25,7 @@
 <script>
 import PhotosGrid from "../components/PhotosGrid";
 import { RepositoryFactory } from "./../repositories/RepositoryFactory";
+import { setTitle } from "@/helper";
 const PhotosRepository = RepositoryFactory.get("photos");
 
 export default {
@@ -75,9 +76,8 @@ export default {
       return [];
     }
   },
-  methods: {},
   async mounted() {
-    this.setTitle("Photo");
+    setTitle("Photo");
     try {
       const { data } = await PhotosRepository.getById(+this.$route.params.id);
       this.photo = data;

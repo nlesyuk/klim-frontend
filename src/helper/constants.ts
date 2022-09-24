@@ -1,10 +1,24 @@
 // general
-export const domain = process.env.VUE_APP_DOMAIN || "klimstepan.com";
+const config = {
+  "klimstepan.com": {
+    author: "Klim Stepan",
+    isCinematographer: true,
+    isPhotographer: false
+  },
+  "derzhanovska.com": {
+    author: "Anna Derzhanovska",
+    isCinematographer: false,
+    isPhotographer: true
+  }
+};
 
-export const isCinematographerMode = domain === "klimstepan.com";
+export const domain: string = process.env.VUE_APP_DOMAIN || "klimstepan.com";
+export const author: string =
+  domain === "klimstepan.com" ? "Klim Stepan" : "Anna Derzhanovska";
+export const isCinematographerMode: boolean = domain === "klimstepan.com";
 
 // server
-export const serverDomain =
+export const serverDomain: string =
   process.env.VUE_APP_SERVER_ENVIRONMENT === "prod"
     ? process.env.VUE_APP_SERVER_PRODUCTION
     : process.env.VUE_APP_SERVER_DEV;

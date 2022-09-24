@@ -25,24 +25,31 @@
     </ul>
 
     <router-link class="header__logo" :to="{ path: '/' }">
-      <img src="@/assets/logo.png" alt="logo" />
+      <img
+        v-if="$options.isCinematographerMode"
+        src="@/assets/cinematographer-logo.png"
+        alt="logo"
+      />
+      <img v-else src="@/assets/photographer-logo.png" alt="logo" />
     </router-link>
 
     <Nav class="header__nav" />
   </header>
 </template>
 
-<script lang="ts">
+<script>
 import Nav from "./Nav.vue";
 import { mapState } from "vuex";
+import { isCinematographerMode } from "@/helper/constants";
 
 export default {
+  isCinematographerMode,
   components: {
     Nav
   },
   computed: {
     ...mapState({
-      contacts: (state?: any) => state.general.contacts
+      contacts: state => state.general.contacts
     })
   }
 };

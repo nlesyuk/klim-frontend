@@ -18,6 +18,7 @@
 import PhotoPreview from "../components/PhotoPreview";
 import { mapActions, mapState, mapGetters } from "vuex";
 import { isCinematographerMode } from "@/helper/constants";
+import { setTitle } from "@/helper";
 
 export default {
   components: {
@@ -56,7 +57,7 @@ export default {
     }
   },
   mounted() {
-    this.setTitle("Photos");
+    setTitle("Photos");
   }
 };
 </script>

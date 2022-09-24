@@ -6,12 +6,10 @@
 </template>
 
 <script>
+import { setTitle } from "@/helper";
 export default {
-  data() {
-    return {};
-  },
   mounted() {
-    this.setTitle("Not found");
+    setTitle("Not found");
   }
 };
 </script>

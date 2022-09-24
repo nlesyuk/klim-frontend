@@ -67,6 +67,7 @@
 </template>
 <script>
 import { mapActions, mapState } from "vuex";
+import { setTitle } from "@/helper";
 
 export default {
   data() {
@@ -101,7 +102,7 @@ export default {
     ...mapActions(["getContacts"])
   },
   mounted() {
-    this.setTitle("Contact");
+    setTitle("Contact");
     if (!this.contacts) {
       this.getContacts();
     }
@@ -109,7 +110,7 @@ export default {
     // /contact/?calendar=on
     if (this.$route.query.calendar === "on") {
       this.isActivateCalendar = true;
-      this.setTitle("Calendar");
+      setTitle("Calendar");
     }
   }
 };

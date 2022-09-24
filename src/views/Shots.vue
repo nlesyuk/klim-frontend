@@ -30,6 +30,7 @@
 <script>
 import PhotosGrid from "../components/PhotosGrid";
 import { mapActions, mapState } from "vuex";
+import { setTitle } from "@/helper";
 
 export default {
   components: {
@@ -76,7 +77,7 @@ export default {
     ...mapActions(["getAllShots"])
   },
   mounted() {
-    this.setTitle("Shots");
+    setTitle("Shots");
 
     if (!this.allShots.length) {
       this.getAllShots().then(data => {

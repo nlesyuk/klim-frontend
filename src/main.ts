@@ -27,10 +27,6 @@ Vue.use(Vuelidate);
 // styles
 import "@/scss/style.scss";
 
-// global mixins
-import mixins from "./mixins/index";
-Vue.mixin(mixins);
-
 Vue.config.productionTip = false;
 new Vue({
   router,
