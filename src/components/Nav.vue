@@ -15,15 +15,26 @@
     <template #after-nav>
       <vsm-mob ref="mobile">
         <div class="vsm-mob-content__mob-menu">
-          <router-link class="vsm-link" exact-path :to="{ path: '/' }">
-            Works
-          </router-link>
-          <router-link class="vsm-link" exact-path :to="{ path: '/shots' }">
-            Shots
-          </router-link>
-          <router-link class="vsm-link" exact-path :to="{ path: '/photo' }">
-            Photo
-          </router-link>
+          <template v-if="isCinematographerMode">
+            <router-link class="vsm-link" exact-path :to="{ path: '/' }">
+              Works
+            </router-link>
+            <router-link class="vsm-link" exact-path :to="{ path: '/shots' }">
+              Shots
+            </router-link>
+            <router-link class="vsm-link" exact-path :to="{ path: '/photo' }">
+              Photo
+            </router-link>
+          </template>
+          <template v-else>
+            <router-link class="vsm-link" exact-path :to="{ path: '/' }">
+              Portfolio
+            </router-link>
+            <router-link class="vsm-link" exact-path :to="{ path: '/photo' }">
+              Personal
+            </router-link>
+          </template>
+          <!-- for all roles -->
           <router-link class="vsm-link" exact-path :to="{ path: '/contact' }">
             Contact
           </router-link>
@@ -36,78 +47,17 @@
 <script>
 import ShotsSubmenu from "./dropdowns/ShotsSubmenu.vue";
 import PhotosSubmenu from "./dropdowns/PhotosSubmenu.vue";
+import { isCinematographerMode } from "@/helper/constants";
 
 export default {
-  data() {
-    return {
-      menu: [
-        // 1
-        {
-          title: "Works",
-          attributes: {
-            class: ["header__nav-item"]
-          },
-          listeners: {
-            click: () => {
-              if (this.$route.path === "/") return;
-              this.$router.push("/");
-            }
-          }
-        },
-        // 2
-        {
-          title: "Shots",
-          attributes: {
-            class: ["header__nav-item"]
-          },
-          listeners: {
-            click: () => {
-              if (this.$route.path === "/shots") return;
-              this.$router.push("/shots");
-            }
-          },
-          dropdown: "ShotsSubmenu",
-          content: ShotsSubmenu
-        },
-        // 3
-        {
-          title: "Photo",
-          attributes: {
-            class: ["header__nav-item"]
-          },
-          listeners: {
-            click: () => {
-              if (this.$route.path === "/photo") return;
-              this.$router.push("/photo");
-            }
-          },
-          dropdown: "PhotosSubmenu",
-          content: PhotosSubmenu
-        },
-        // 4
-        {
-          title: "Contact",
-          attributes: {
-            class: ["header__nav-item"]
-          },
-          listeners: {
-            click: () => {
-              if (this.$route.path === "/contact") return;
-              this.$router.push("/contact");
-            }
-          }
-        }
-      ]
-    };
-  },
   computed: {
     myMenu() {
-      // const user = process.env.VUE_APP_DOMAIN;
-      const user = "derzhanovska.com";
       const classes = ["header__nav-item"];
+
       let menu;
-      if (user === "klimstepan.com") {
+      if (isCinematographerMode) {
         menu = [
+          // 1
           {
             title: "Works",
             attributes: {
@@ -151,10 +101,11 @@ export default {
             content: PhotosSubmenu
           }
         ];
-      } else if (user === "derzhanovska.com") {
+      } else {
         menu = [
+          /// 1
           {
-            title: "Home",
+            title: "Portfolio",
             attributes: {
               class: classes
             },
@@ -165,8 +116,9 @@ export default {
               }
             }
           },
+          /// 2
           {
-            title: "Photo",
+            title: "Personal",
             attributes: {
               class: classes
             },
