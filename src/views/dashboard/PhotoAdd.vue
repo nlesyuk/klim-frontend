@@ -286,7 +286,7 @@ export default {
   },
   computed: {
     ...mapState({
-      categories: state => state.photos.categories,
+      categories: state => state.photos.categories.filter(v => v !== "all"),
       allPhotos: state => state.photos.photos
     }),
     allPhotoCollections() {
@@ -427,8 +427,9 @@ export default {
         formData.append("credits", this.credits);
         formData.append("description", this.description);
 
-        if (this.category) {
-          formData.append("category", this.category);
+        console.log("choosedCategories", this.choosedCategories);
+        if (this.choosedCategories) {
+          formData.append("categories", JSON.stringify(this.choosedCategories));
         }
         for (const photo of this.selectedImages) {
           formData.append("photos[]", photo.file);
@@ -546,8 +547,8 @@ export default {
         formData.append("credits", this.credits);
         formData.append("description", this.description);
         formData.append("photosInfo", JSON.stringify(photosInfo));
-        if (this.category) {
-          formData.append("category", this.category);
+        if (this.choosedCategories) {
+          formData.append("categories", this.choosedCategories);
         }
 
         // return;

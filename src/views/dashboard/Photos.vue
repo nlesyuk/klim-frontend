@@ -83,11 +83,12 @@
 </template>
 
 <script>
-import PhotoAdd from "./PhotoAdd";
-import PhotoPreview from "../../components/PhotoPreview";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
+import PhotoPreview from "@/components/PhotoPreview";
+import PhotoAdd from "./PhotoAdd";
 const PhotosRepository = RepositoryFactory.get("photos");
+import { isCinematographerMode } from "@/helper/constants";
 
 export default {
   components: {
@@ -106,18 +107,28 @@ export default {
     ...mapState({
       allPhotos: state => state.photos.photos
     }),
-    photos() {
+    ...mapGetters(["photosPersonal"]),
+    // use getters instead of
+    photographerPhotos() {
+      return this.photosPersonal || this.allPhotos;
+    },
+    cinematographerPhotos() {
       const photos = this.allPhotos;
       if (!photos) {
         return false;
       }
 
       const res = this.$route.path.includes("commerce")
-        ? photos.filter(v => v.category.includes("commerce"))
-        : // : photos.filter(v => !v.category.includes("commerce"));
-          photos;
+        ? photos.filter(v => v.categories.includes("commerce"))
+        : photos;
 
       return res.length ? res : this.allPhotos;
+    },
+    //
+    photos() {
+      return isCinematographerMode
+        ? this.cinematographerPhotos
+        : this.photographerPhotos;
     },
     isPhotosFilled() {
       const p = this.photos;

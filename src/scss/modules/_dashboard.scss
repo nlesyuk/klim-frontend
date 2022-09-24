@@ -24,6 +24,12 @@ $btn-submit-hover: #1cdefb;
   &__title {
     font-size: 2rem;
     color: #c9c9c9ad;
+    &--center {
+      text-align: center;
+    }
+    &--big-border {
+      padding: 50px 0;
+    }
   }
   &__text {
     margin: 16px 0 8px;
@@ -376,6 +382,17 @@ $btn-submit-hover: #1cdefb;
         display: block;
         width: 100%;
       }
+    }
+  }
+
+  &__checkbox {
+    display: inline-flex;
+    align-items: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-right: 16px;
+    &:last-child {
+      margin-right: 0;
     }
   }
   // states

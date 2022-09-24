@@ -1,11 +1,10 @@
 <template>
   <section class="dashboard">
-    <h2 class="dashboard__title">Hello, {{ username }}!</h2>
     <ul class="dashboard__menu">
       <li v-for="item in $options.menu" :key="item">
         <router-link
           tag="button"
-          class="dashboard__menu-item"
+          class="dashboard__menu-item glass-button1"
           :to="{ name: `dasboard-${item}` }"
         >
           {{ item }}
@@ -33,9 +32,12 @@
       </li>
     </ul>
     <router-view></router-view>
-    <span class="dashboard__badge badge-red" v-if="isDasboardRoute">
-      please choose a category
-    </span>
+    <h2
+      class="dashboard__title dashboard__title--center dashboard__title--big-border"
+      v-if="isDasboardRoute"
+    >
+      Hello, {{ username }}!
+    </h2>
   </section>
 </template>
 
@@ -53,7 +55,7 @@ export default {
       return this.$store.state.auth.user;
     },
     username() {
-      return this.$store.state.auth.user?.username;
+      return this.currentUser?.username;
     }
   },
   methods: {
