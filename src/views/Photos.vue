@@ -16,7 +16,8 @@
 </template>
 <script>
 import PhotoPreview from "../components/PhotoPreview";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
+import { isCinematographerMode } from "@/helper/constants";
 
 export default {
   components: {
@@ -26,15 +27,24 @@ export default {
     ...mapState({
       allPhotos: state => state.photos.photos
     }),
+    ...mapGetters(["photographerPhotos", "cinematographerPhotos"]),
+    // cinematographerPhotosFiltered() {
+    //   const photos = this.allPhotos;
+    //   if (!photos) {
+    //     return false;
+    //   }
+
+    //   const res = this.$route.path.includes("commerce")
+    //     ? photos.filter(v => v.categories.includes("commerce"))
+    //     : this.cinematographerPhotos;
+
+    //   return res.length ? res : this.allPhotos;
+    // },
+    //
     photos() {
-      let res;
-      if (this.$route.path.includes("commerce")) {
-        res = this.allPhotos?.filter(v => v.category.includes("commerce"));
-      } else {
-        // res = this.allPhotos;
-        res = this.allPhotos?.filter(v => !v?.category?.includes("commerce"));
-      }
-      return res && res.length ? res : this.allPhotos;
+      return isCinematographerMode
+        ? this.cinematographerPhotos
+        : this.photographerPhotos;
     }
   },
   methods: {

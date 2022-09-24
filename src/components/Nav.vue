@@ -15,7 +15,7 @@
     <template #after-nav>
       <vsm-mob ref="mobile">
         <div class="vsm-mob-content__mob-menu">
-          <template v-if="isCinematographerMode">
+          <template v-if="$options.isCinematographerMode">
             <router-link class="vsm-link" exact-path :to="{ path: '/' }">
               Works
             </router-link>
@@ -50,6 +50,7 @@ import PhotosSubmenu from "./dropdowns/PhotosSubmenu.vue";
 import { isCinematographerMode } from "@/helper/constants";
 
 export default {
+  isCinematographerMode,
   computed: {
     myMenu() {
       const classes = ["header__nav-item"];
@@ -127,9 +128,9 @@ export default {
                 if (this.$route.path === "/photo") return;
                 this.$router.push("/photo");
               }
-            },
-            dropdown: "PhotosSubmenu",
-            content: PhotosSubmenu
+            }
+            // dropdown: "PhotosSubmenu",
+            // content: PhotosSubmenu
           }
         ];
       }
