@@ -1,58 +1,26 @@
 <template>
-  <div class="home">
-    <Slider />
-    <WorksGrid
-      v-if="allVideos && allVideos.length"
-      :works="allVideos"
-    ></WorksGrid>
-    <p
-      v-else-if="allVideos && allVideos.length === 0"
-      class="home__empty-category"
-    >
-      Don't have any works yet
-    </p>
-    <Spiner v-else />
-  </div>
+  <component :is="component"></component>
 </template>
 
 <script>
-import WorksGrid from "../components/WorksGrid";
-import Slider from "./Slider";
-import { mapActions, mapState } from "vuex";
+import CinematogapherMain from "./CinematogapherMain.vue";
+import PhotographerMain from "./PhotographerMain.vue";
+import { domain } from "@/helper/constants";
 
 export default {
-  name: "Works",
+  name: "Main",
   components: {
-    WorksGrid,
-    Slider
+    CinematogapherMain,
+    PhotographerMain
   },
   computed: {
-    ...mapState({
-      videos: state => state.videos.videos
-    }),
-    isMobile() {
-      return window.innerWidth < 992;
-    },
-    allVideos() {
-      if (this.$route.name === "works-commercial") {
-        if (!this.videos) {
-          return;
-        }
-        return this.videos.filter(video =>
-          video?.category?.includes("commerce")
-        );
-      }
-      return this.videos;
-    }
-  },
-  methods: {
-    ...mapActions(["getAllVideos"])
-  },
-  mounted() {
-    this.setTitle("Works");
+    component() {
+      const config = {
+        "klimstepan.com": "CinematogapherMain",
+        "derzhanovska.com": "PhotographerMain"
+      };
 
-    if (!this.videos) {
-      this.getAllVideos();
+      return config[domain] || "CinematogapherMain";
     }
   }
 };
