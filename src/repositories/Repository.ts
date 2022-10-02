@@ -5,7 +5,7 @@ import { getRefreshToken } from "./AuthRepository";
 import { domain, APIURL } from "@/helper/constants";
 
 const instance = axios.create({
-  timeout: 1000,
+  timeout: 5000,
   baseURL: APIURL
 });
 
