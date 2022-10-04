@@ -1,7 +1,8 @@
 <template>
   <footer class="footer">
     <p class="footer__text">
-      Klim Stepan. Ukraine based cinematogapher / director of photography
+      <!-- Klim Stepan. Ukraine based cinematogapher / director of photography -->
+      {{ description }}
     </p>
     <p class="footer__text" v-if="contacts">
       contact me
@@ -10,14 +11,18 @@
   </footer>
 </template>
 
-<script lang="ts">
+<script>
 import { mapState } from "vuex";
+import { currentUser } from "@/helper/constants";
 
 export default {
   computed: {
     ...mapState({
-      contacts: (state?: any) => state.general.contacts
-    })
+      contacts: state => state.general.contacts
+    }),
+    description() {
+      return currentUser.footerDescription;
+    }
   }
 };
 </script>

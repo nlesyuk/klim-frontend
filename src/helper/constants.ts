@@ -3,20 +3,23 @@ const config = {
   "klimstepan.com": {
     author: "Klim Stepan",
     isCinematographer: true,
-    isPhotographer: false
+    isPhotographer: false,
+    footerDescription:
+      "Klim Stepan. Ukraine based cinematogapher / director of photography"
   },
   "derzhanovska.com": {
     author: "Anna Derzhanovska",
     isCinematographer: false,
-    isPhotographer: true
+    isPhotographer: true,
+    footerDescription: "Anna Derzhanovska / Photographer"
   }
 };
 
 export const domain: string = process.env.VUE_APP_DOMAIN || "klimstepan.com";
-export const author: string =
-  domain === "klimstepan.com" ? "Klim Stepan" : "Anna Derzhanovska";
+export const author: string = config[domain].author;
+// domain === "klimstepan.com" ? "Klim Stepan" : "Anna Derzhanovska";
 export const isCinematographerMode: boolean = domain === "klimstepan.com";
-
+export const currentUser = config[domain];
 // server
 export const serverDomain: string =
   process.env.VUE_APP_SERVER_ENVIRONMENT === "prod"
