@@ -36,8 +36,10 @@ import { mapActions, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      username: "test",
-      password: "1234",
+      username: "",
+      password: "",
+      // username: "test",
+      // password: "1234",
       error: null,
       loading: false
     };
