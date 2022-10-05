@@ -1,33 +1,34 @@
 // general
-const config = {
-  "klimstepan.com": {
+const config = [
+  {
+    domain: "klimstepan.com",
     author: "Klim Stepan",
     isCinematographer: true,
     isPhotographer: false,
     footerDescription:
       "Klim Stepan. Ukraine based cinematogapher / director of photography"
   },
-  "derzhanovska.com": {
+  {
+    domain: "derzhanovska.com",
     author: "Anna Derzhanovska",
     isCinematographer: false,
     isPhotographer: true,
     footerDescription: "Anna Derzhanovska / Photographer"
   }
-};
+];
 
 export const domain: string = process.env.VUE_APP_DOMAIN || "klimstepan.com";
-export const author: string = config[domain].author;
-// domain === "klimstepan.com" ? "Klim Stepan" : "Anna Derzhanovska";
+export const author: string | undefined = config.find(v => v.domain === domain)
+  ?.author;
 export const isCinematographerMode: boolean = domain === "klimstepan.com";
-export const currentUser = config[domain];
+export const currentUser = config.find(v => v.domain === domain);
+
 // server
 export const serverDomain: string =
   process.env.VUE_APP_SERVER_ENVIRONMENT === "prod"
     ? process.env.VUE_APP_SERVER_PRODUCTION
     : process.env.VUE_APP_SERVER_DEV;
-
 export const apiVersion = `api/v1`;
-
 export const APIURL = `${serverDomain}/${apiVersion}`;
 
 // front end
