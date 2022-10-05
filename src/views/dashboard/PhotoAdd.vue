@@ -427,7 +427,6 @@ export default {
         formData.append("credits", this.credits);
         formData.append("description", this.description);
 
-        console.log("choosedCategories", this.choosedCategories);
         if (this.choosedCategories) {
           formData.append("categories", JSON.stringify(this.choosedCategories));
         }

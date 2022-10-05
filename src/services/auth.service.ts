@@ -25,7 +25,7 @@ class AuthService {
 
       return Promise.resolve(user);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       let msg = error?.response?.data?.message
         ? error?.response?.data?.message
         : error?.message;
@@ -65,7 +65,6 @@ class AuthService {
     try {
       if (token) {
         const res = await AuthRepository.refreshToken(token);
-        console.log("AUth refreshToken", res);
         const user: IUser | null = userStorageService.get();
         userStorageService.set({
           ...user

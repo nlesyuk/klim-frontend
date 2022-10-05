@@ -26,7 +26,6 @@ instance.interceptors.response.use(
   res => res,
   async err => {
     const originalConfig = err.config;
-    console.log("interceptors.response", originalConfig);
 
     if (err.response) {
       // Access Token was expired
@@ -42,7 +41,6 @@ instance.interceptors.response.use(
           }
           const rs = await getRefreshToken(instance, user?.refreshToken);
           const { accessToken, refreshToken } = rs.data;
-          console.log("res_interceptor", rs.data);
           userStorageService.set({
             ...user,
             accessToken,

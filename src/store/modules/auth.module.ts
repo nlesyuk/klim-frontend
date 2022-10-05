@@ -18,7 +18,6 @@ export default {
   },
   mutations: {
     loginSuccess(state, user) {
-      console.log("loginSuccess", user);
       state.status.loggedIn = true;
       state.user = user;
     },
@@ -53,11 +52,9 @@ export default {
     async login({ commit }, user) {
       try {
         const userData = await AuthService.login(user);
-        console.log("loginSuccess", userData);
         commit("loginSuccess", userData);
         return Promise.resolve(userData);
       } catch (error) {
-        console.log("loginFailure", error);
         commit("loginFailure");
         return Promise.reject(error);
       }
@@ -70,14 +67,13 @@ export default {
         commit("logout");
       } catch (error) {
         // somthing went wrong with logout
-        console.log("Vuex logout", error);
+        console.error("Vuex logout error", error);
       }
     },
 
     async signup({ commit }, user) {
       try {
         const res = await AuthService.signup(user);
-        console.log("Vuex register", res);
         commit("registerSuccess", res);
         return Promise.resolve(res);
       } catch (error) {
@@ -91,8 +87,6 @@ export default {
         const res = await AuthService.refreshToken(refrshToken);
         const { accessToken, refreshToken } = res.data;
         const tokens = { accessToken, refreshToken };
-
-        console.log("Vuex refreshToken", tokens);
         commit("setAccessRefreshTokens", tokens);
         return Promise.resolve(tokens);
       } catch (error) {

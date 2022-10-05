@@ -18,7 +18,7 @@
           type="password"
           name="password"
           v-model="password"
-          placeholder="Password"
+          placeholder="password"
         />
       </label>
       <button type="submit" class="login__btn">

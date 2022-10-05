@@ -1,7 +1,6 @@
 <template>
   <footer class="footer">
     <p class="footer__text">
-      <!-- Klim Stepan. Ukraine based cinematogapher / director of photography -->
       {{ description }}
     </p>
     <p class="footer__text" v-if="contacts">

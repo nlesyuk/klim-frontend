@@ -3,14 +3,20 @@
     <div class="contact__main" v-if="contacts">
       <div class="contact__top-container">
         <figure class="contact__figure">
-          <img :src="image" class="contact__img" loading="lazy" />
+          <img v-if="image" :src="image" class="contact__img" loading="lazy" />
+          <img
+            v-else
+            src="@/assets/contact-image.jpg"
+            class="contact__img"
+            loading="lazy"
+          />
         </figure>
         <div class="contact__info">
-          <span class="contact__text">
+          <span class="contact__text" v-if="contacts.email">
             Email
             <a :href="`mailto:${contacts.email}`">{{ contacts.email }}</a>
           </span>
-          <span class="contact__text">
+          <span class="contact__text" v-if="contacts.phone">
             phone number
             <a :href="`tel:${phone}`">{{ contacts.phone }}</a>
           </span>
@@ -49,20 +55,17 @@
           </div>
         </div>
       </div>
-      <div
-        class="contact__description"
-        v-if="description"
-        v-html="description"
-      ></div>
+      <div class="contact__description" v-if="description">
+        <iframe
+          v-if="isActivateCalendar"
+          src="https://calendar.google.com/calendar/embed?src=jj25uk5sp09g04sk4g9pru6538%40group.calendar.google.com&ctz=Europe%2FKiev"
+          width="800"
+          height="600"
+          frameborder="0"
+          scrolling="no"
+        ></iframe>
+      </div>
     </div>
-    <iframe
-      v-if="isActivateCalendar"
-      src="https://calendar.google.com/calendar/embed?src=jj25uk5sp09g04sk4g9pru6538%40group.calendar.google.com&ctz=Europe%2FKiev"
-      width="800"
-      height="600"
-      frameborder="0"
-      scrolling="no"
-    ></iframe>
   </div>
 </template>
 <script>
@@ -77,9 +80,7 @@ export default {
   },
   computed: {
     image() {
-      return this.contacts?.image
-        ? `${this.contacts.image}`
-        : "@/assets/contact-image.jpg";
+      return this.contacts?.image;
     },
     phone() {
       if (!this.contacts) return null;
