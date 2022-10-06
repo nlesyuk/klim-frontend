@@ -17,7 +17,12 @@
       Refresh photos
     </button>
 
-    <div class="dashboard-photos__container" v-if="isPhotosFilled > 0">
+    <label v-if="$options.isPhotographerMode" class="dashboard__checkbox">
+      <input type="checkbox" v-model="personal" />
+      Personal({{ personal ? "on" : "off" }})
+    </label>
+
+    <div class="dashboard-photos__container" v-if="!isPhotosEmpty">
       <PhotoPreview
         v-for="(item, idx) in photos"
         :key="idx"
@@ -75,7 +80,7 @@
         </ul>
       </PhotoPreview>
     </div>
-    <div v-else-if="isPhotosFilled === 0" class="grid-empty">
+    <div v-else-if="isPhotosEmpty" class="grid-empty">
       Don't have any items yet
     </div>
     <Spiner v-else />
@@ -88,9 +93,10 @@ import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
 import PhotoPreview from "@/components/PhotoPreview";
 import PhotoAdd from "./PhotoAdd";
 const PhotosRepository = RepositoryFactory.get("photos");
-import { isCinematographerMode } from "@/helper/constants";
+import { isCinematographerMode, isPhotographerMode } from "@/helper/constants";
 
 export default {
+  isPhotographerMode,
   components: {
     PhotoAdd,
     PhotoPreview
@@ -100,7 +106,8 @@ export default {
       isEdit: false,
       isManage: true,
       isShowAddPhoto: false,
-      photoCollection: null
+      photoCollection: null,
+      personal: false
     };
   },
   computed: {
@@ -110,7 +117,10 @@ export default {
     ...mapGetters(["photosPersonal"]),
     // use getters instead of
     photographerPhotos() {
-      return this.photosPersonal || this.allPhotos;
+      if (this.personal) {
+        return this.allPhotos?.filter(v => v?.categories.includes("personal"));
+      }
+      return this.allPhotos;
     },
     cinematographerPhotos() {
       const photos = this.allPhotos;
@@ -130,12 +140,8 @@ export default {
         ? this.cinematographerPhotos
         : this.photographerPhotos;
     },
-    isPhotosFilled() {
-      const p = this.photos;
-      if (Array.isArray(p)) {
-        return p.length;
-      }
-      return false;
+    isPhotosEmpty() {
+      return !this.photos?.length;
     }
   },
   methods: {

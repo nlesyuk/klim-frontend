@@ -21,6 +21,7 @@ export const domain: string = process.env.VUE_APP_DOMAIN || "klimstepan.com";
 export const author: string | undefined = config.find(v => v.domain === domain)
   ?.author;
 export const isCinematographerMode: boolean = domain === "klimstepan.com";
+export const isPhotographerMode: boolean = domain === "derzhanovska.com";
 export const currentUser = config.find(v => v.domain === domain);
 
 // server
