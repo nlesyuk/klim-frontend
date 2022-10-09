@@ -32,7 +32,7 @@ const router = new VueRouter({
     {
       path: "/photo",
       name: "photo",
-      component: () => import("../views/Photos.vue"),
+      component: () => import("../views/Photos.vue"), // 1
       children: [
         {
           path: "commerce",
@@ -45,6 +45,16 @@ const router = new VueRouter({
       path: "/photo/:id",
       name: "collage",
       component: () => import("../views/Photo.vue")
+    },
+    {
+      path: "/personal",
+      name: "personal",
+      component: () => import("../views/Photos.vue") // 2
+    },
+    {
+      path: "/portfolio",
+      name: "portfolio",
+      component: () => import("../views/Portfolio.vue")
     },
     {
       path: "/contact",

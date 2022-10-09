@@ -15,6 +15,7 @@
     <template #after-nav>
       <vsm-mob ref="mobile">
         <div class="vsm-mob-content__mob-menu">
+          <!-- 1 -->
           <template v-if="$options.isCinematographerMode">
             <router-link class="vsm-link" exact-path :to="{ path: '/' }">
               Works
@@ -26,8 +27,16 @@
               Photo
             </router-link>
           </template>
-          <template v-else>
+          <!-- 2 -->
+          <template v-else-if="$options.isPhotographerMode">
             <router-link class="vsm-link" exact-path :to="{ path: '/' }">
+              Main
+            </router-link>
+            <router-link
+              class="vsm-link"
+              exact-path
+              :to="{ path: '/portfolio' }"
+            >
               Portfolio
             </router-link>
             <router-link class="vsm-link" exact-path :to="{ path: '/photo' }">
@@ -47,9 +56,11 @@
 <script>
 import ShotsSubmenu from "./dropdowns/ShotsSubmenu.vue";
 import PhotosSubmenu from "./dropdowns/PhotosSubmenu.vue";
-import { isCinematographerMode } from "@/helper/constants";
+import PortfolioSubmenu from "./dropdowns/PortfolioSubmenu.vue";
+import { isCinematographerMode, isPhotographerMode } from "@/helper/constants";
 
 export default {
+  isPhotographerMode,
   isCinematographerMode,
   computed: {
     myMenu() {
@@ -106,18 +117,35 @@ export default {
         menu = [
           /// 1
           {
+            title: "Main",
+            attributes: {
+              class: classes
+            },
+            listeners: {
+              click: () => {
+                const path = "/";
+                if (this.$route.path === path) return;
+                this.$router.push(path);
+              }
+            }
+          },
+          /// 2
+          {
             title: "Portfolio",
             attributes: {
               class: classes
             },
             listeners: {
               click: () => {
-                if (this.$route.path === "/") return;
-                this.$router.push("/");
+                const path = "/portfolio";
+                if (this.$route.path === path) return;
+                this.$router.push(path);
               }
-            }
+            },
+            dropdown: "PortfolioSubmenu",
+            content: PortfolioSubmenu
           },
-          /// 2
+          /// 3
           {
             title: "Personal",
             attributes: {
@@ -125,12 +153,11 @@ export default {
             },
             listeners: {
               click: () => {
-                if (this.$route.path === "/photo") return;
-                this.$router.push("/photo");
+                const path = "/personal";
+                if (this.$route.path === path) return;
+                this.$router.push(path);
               }
             }
-            // dropdown: "PhotosSubmenu",
-            // content: PhotosSubmenu
           }
         ];
       }

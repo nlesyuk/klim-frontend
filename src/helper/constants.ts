@@ -65,8 +65,7 @@ export const photographerCategories = [
   "all",
   "automotive",
   "fashion",
-  "lifestyle",
-  "personal"
+  "lifestyle"
 ];
 
 export const categories = isCinematographerMode
