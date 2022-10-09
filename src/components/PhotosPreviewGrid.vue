@@ -49,12 +49,20 @@ export default {
       return `background-image: url(${this.getFirstPreviewPhoto(id)})`;
     },
     getFirstPreviewPhoto(id) {
-      const photo = this.photos?.filter(v => v.id === id);
-      if (!photo?.length) {
+      const photoCollection = this.photos?.filter(v => v.id === id);
+      if (!photoCollection?.length) {
         return "";
       }
-      const res = photo?.[0]?.photos?.filter(v => v.isPreview);
-      return res?.length ? res[0].src : "";
+      // get preview photos
+      const previewPhotos = photoCollection?.[0]?.photos?.filter(
+        v => v.isPreview
+      );
+      // sort preview photo by order index
+      const sortedPreviewPhotos = previewPhotos.sort(
+        (a, b) => a.order - b.order
+      );
+      console.log("sortedPreviewPhotos", sortedPreviewPhotos);
+      return sortedPreviewPhotos?.length ? sortedPreviewPhotos?.[0].src : "";
     }
   }
 };
