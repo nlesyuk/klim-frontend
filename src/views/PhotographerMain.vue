@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <Slider />
-    <TheCategoryFilter />
     <PhotosPreviewGrid
       v-if="allPhotos && allPhotos.length"
       :photos="allPhotos"
@@ -17,7 +16,6 @@
 </template>
 
 <script>
-import TheCategoryFilter from "../components/TheCategoryFilter";
 import PhotosPreviewGrid from "../components/PhotosPreviewGrid";
 import Slider from "./Slider";
 import { mapActions, mapState } from "vuex";
@@ -26,7 +24,6 @@ import { setTitle } from "@/helper";
 export default {
   components: {
     PhotosPreviewGrid,
-    TheCategoryFilter,
     Slider
   },
   computed: {
@@ -53,9 +50,6 @@ export default {
       };
 
       return filtered[category] || this.photos;
-    },
-    cetegory() {
-      return "all";
     }
   },
   methods: {

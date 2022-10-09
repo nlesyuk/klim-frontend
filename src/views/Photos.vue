@@ -29,19 +29,6 @@ export default {
       allPhotos: state => state.photos.photos
     }),
     ...mapGetters(["photographerPhotos", "cinematographerPhotos"]),
-    // cinematographerPhotosFiltered() {
-    //   const photos = this.allPhotos;
-    //   if (!photos) {
-    //     return false;
-    //   }
-
-    //   const res = this.$route.path.includes("commerce")
-    //     ? photos.filter(v => v.categories.includes("commerce"))
-    //     : this.cinematographerPhotos;
-
-    //   return res.length ? res : this.allPhotos;
-    // },
-    //
     photos() {
       return isCinematographerMode
         ? this.cinematographerPhotos
