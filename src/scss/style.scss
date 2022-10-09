@@ -527,8 +527,9 @@
     }
   }
   &__text {
-    font: 1.6rem/1 $secondFont;
+    font: 1.1rem/1 $font;
     text-align: center;
+    text-transform: uppercase;
     color: $primary;
     margin-bottom: 10px;
     a {
