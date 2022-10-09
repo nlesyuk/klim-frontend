@@ -47,30 +47,6 @@
           ></VueEditor>
         </label>
 
-        <!-- Сategory -->
-        <!-- <label class="dashboard__label">
-          <span>Сategory (it's field can be empty)</span>
-          <select v-model="category">
-            <option disabled selected value="null">
-              Please choose category
-            </option>
-            <option v-for="(name, idx) of categories" :key="idx" :value="name">
-              {{ name }}
-              <template v-if="['commerce'].includes(name)">
-                (This category is hidden by default and can be show for users
-                which have the direct link to this category)
-              </template>
-            </option>
-          </select>
-          <a
-            :href="`//${hostName}/photo/commerce`"
-            class="dashboard__link"
-            target="_blank"
-          >
-            Link to the commerce category
-          </a>
-        </label> -->
-
         <!-- Categories -->
         <label class="dashboard__label" v-if="categories">
           <span>Categories</span>
@@ -83,13 +59,13 @@
             <input type="checkbox" :value="cat" v-model="choosedCategories" />
             {{ cat }}
           </label>
-          <a
+          <!-- <a
             :href="`//${hostName}/photo/commerce`"
             class="dashboard__link"
             target="_blank"
           >
             Link to the <b>commerce</b> category
-          </a>
+          </a> -->
         </label>
 
         <!-- files -->
@@ -255,7 +231,6 @@ export default {
       title: "",
       order: null,
       credits: "",
-      category: null,
       choosedCategories: [],
       description: "",
       selectedImages: [],
@@ -324,7 +299,7 @@ export default {
       this.id = null;
       this.title = "";
       this.credits = "";
-      this.category = null;
+      this.choosedCategories = [];
       this.selectedImages = [];
     },
     getFiles() {
@@ -473,7 +448,7 @@ export default {
         order,
         photos,
         credits,
-        category,
+        categories,
         description
       } = this.photoCollection;
 
@@ -481,7 +456,7 @@ export default {
       this.title = title;
       this.order = order;
       this.credits = credits;
-      this.category = category;
+      this.choosedCategories = [...categories];
       this.description = description;
       this.selectedImages = JSON.parse(JSON.stringify(photos));
     },
