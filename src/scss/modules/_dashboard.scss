@@ -16,8 +16,7 @@ $btn-submit-hover: #1cdefb;
   min-height: 80vh;
   overflow: hidden;
   border-radius: 5px;
-  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
-    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+  box-shadow: #ccdbe8 3px 3px 6px 0px inset, #ffffff80 -3px -3px 6px 1px inset;
   padding: 12px 12px 32px;
   background: linear-gradient(to right, #fafafa, #f3f3f3);
 
@@ -79,6 +78,10 @@ $btn-submit-hover: #1cdefb;
   &__form {
     display: block;
     margin-bottom: 2rem;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+      rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+    padding: 10px;
+    border-radius: 8px;
     &--preview {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -104,29 +107,31 @@ $btn-submit-hover: #1cdefb;
     position: relative;
     overflow: hidden;
     border-radius: 10px;
-    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    box-shadow: #3c40434d 0px 1px 2px 0px, #3c404326 0px 1px 3px 1px;
     &:before {
       content: "preview";
-      color: #f5f5f5;
+      color: #e5e5e5;
+      text-shadow: 1px 1px 1px #d5d5d5;
       text-transform: uppercase;
       font-size: 12rem;
       text-align: center;
       font-weight: bold;
       position: absolute;
-      top: 0;
+      top: calc(50% - 6rem);
       left: 0;
-      z-index: -1;
+      z-index: 1;
     }
     & > .photos {
       width: 100%;
       max-width: 200px;
-      background-color: yellowgreen;
+      background-color: white;
       box-sizing: border-box;
       margin: 0 auto;
-      box-shadow: 1px 11px 11px rgba(0, 0, 0, 0.5);
-      box-shadow: 0px 0px 15px 5px yellowgreen;
+      box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
       border-radius: 2px;
       overflow: hidden;
+      position: relative;
+      z-index: 2;
     }
   }
 

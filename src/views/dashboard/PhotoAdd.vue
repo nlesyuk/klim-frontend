@@ -195,8 +195,8 @@
 
       <!-- PREVIEW -->
       <div class="dashboard__side dashboard__area-preview">
-        <div class="photos" v-if="images.length">
-          <PhotosGrid :images="images" />
+        <div class="photos" v-if="selectedImages.length">
+          <PhotosGrid :images="selectedImages" />
         </div>
       </div>
     </form>

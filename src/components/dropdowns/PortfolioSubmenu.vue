@@ -16,7 +16,9 @@
 </template>
 <script>
 import { categories } from "@/helper/constants";
+const cats = categories.filter(v => v !== "personal");
+
 export default {
-  categories
+  categories: cats
 };
 </script>
