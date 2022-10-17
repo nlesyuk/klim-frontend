@@ -55,16 +55,19 @@
           </div>
         </div>
       </div>
-      <div class="contact__description" v-if="description">
-        <iframe
-          v-if="isActivateCalendar"
-          src="https://calendar.google.com/calendar/embed?src=jj25uk5sp09g04sk4g9pru6538%40group.calendar.google.com&ctz=Europe%2FKiev"
-          width="800"
-          height="600"
-          frameborder="0"
-          scrolling="no"
-        ></iframe>
-      </div>
+      <div
+        class="contact__description"
+        v-if="description"
+        v-html="description"
+      ></div>
+      <iframe
+        v-if="isActivateCalendar"
+        src="https://calendar.google.com/calendar/embed?src=jj25uk5sp09g04sk4g9pru6538%40group.calendar.google.com&ctz=Europe%2FKiev"
+        width="800"
+        height="600"
+        frameborder="0"
+        scrolling="no"
+      ></iframe>
     </div>
   </div>
 </template>
