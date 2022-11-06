@@ -36,7 +36,7 @@
     width: 100%;
     height: auto;
     padding: 10px 10px 10px 40px;
-    background-color: rgba(white, 0.5);
+    background-color: rgba($background, 0.5);
     position: absolute;
     bottom: 0;
 
@@ -51,7 +51,7 @@
     svg {
       display: block;
       fill: $grey;
-      fill: white;
+      fill: $background;
       width: 24px;
       position: absolute;
       left: 10px;
@@ -63,6 +63,6 @@
     font: 1.5rem/1.5rem $font;
     text-decoration: none;
     text-transform: uppercase;
-    color: white;
+    color: $background;
   }
 }

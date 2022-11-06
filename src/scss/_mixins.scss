@@ -24,6 +24,10 @@
   transition: all 0.25s;
 }
 
+@mixin transition-long {
+  transition: all 2.25s;
+}
+
 @mixin reset-vue2editor {
   a {
     color: $primary;
@@ -44,4 +48,11 @@
     max-width: 100%;
     width: 255px;
   }
+}
+
+@mixin reset-vue2editor-uppercase {
+  font: 1.2rem/1.25 $font !important;
+  color: $grey !important;
+  text-transform: uppercase !important;
+  background-color: transparent !important;
 }

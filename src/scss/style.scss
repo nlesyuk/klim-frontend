@@ -28,6 +28,7 @@
   align-items: center;
   padding: 26px 0 10px 0;
   background: hsla(0, 0%, 100%, 0.9);
+  background: $background;
   backdrop-filter: blur(3px);
   position: sticky;
   top: 0;
@@ -52,6 +53,7 @@
     margin: 0 auto;
     img {
       max-width: 100%;
+      filter: $filterLogo;
     }
   }
   &__nav {
@@ -106,6 +108,20 @@
     }
     .vsm-dropdown {
       top: 35px !important;
+
+      // color of drop down menus
+      .header__nav-submenu,
+      .vsm-arrow,
+      .vsm-background,
+      .vsm-dropdown-content,
+      .vsm-dropdown-section,
+      .vsm-dropdown-container {
+        @if $isBlackTheme {
+          background-color: $background-accent;
+        } @else {
+          background-color: $background;
+        }
+      }
     }
 
     &-item {
@@ -149,11 +165,11 @@
         text-decoration: none;
         padding: 10px;
         color: $grey;
-        @include transition-default;
+        @include transition-long;
 
         &:hover {
           color: $primary;
-          @include transition-default;
+          @include transition-long;
         }
       }
     }
@@ -171,11 +187,16 @@
       margin: 0 2px;
       padding: 3px 4px;
       &.active {
-        color: black;
+        color: $primary;
       }
       &:hover {
-        color: black;
-        background-color: $grey-light;
+        color: $primary;
+
+        @if $isBlackTheme {
+          background-color: $background-accent;
+        } @else {
+          background-color: $grey-light;
+        }
       }
     }
   }
@@ -261,6 +282,10 @@
     line-height: 1.2;
     color: $grey;
     @include reset-vue2editor;
+
+    * {
+      @include reset-vue2editor-uppercase;
+    }
   }
   // calendar
   iframe {
@@ -368,12 +393,18 @@
     font: 1.6rem/1.2 $font;
     color: $grey;
     margin-bottom: 26px;
+    * {
+      @include reset-vue2editor-uppercase;
+    }
   }
   &__credits {
     font: 1.6rem/1.2 $font;
     padding: 26px 0;
     color: $grey;
-    @include reset-vue2editor;
+    // @include reset-vue2editor;
+    * {
+      @include reset-vue2editor-uppercase;
+    }
   }
 }
 

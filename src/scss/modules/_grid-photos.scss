@@ -143,21 +143,32 @@
     border: none;
     border-radius: 4px;
     padding: 4px 8px;
-    background-color: $primary;
     text-align: center;
-    color: honeydew;
     cursor: pointer;
     transform: translate(-50%, -50%);
     position: absolute;
     top: -30px;
     left: 50%;
     z-index: 15;
-    // pointer-events: none;
     @include transition-default;
+
+    @if $isBlackTheme {
+      color: $primary;
+      background-color: $background-accent;
+    } @else {
+      color: honeydew;
+      background-color: $primary;
+    }
+
     &:hover {
-      background-color: white;
       color: $primary;
       @include transition-default;
+
+      @if $isBlackTheme {
+        background-color: $background-accent;
+      } @else {
+        background-color: white;
+      }
     }
   }
 }

@@ -85,62 +85,61 @@
           <span>Upload photos</span>
           <input type="file" multiple @change="getFiles" ref="files" />
         </div>
+        <!-- TODO: shift loyout while editing a work -->
+        <div class="dashboard__label">
+          <!-- files: edit -->
+          <ul class="dashboard__list-imgs" v-if="isEdit">
+            <li v-for="(file, idx) in selectedImages" :key="idx">
+              <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
+              <button type="button" @click="deleteExistingImage(file.id)">
+                delete
+              </button>
+              <span>{{ getName(file) }}</span>
+              <img :src="file.src" alt="edit" />
 
-        <!-- files: edit -->
-        <ul class="dashboard__list-imgs" v-if="isEdit">
-          <li v-for="(file, idx) in selectedImages" :key="idx">
-            <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
-            <button type="button" @click="deleteExistingImage(file.id)">
-              delete
-            </button>
-            <span>{{ getName(file) }}</span>
-            <img :src="file.src" alt="edit" />
+              <label class="dashboard__label">
+                <span>Please select order of photos if need</span>
+                <select v-model="file.order">
+                  <option disabled selected value="null">
+                    Please choose order
+                  </option>
+                  <option
+                    v-for="(img, index) of wholeWorkOrders"
+                    :key="index"
+                    :value="index"
+                  >
+                    {{ index }}
+                  </option>
+                </select>
+              </label>
 
-            <label class="dashboard__label">
-              <span>Please select order of photos if need</span>
-              <select v-model="file.order">
-                <option disabled selected value="null">
-                  Please choose order
-                </option>
-                <option
-                  v-for="(img, index) of selectedImages"
-                  :key="index"
-                  :value="index"
-                >
-                  {{ index }}
-                </option>
-              </select>
-            </label>
+              <label class="dashboard__label">
+                <input type="checkbox" v-model="file.isPreview" :value="true" />
+                <span class="inline">Is preview photo?</span>
+              </label>
 
-            <label class="dashboard__label">
-              <input type="checkbox" v-model="file.isPreview" :value="true" />
-              <span class="inline">Is preview photo?</span>
-            </label>
-
-            <label class="dashboard__label mb0">
-              <input
-                type="radio"
-                :name="`edit-format${idx}`"
-                value="vertical"
-                v-model="file.format"
-              />
-              <span class="inline">vertical</span>
-            </label>
-            <label class="dashboard__label">
-              <input
-                type="radio"
-                :name="`edit-format${idx}`"
-                value="horizontal"
-                v-model="file.format"
-              />
-              <span class="inline">horizontal</span>
-            </label>
-          </li>
-        </ul>
-
-        <!-- files: add -->
-        <div class="dashboard__label" v-else>
-          <ul class="dashboard__list-imgs">
+              <label class="dashboard__label mb0">
+                <input
+                  type="radio"
+                  :name="`edit-format${idx}`"
+                  value="vertical"
+                  v-model="file.format"
+                />
+                <span class="inline">vertical</span>
+              </label>
+              <label class="dashboard__label">
+                <input
+                  type="radio"
+                  :name="`edit-format${idx}`"
+                  value="horizontal"
+                  v-model="file.format"
+                />
+                <span class="inline">horizontal</span>
+              </label>
+            </li>
+          </ul>
+          <!-- files: add -->
+          <ul class="dashboard__list-imgs" v-else>
             <li v-for="(file, idx) in selectedImages" :key="idx">
               <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
               <button type="button" @click="removeSelectedImage(file.src)">
@@ -358,6 +357,14 @@ export default {
       return arr?.length
         ? Math.max(...arr) + 2 // 2 bacause we start counting from 0 and need +1 and then +1 again
         : 1;
+    },
+    getMaxOrderNumber() {
+      const arrOrders = this.selectedImages?.map(v => +v.order);
+      return Math.max(...arrOrders);
+    },
+    wholeWorkOrders() {
+      const arr = ([].length = this.getMaxOrderNumber + 1 || 1);
+      return arr;
     }
   },
   validations: {

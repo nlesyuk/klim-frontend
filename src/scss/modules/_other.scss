@@ -43,7 +43,7 @@
   position: relative;
   &:hover {
     // filter: hue-rotate(-10deg);
-    filter: grayscale(1);
+    // filter: grayscale(1);
     @include transition-default;
   }
   &__title {
