@@ -4,5 +4,36 @@
 $font: "Julius Sans One", sans-serif;
 $secondFont: "Encode Sans Condensed", sans-serif;
 
-// @import "./theme-dark";
-@import "./theme-white";
+[theme="light"] {
+  // white
+  $isBlackTheme: false;
+
+  $primary: #000;
+  $primaryHalf: rgba(black, 0.75);
+  $grey: #c0c0c0;
+  $grey-light: #f8f8f8;
+  $accent: #c0c0c0;
+  $accent-bright: red;
+  $base-gradient: linear-gradient(327deg, #f9f9f9 0%, #f9f9f9 100%);
+
+  $background: white;
+  $background-accent: white;
+  $filterLogo: invert(0); // 0
+}
+
+// [theme="dark"] {
+// dark
+$isBlackTheme: true;
+
+$primary: #ccc;
+$primaryHalf: rgba(black, 0.75);
+$grey: #c0c0c0;
+$grey-light: #f8f8f8;
+$accent: #c0c0c0;
+$accent-bright: red;
+$base-gradient: linear-gradient(327deg, #f9f9f9 0%, #f9f9f9 100%);
+
+$background: #333;
+$background-accent: #444;
+$filterLogo: invert(1); // 0
+// }

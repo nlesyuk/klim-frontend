@@ -1,5 +1,8 @@
 @import "reset-css";
+// @import "/node_module/normalize.css/normalize.css";
 @import "./variables";
+// @import "./themes/theme-dark";
+@import "./themes/theme-light";
 @import "./mixins";
 @import "./animations";
 @import "./general";

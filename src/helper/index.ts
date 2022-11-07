@@ -1,4 +1,5 @@
-import { author } from "./constants";
+export * from "./constants";
+import { author, currentUser } from "./constants";
 
 export function setTitle(title) {
   const el = document.querySelector("title");
@@ -46,4 +47,12 @@ export function getName(file) {
     return "noname";
   }
   return `${file.src}`.split("/").pop();
+}
+
+export function setTheme() {
+  const htmlElement = document?.documentElement;
+  if (htmlElement) {
+    const userTheme = currentUser?.theme === "dark" ? "dark" : "light";
+    htmlElement.setAttribute("theme", userTheme);
+  }
 }

@@ -6,14 +6,16 @@ const config = [
     isCinematographer: true,
     isPhotographer: false,
     footerDescription:
-      "Klim Stepan. Ukraine based cinematogapher / director of photography"
+      "Klim Stepan. Ukraine based cinematogapher / director of photography",
+    theme: "dark"
   },
   {
     domain: "derzhanovska.com",
     author: "Anna Derzhanovska",
     isCinematographer: false,
     isPhotographer: true,
-    footerDescription: "Anna Derzhanovska / Photographer"
+    footerDescription: "Anna Derzhanovska / Photographer",
+    theme: "light"
   }
 ];
 

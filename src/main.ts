@@ -3,6 +3,7 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
+import { setTheme } from "./helper";
 
 // global components
 import Spiner from "./components/Spiner.vue";
@@ -34,5 +35,6 @@ new Vue({
   render: h => h(App),
   mounted() {
     this.$store.dispatch("init");
+    setTheme();
   }
 }).$mount("#app");
