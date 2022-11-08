@@ -85,12 +85,13 @@ $btn-submit-hover: #1cdefb;
     &--preview {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-gap: 20px;
+      grid-gap: 16px;
     }
     &--contacts {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-gap: 20px;
+      grid-gap: 16px;
+      margin-top: 16px;
     }
   }
   // in
@@ -339,6 +340,10 @@ $btn-submit-hover: #1cdefb;
         background-color: #ccc;
         color: #686868;
       }
+    }
+
+    &--m0 {
+      margin: 0;
     }
   }
   &__list {
@@ -593,6 +598,38 @@ $btn-submit-hover: #1cdefb;
         font-weight: bold;
         padding: 4px 8px;
         border-radius: 4px;
+      }
+    }
+  }
+
+  &__theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 16px;
+    border: 1px solid $btn-primary;
+    border-radius: 4px;
+    padding: 2px;
+
+    label {
+      display: flex;
+      align-items: center;
+      margin-right: 16px;
+      cursor: pointer;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      input,
+      span {
+        display: block;
+        margin: 0;
+        padding: 0;
+      }
+
+      span {
+        font: 1.2rem/1 $font;
+        padding-left: 8px;
       }
     }
   }

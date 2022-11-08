@@ -1,5 +1,6 @@
 <template>
   <section class="dashboard">
+    <!--  -->
     <ul class="dashboard__menu">
       <li v-for="item in $options.menu" :key="item">
         <router-link
@@ -31,7 +32,9 @@
         </button>
       </li>
     </ul>
+    <!--  -->
     <router-view></router-view>
+    <!--  -->
     <h2
       class="dashboard__title dashboard__title--center dashboard__title--big-border"
       v-if="isDasboardRoute"
@@ -55,7 +58,8 @@ export default {
       return this.$store.state.auth.user;
     },
     username() {
-      return this.currentUser?.username;
+      const name = this.currentUser?.username;
+      return name ? `${name}`.toUpperCase() : "Anonymous";
     }
   },
   methods: {

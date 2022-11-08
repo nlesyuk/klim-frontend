@@ -4,7 +4,7 @@
       class="dashboard__form dashboard__form--contacts"
       @submit.prevent="submit"
     >
-      <!-- BASE -->
+      <!-- BASE FIELDS -->
       <div class="dashboard__form-item">
         <!--  -->
         <label
@@ -75,7 +75,7 @@
         </label>
       </div>
 
-      <!-- CREDITS -->
+      <!-- Description -->
       <div class="dashboard__form-item">
         <label class="dashboard__label">
           <span>Description</span>
@@ -85,6 +85,7 @@
             placeholder="description"
           ></VueEditor>
         </label>
+        <ThemeToggle />
       </div>
 
       <!-- PHOTO -->
@@ -141,6 +142,7 @@ import { required } from "vuelidate/lib/validators";
 import { mapState, mapActions } from "vuex";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
 const GeneralRepository = RepositoryFactory.get("general");
+import ThemeToggle from "./ThemeToggle.vue";
 
 export default {
   data() {
@@ -183,7 +185,8 @@ export default {
     }
   },
   components: {
-    VueEditor
+    VueEditor,
+    ThemeToggle
   },
   computed: {
     ...mapState({
