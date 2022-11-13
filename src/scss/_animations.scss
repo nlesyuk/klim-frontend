@@ -35,17 +35,19 @@
     }
   }
 }
+
 .glitch {
-  color: black;
+  color: var(--glitch-color);
   position: relative;
   margin: 0 auto;
   &:after,
   &:before {
     content: attr(data-text);
+    width: 100%;
     position: absolute;
     top: 0;
-    color: black;
-    background: white;
+    color: var(--glitch-color);
+    background: var(--glitch-background);
     overflow: hidden;
     clip: rect(0, 900px, 0, 0);
   }

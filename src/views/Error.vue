@@ -3,7 +3,7 @@
     <h2 class="not-found__code glitch" :data-text="statusCode">
       {{ statusCode }}
     </h2>
-    <h1 class="not-found__text">{{ message }}</h1>
+    <h1 class="not-found__text glitch" :data-text="message">{{ message }}</h1>
   </div>
 </template>
 

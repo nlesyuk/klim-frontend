@@ -19,7 +19,7 @@
   align-items: center;
   padding: 26px 0 10px 0;
   background: hsla(0, 0%, 100%, 0.9);
-  background: $background;
+  background: var(--background);
   backdrop-filter: blur(3px);
   position: sticky;
   top: 0;
@@ -31,10 +31,10 @@
     width: 80px;
     li a svg {
       width: 16px;
-      fill: $primary;
+      fill: var(--primary);
       @include transition-default;
       &:hover {
-        fill: $accent;
+        fill: var(--accent);
         @include transition-default;
       }
     }
@@ -44,7 +44,7 @@
     margin: 0 auto;
     img {
       max-width: 100%;
-      filter: $filterLogo;
+      filter: var(--filter-logo);
     }
   }
   &__nav {
@@ -76,7 +76,7 @@
       .vsm-mob-line,
       .vsm-mob-close:before,
       .vsm-mob-close:after {
-        background-color: $primary;
+        background-color: var(--primary);
       }
     }
     .vsm-mob-content {
@@ -92,7 +92,7 @@
           padding: 10px 20px;
           a {
             text-decoration: none;
-            color: $primary;
+            color: var(--primary);
           }
         }
       }
@@ -107,10 +107,10 @@
       .vsm-dropdown-content,
       .vsm-dropdown-section,
       .vsm-dropdown-container {
-        @if $isBlackTheme {
-          background-color: $background-accent;
+        @if var(--is-black-theme) {
+          background-color: var(--background-accent);
         } @else {
-          background-color: $background;
+          background-color: var(--background);
         }
       }
     }
@@ -121,19 +121,19 @@
       line-height: 1;
       text-transform: uppercase;
       text-decoration: none;
-      color: $grey;
+      color: var(--grey);
       @include transition-default;
 
       &.active {
-        color: $primary;
+        color: var(--primary);
         @include transition-default;
         &:hover {
-          color: $accent-bright;
+          color: var(--accent)-bright;
           @include transition-default;
         }
       }
       &:hover {
-        color: $primary;
+        color: var(--primary);
         cursor: pointer;
         @include transition-default;
       }
@@ -155,11 +155,11 @@
         text-transform: uppercase;
         text-decoration: none;
         padding: 10px;
-        color: $grey;
+        color: var(--grey);
         @include transition-long;
 
         &:hover {
-          color: $primary;
+          color: var(--primary);
           @include transition-long;
         }
       }
@@ -178,15 +178,15 @@
       margin: 0 2px;
       padding: 3px 4px;
       &.active {
-        color: $primary;
+        color: var(--primary);
       }
       &:hover {
-        color: $primary;
+        color: var(--primary);
 
-        @if $isBlackTheme {
-          background-color: $background-accent;
+        @if var(--is-black-theme) {
+          background-color: var(--background)-accent;
         } @else {
-          background-color: $grey-light;
+          background-color: var(--grey-light);
         }
       }
     }
@@ -214,7 +214,7 @@
     max-width: 100%;
     max-height: 100%;
     margin-left: auto;
-    background: $base-gradient;
+    background: var(--base-gradient);
     width: 100%;
     height: auto;
   }
@@ -231,16 +231,16 @@
     font: 1.1rem/1 $font;
     text-transform: uppercase;
     text-align: center;
-    color: $primary;
+    color: var(--primary);
     margin-bottom: 50px;
     a {
       display: block;
       text-decoration: none;
-      color: $primary;
+      color: var(--primary);
       margin-top: 10px;
       @include transition-default;
       &:hover {
-        color: $accent;
+        color: var(--accent);
         @include transition-default;
       }
     }
@@ -258,10 +258,10 @@
     margin-bottom: 10px;
     li a svg {
       width: 18px;
-      fill: $primary;
+      fill: var(--primary);
       @include transition-default;
       &:hover {
-        fill: $accent;
+        fill: var(--accent);
         @include transition-default;
       }
     }
@@ -271,7 +271,7 @@
     font-family: $font;
     font-size: 1.6rem;
     line-height: 1.2;
-    color: $grey;
+    color: var(--grey);
     @include reset-vue2editor;
 
     * {
@@ -348,14 +348,14 @@
     font-weight: bold;
     line-height: 1;
     padding: 24px 0 16px;
-    color: $grey;
+    color: var(--grey);
   }
   &__description,
   &__credits {
     font-family: $font;
     font-size: 1.6rem;
     line-height: 1.2;
-    color: $grey;
+    color: var(--grey);
     @include reset-vue2editor;
   }
   &__description {
@@ -377,12 +377,12 @@
   &__title {
     padding: 26px 0;
     font: bold 1.6rem/1 $font;
-    color: $grey;
+    color: var(--grey);
     margin-bottom: 16px;
   }
   &__description {
     font: 1.6rem/1.2 $font;
-    color: $grey;
+    color: var(--grey);
     margin-bottom: 26px;
     * {
       @include reset-vue2editor-uppercase;
@@ -391,7 +391,7 @@
   &__credits {
     font: 1.6rem/1.2 $font;
     padding: 26px 0;
-    color: $grey;
+    color: var(--grey);
     // @include reset-vue2editor;
     * {
       @include reset-vue2editor-uppercase;
@@ -421,7 +421,7 @@
       border: none;
       border-radius: 4px;
       padding: 4px 8px;
-      background-color: $primary;
+      background-color: var(--primary);
       text-align: center;
       color: honeydew;
       cursor: pointer;
@@ -434,7 +434,7 @@
       @include transition-default;
       &:hover {
         background-color: white;
-        color: $primary;
+        color: var(--primary);
         @include transition-default;
       }
     }
@@ -516,13 +516,13 @@
     max-width: 100%;
     font: bold 120px/1 $font;
     text-align: center;
-    color: black;
+    color: var(--glitch-color);
     margin-bottom: 20px;
   }
   &__text {
     font: bold 30px/1 $font;
     text-align: center;
-    color: black;
+    color: var(--glitch-color);
   }
 }
 
@@ -540,10 +540,10 @@
     margin-bottom: 20px;
     li a svg {
       width: 18px;
-      fill: $primary;
+      fill: var(--primary);
       @include transition-default;
       &:hover {
-        fill: $accent;
+        fill: var(--accent);
         @include transition-default;
       }
     }
@@ -552,14 +552,14 @@
     font: 1.1rem/1 $font;
     text-align: center;
     text-transform: uppercase;
-    color: $primary;
+    color: var(--primary);
     margin-bottom: 10px;
     a {
-      color: $primary;
+      color: var(--primary);
       text-decoration: none;
       @include transition-default;
       &:hover {
-        color: $accent;
+        color: var(--accent);
         @include transition-default;
       }
     }
