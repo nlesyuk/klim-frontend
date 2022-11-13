@@ -28,6 +28,7 @@ export default {
     theme(themeName) {
       if (themes.includes(themeName)) {
         themeInstance.setInLS(themeName);
+        themeInstance.init();
       }
     }
   },

@@ -65,10 +65,12 @@ class Theme {
       this.htmlElement.setAttribute(this.key, themeName);
     }
   }
+
   setInLS(userTheme) {
     this.theme = userTheme;
     storege.set(this.theme);
   }
+
   getFromLS() {
     return storege.get();
   }
