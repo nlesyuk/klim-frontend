@@ -49,10 +49,25 @@ export function getName(file) {
   return `${file.src}`.split("/").pop();
 }
 
-export function setTheme() {
+// class Theme {
+//   constructor() {}
+
+//   static theme;
+
+//   setThemeInDOM() {}
+//   setThemeInLS() {}
+// }
+
+// export const theme = new Theme();
+
+export function setTheme(themeName) {
   const htmlElement = document?.documentElement;
   if (htmlElement) {
-    const userTheme = currentUser?.theme === "dark" ? "dark" : "light";
+    const userTheme = themeName
+      ? themeName
+      : currentUser?.theme === "dark"
+      ? "dark"
+      : "light";
     htmlElement.setAttribute("theme", userTheme);
   }
 }

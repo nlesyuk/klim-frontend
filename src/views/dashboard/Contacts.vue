@@ -85,7 +85,8 @@
             placeholder="description"
           ></VueEditor>
         </label>
-        <ThemeToggle />
+
+        <ThemeToggle :currentTheme="theme" @onThemeChange="setTheme" />
       </div>
 
       <!-- PHOTO -->
@@ -156,6 +157,7 @@ export default {
       instagram: null,
       description: null,
       selectedImages: [],
+      theme: null,
       // general
       isContactAlreadyExist: false,
       isLoading: false,
@@ -197,6 +199,7 @@ export default {
         this.email &&
         this.phone &&
         this.vimeo &&
+        this.theme &&
         this.facebook &&
         this.telegram &&
         this.instagram
@@ -238,6 +241,7 @@ export default {
       this.email = null;
       this.phone = null;
       this.vimeo = null;
+      this.theme = null;
       this.facebook = null;
       this.telegram = null;
       this.instagram = null;
@@ -253,16 +257,18 @@ export default {
         email,
         phone,
         vimeo,
+        theme,
         facebook,
         telegram,
         instagram,
         description,
         image
       } = contacts;
-
+      console.log("theme", theme);
       this.email = email;
       this.phone = phone;
       this.vimeo = vimeo;
+      this.theme = theme;
       this.facebook = facebook;
       this.telegram = telegram;
       this.instagram = instagram;
@@ -271,6 +277,9 @@ export default {
       this.isContactAlreadyExist = true;
     },
     getName: getName,
+    setTheme(theme) {
+      this.theme = theme;
+    },
 
     // submit
     submit() {
@@ -283,6 +292,7 @@ export default {
       formData.append("email", this.email);
       formData.append("phone", this.phone);
       formData.append("vimeo", this.vimeo);
+      formData.append("theme", this.theme);
       formData.append("telegram", this.telegram);
       formData.append("facebook", this.facebook);
       formData.append("instagram", this.instagram);
