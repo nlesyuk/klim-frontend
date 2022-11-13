@@ -1,3 +1,4 @@
+// it's not good solution to fetch fonts from css file
 @import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One:wght@400,500,600,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Encode+Sans+Condensed:wght@100,400,500,600,700&display=swap");
 
@@ -19,6 +20,9 @@ $btn-submit-hover: #1cdefb;
 
 :root {
   --base-gradient: linear-gradient(327deg, #f9f9f9 0%, #f9f9f9 100%);
+  --grey-light: #f8f8f8;
+  // login
+  --login-background: var(--grey-light);
 }
 
 // front office
@@ -26,7 +30,7 @@ $btn-submit-hover: #1cdefb;
   --is-black-theme: false;
   --primary: black;
   --grey: #c0c0c0;
-  --grey-light: #f8f8f8;
+
   --accent: #c0c0c0;
   --accent-bright: red;
   --background: white;
@@ -36,9 +40,6 @@ $btn-submit-hover: #1cdefb;
   // glitch
   --glitch-color: --primary;
   --glitch-background: --background;
-
-  // login
-  --login-background: var(--grey-light);
 }
 
 [theme="dark"] {
@@ -46,7 +47,6 @@ $btn-submit-hover: #1cdefb;
   --is-black-theme: true;
   --primary: #ccc;
   --grey: #c0c0c0;
-  --grey-light: #f8f8f8;
   --accent: #c0c0c0;
   --accent-bright: red;
   --background: #333;
@@ -56,7 +56,4 @@ $btn-submit-hover: #1cdefb;
   // glitch
   --glitch-color: --primary;
   --glitch-background: --background;
-
-  // login
-  --login-background: var(--grey-light);
 }
