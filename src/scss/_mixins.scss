@@ -30,12 +30,12 @@
 
 @mixin reset-vue2editor {
   a {
-    color: $primary;
+    color: var(--primary);
     text-decoration: none;
     font-weight: 600;
     @include transition-default;
     &:hover {
-      color: $accent;
+      color: var(--accent);
       @include transition-default;
     }
   }
@@ -52,7 +52,7 @@
 
 @mixin reset-vue2editor-uppercase {
   font: 1.2rem/1.25 $font !important;
-  color: $grey !important;
+  color: var(--grey) !important;
   text-transform: uppercase !important;
   background-color: transparent !important;
 }

@@ -1,5 +1,6 @@
 export const keys = {
-  user: "user"
+  user: "user",
+  theme: "theme"
 };
 
 export default class StorageService {

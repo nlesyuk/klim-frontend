@@ -25,7 +25,7 @@ export const author: string | undefined = config.find(v => v.domain === domain)
 export const isCinematographerMode: boolean = domain === "klimstepan.com";
 export const isPhotographerMode: boolean = domain === "derzhanovska.com";
 export const currentUser = config.find(v => v.domain === domain);
-
+export const themes = ["light", "dark"];
 // server
 export const serverDomain: string =
   process.env.VUE_APP_SERVER_ENVIRONMENT === "prod"

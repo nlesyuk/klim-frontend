@@ -11,13 +11,13 @@
   }
 
   &-primary {
-    @if $isBlackTheme {
-      background-color: $background;
-      color: $grey;
+    @if var(--is-black-theme) {
+      background-color: var(--background);
+      color: var(--grey);
       text-transform: uppercase;
     } @else {
-      background-color: rgba($grey-light, 0.5);
-      color: $grey;
+      background-color: rgba(var(--grey-light), 0.5);
+      color: var(--grey);
     }
   }
 }

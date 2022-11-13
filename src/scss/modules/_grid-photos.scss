@@ -90,7 +90,7 @@
     }
   }
   &__item {
-    background: $base-gradient;
+    background: var(--base-gradient);
     position: relative;
     overflow: hidden;
     &:hover {
@@ -111,7 +111,7 @@
     &::after,
     &::before {
       content: "";
-      background: $base-gradient;
+      background: var(--base-gradient);
       position: absolute;
       top: 0;
       bottom: 0;
@@ -121,7 +121,7 @@
     &::after {
       content: "\26CC";
       font-size: 28px;
-      color: $accent;
+      color: var(--accent);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -136,7 +136,7 @@
     font-size: 2rem;
     font-weight: bold;
     text-align: center;
-    color: $accent;
+    color: var(--accent);
   }
 
   &__btn {
@@ -152,20 +152,20 @@
     z-index: 15;
     @include transition-default;
 
-    @if $isBlackTheme {
-      color: $primary;
-      background-color: $background-accent;
+    @if var(--is-black-theme) {
+      color: var(--primary);
+      background-color: var(--background-accent);
     } @else {
       color: honeydew;
-      background-color: $primary;
+      background-color: var(--primary);
     }
 
     &:hover {
-      color: $primary;
+      color: var(--primary);
       @include transition-default;
 
-      @if $isBlackTheme {
-        background-color: $background-accent;
+      @if var(--is-black-theme) {
+        background-color: var(--background-accent);
       } @else {
         background-color: white;
       }
