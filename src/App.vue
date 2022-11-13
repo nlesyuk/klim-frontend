@@ -17,16 +17,28 @@ import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
 import SvgSprite from "./components/SVG-sprite.vue";
 import { mapGetters } from "vuex";
+import { themeInstance, themes } from "@/helper";
 
 export default {
   computed: {
-    ...mapGetters("auth", ["loggedIn"])
+    ...mapGetters("auth", ["loggedIn"]),
+    ...mapGetters(["theme"])
+  },
+  watch: {
+    theme(themeName) {
+      if (themes.includes(themeName)) {
+        themeInstance.setInLS(themeName);
+      }
+    }
   },
   components: {
     Header,
     Footer,
     SvgSprite,
     TheDashboardNav: () => import("./views/dashboard/TheDashboardNav.vue")
+  },
+  mounted() {
+    themeInstance.init();
   }
 };
 </script>

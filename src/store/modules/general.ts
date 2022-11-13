@@ -20,5 +20,10 @@ export default {
     setContacts(state, contacts) {
       state.contacts = contacts;
     }
+  },
+  getters: {
+    theme(state) {
+      return state.contacts?.theme;
+    }
   }
 };

@@ -1,5 +1,7 @@
 export * from "./constants";
-import { author, currentUser } from "./constants";
+import { author } from "./constants";
+import StorageService, { keys } from "@/services/storage.service";
+const storege = new StorageService(keys.theme);
 
 export function setTitle(title) {
   const el = document.querySelector("title");
@@ -49,25 +51,40 @@ export function getName(file) {
   return `${file.src}`.split("/").pop();
 }
 
-// class Theme {
-//   constructor() {}
+class Theme {
+  theme;
+  htmlElement;
+  key = keys.theme;
 
-//   static theme;
+  constructor() {
+    this.htmlElement = document?.documentElement;
+  }
 
-//   setThemeInDOM() {}
-//   setThemeInLS() {}
-// }
+  setInDOM(themeName) {
+    if (this.htmlElement) {
+      this.htmlElement.setAttribute(this.key, themeName);
+    }
+  }
+  setInLS(userTheme) {
+    this.theme = userTheme;
+    storege.set(this.theme);
+  }
+  getFromLS() {
+    return storege.get();
+  }
 
-// export const theme = new Theme();
+  init() {
+    const userTheme = this.getFromLS();
+    if (userTheme) {
+      this.setInDOM(userTheme);
+      return;
+    }
+  }
 
-export function setTheme(themeName) {
-  const htmlElement = document?.documentElement;
-  if (htmlElement) {
-    const userTheme = themeName
-      ? themeName
-      : currentUser?.theme === "dark"
-      ? "dark"
-      : "light";
-    htmlElement.setAttribute("theme", userTheme);
+  setNewTheme(themeName) {
+    this.setInLS(themeName);
+    this.setInDOM(themeName);
   }
 }
+
+export const themeInstance = new Theme();

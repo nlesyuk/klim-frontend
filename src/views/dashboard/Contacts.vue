@@ -144,6 +144,7 @@ import { mapState, mapActions } from "vuex";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
 const GeneralRepository = RepositoryFactory.get("general");
 import ThemeToggle from "./ThemeToggle.vue";
+import { themeInstance } from "@/helper";
 
 export default {
   data() {
@@ -279,6 +280,7 @@ export default {
     getName: getName,
     setTheme(theme) {
       this.theme = theme;
+      themeInstance.setNewTheme(theme);
     },
 
     // submit

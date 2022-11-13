@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { setTheme, themes } from "@/helper";
+import { themes } from "@/helper";
 
 const defaultProp = "not choosed";
 
@@ -38,7 +38,6 @@ export default {
   },
   watch: {
     theme(value) {
-      setTheme(value);
       this.$emit("onThemeChange", value);
     },
     currentTheme(value) {
