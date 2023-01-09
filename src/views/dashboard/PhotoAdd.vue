@@ -27,6 +27,28 @@
           </strong>
         </label>
 
+        <!-- video -->
+        <label
+          :class="[
+            'dashboard__label',
+            {
+              'dashboard__label-error': $v.videoId.$dirty && $v.videoId.$error
+            }
+          ]"
+        >
+          <span>Vimeo id</span>
+          <input type="text" v-model="videoId" />
+          <strong
+            class="dashboard__label-error-info"
+            v-if="$v.videoId.$dirty && $v.videoId.$error"
+          >
+            Must be min Length
+            {{ $v.videoId.$params.minLength.min }}
+            and max length
+            {{ $v.videoId.$params.maxLength.max }}
+          </strong>
+        </label>
+
         <!-- Credits -->
         <label class="dashboard__label">
           <span>Credits</span>
@@ -207,7 +229,7 @@
 import PhotosGrid from "../../components/PhotosGrid";
 import { VueEditor } from "vue2-editor";
 import { mapState } from "vuex";
-import { required, minLength } from "vuelidate/lib/validators";
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
 const PhotosRepository = RepositoryFactory.get("photos");
 
@@ -229,6 +251,7 @@ export default {
     return {
       id: null,
       title: "",
+      videoId: "",
       order: null,
       credits: "",
       choosedCategories: [],
@@ -246,6 +269,10 @@ export default {
     title: {
       required,
       minLength: minLength(2)
+    },
+    videoId: {
+      minLength: minLength(9),
+      maxLength: maxLength(20)
     }
   },
   watch: {

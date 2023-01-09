@@ -16,9 +16,9 @@
       :style="getPreviewStyle(item.id)"
     >
       <div class="work__description">
-        <svg width="24" height="24">
+        <!-- <svg width="24" height="24">
           <use xlink:href="#svg-sprite--video"></use>
-        </svg>
+        </svg> -->
         <h2 class="work__title">{{ item.title }}</h2>
       </div>
     </router-link>
