@@ -24,14 +24,22 @@
       </li>
     </ul>
 
-    <router-link class="header__logo" :to="{ path: '/' }">
-      <img
-        v-if="$options.isCinematographerMode"
-        src="@/assets/cinematographer-logo.png"
-        alt="logo"
-      />
-      <img v-else src="@/assets/photographer-logo.png" alt="logo" />
-    </router-link>
+    <div class="header__logo">
+      <router-link
+        :class="[
+          'header__logo-link',
+          { 'cinematographer-active': isCinematographer }
+        ]"
+        :to="{ path: '/' }"
+      >
+        <img
+          v-if="isCinematographer"
+          src="@/assets/cinematographer-logo.svg"
+          alt="logo"
+        />
+        <img v-else src="@/assets/photographer-logo.svg" alt="logo" />
+      </router-link>
+    </div>
 
     <Nav class="header__nav" />
   </header>
@@ -43,14 +51,16 @@ import { mapState } from "vuex";
 import { isCinematographerMode } from "@/helper/constants";
 
 export default {
-  isCinematographerMode,
   components: {
     Nav
   },
   computed: {
     ...mapState({
       contacts: state => state.general.contacts
-    })
+    }),
+    isCinematographer() {
+      return isCinematographerMode;
+    }
   }
 };
 </script>
