@@ -25,6 +25,7 @@
           </strong>
         </label>
 
+        <!-- order -->
         <label class="dashboard__label">
           <span>Order</span>
           <select v-model="order">
@@ -85,6 +86,7 @@
           <span>Upload photos</span>
           <input type="file" multiple @change="getFiles" ref="files" />
         </div>
+
         <!-- TODO: shift loyout while editing a work -->
         <div class="dashboard__label">
           <!-- files: edit -->
@@ -138,6 +140,7 @@
               </label>
             </li>
           </ul>
+
           <!-- files: add -->
           <ul class="dashboard__list-imgs" v-else>
             <li v-for="(file, idx) in selectedImages" :key="idx">
@@ -418,8 +421,7 @@ export default {
     setOrder() {
       if (this.isEdit) {
         this.order = this.work.order;
-      }
-      if (this.works) {
+      } else if (this.works) {
         this.order = this.works.length;
       }
     },
