@@ -30,9 +30,16 @@ export default {
     }),
     ...mapGetters(["photographerPhotos", "cinematographerPhotos"]),
     photos() {
-      return isCinematographerMode
+      const photos = isCinematographerMode
         ? this.cinematographerPhotos
         : this.photographerPhotos;
+
+      if (!photos?.length) {
+        return [];
+      }
+
+      return photos.sort((a, b) => b.order - a.order); // new add to the begin
+      // return photos.sort((a, b) => a.order - b.order); // new add to the end
     }
   },
   methods: {

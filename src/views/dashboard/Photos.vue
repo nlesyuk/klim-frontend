@@ -133,6 +133,9 @@ export default {
         : photos;
 
       return res.length ? res : this.allPhotos;
+      // return photos.sort((a, b) => b.order - a.order); // new add to the begin
+      console.log(photos.sort((a, b) => a.order - b.order));
+      return photos.sort((a, b) => a.order - b.order); // new add to the end
     },
     //
     photos() {
