@@ -488,6 +488,7 @@ export default {
       this.selectedImages = JSON.parse(JSON.stringify(photos));
     },
     update() {
+      // TODO: need handle update "categories"
       try {
         const formData = new FormData();
 
