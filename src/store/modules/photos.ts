@@ -20,6 +20,11 @@ export default {
     },
     cinematographerPhotos(state) {
       return state.photos;
+    },
+    cinematographerPhotosCommerce(state) {
+      return state.photos?.filter(item =>
+        item?.categories?.includes("commerce")
+      );
     }
   },
   actions: {

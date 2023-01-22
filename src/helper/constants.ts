@@ -60,7 +60,8 @@ export const cinematographerCategories = [
   "automotive",
   "fashion",
   "lifestyle",
-  "personal"
+  "personal",
+  "commerce"
 ];
 
 export const photographerCategories = [
