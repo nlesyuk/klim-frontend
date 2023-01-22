@@ -77,7 +77,8 @@ export default {
       if (!works?.length) {
         return [];
       }
-      return works?.sort((a, b) => a.order - b.order);
+      return works?.sort((a, b) => b.order - a.order); // new add to the begin
+      // return works?.sort((a, b) => a.order - b.order); // new add to the end
     }
   },
   methods: {
