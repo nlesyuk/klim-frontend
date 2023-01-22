@@ -24,22 +24,20 @@
       </li>
     </ul>
 
-    <div class="header__logo">
-      <router-link
-        :class="[
-          'header__logo-link',
-          { 'cinematographer-active': isCinematographer }
-        ]"
-        :to="{ path: '/' }"
-      >
-        <img
-          v-if="isCinematographer"
-          src="@/assets/cinematographer-logo.svg"
-          alt="logo"
-        />
-        <img v-else src="@/assets/photographer-logo.svg" alt="logo" />
-      </router-link>
-    </div>
+    <router-link
+      :class="[
+        'header__logo-link',
+        { 'cinematographer-active': isCinematographer }
+      ]"
+      :to="{ path: '/' }"
+    >
+      <img
+        v-if="isCinematographer"
+        src="@/assets/cinematographer-logo.svg"
+        alt="logo"
+      />
+      <img v-else src="@/assets/photographer-logo.svg" alt="logo" />
+    </router-link>
 
     <Nav class="header__nav" />
   </header>

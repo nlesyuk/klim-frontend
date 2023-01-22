@@ -29,21 +29,25 @@
     justify-content: space-between;
     align-self: center;
     width: 80px;
-    li a svg {
-      width: 16px;
-      fill: var(--primary);
-      @include transition-default;
-      &:hover {
-        fill: var(--accent);
+    li a {
+      display: flex;
+      align-items: center;
+      padding: 0;
+      margin: 0;
+      svg {
+        padding: 0;
+        margin: 0;
+        width: 16px;
+        fill: var(--primary);
         @include transition-default;
+        &:hover {
+          fill: var(--accent);
+          @include transition-default;
+        }
       }
     }
   }
   &__logo {
-    display: flex;
-    align-items: flex-start;
-    height: 100%;
-    min-height: 30px;
     &-link {
       display: block;
       max-width: 200px;
