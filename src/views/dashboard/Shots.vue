@@ -21,8 +21,8 @@
     </button>
 
     <PhotosGridShots
-      v-if="filteredPhotos"
-      :images="filteredPhotos"
+      v-if="sortedFilteredPhotos"
+      :images="sortedFilteredPhotos"
       :isManage="true"
       @removeImg="remove"
       @editImg="edit"
@@ -58,7 +58,10 @@ export default {
     ...mapState({
       videos: state => state.videos.videos,
       allPhotos: state => state.shots.shots
-    })
+    }),
+    sortedFilteredPhotos() {
+      return [...this.filteredPhotos].sort((a, b) => b.id - a.id);
+    }
   },
   methods: {
     ...mapActions(["getAllShots", "getAllVideos"]),

@@ -49,7 +49,10 @@ export default {
     ...mapState({
       allShots: state => state.shots.shots,
       categories: state => state.shots.categories
-    })
+    }),
+    sortedFilteredShots() {
+      return [...this.filteredShots].sort((a, b) => b.id - a.id);
+    }
   },
   watch: {
     $route(route) {
@@ -58,6 +61,21 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["getAllShots"]),
+    init() {
+      if (!this.allShots.length) {
+        this.getAllShots().then(data => {
+          this.filteredShots = data;
+
+          // apply filter if exist in route
+          const filter = this.$route?.query?.filter;
+          if (filter) {
+            this.applyFilter(filter);
+          }
+        });
+      }
+      this.filteredShots = this.allShots;
+    },
     changeFilter(filter) {
       this.toggle = false;
       if (this.$route.query.filter !== filter) {
@@ -73,24 +91,11 @@ export default {
         key === "all"
           ? this.allShots
           : this.allShots.filter(item => item.categories.includes(key));
-    },
-    ...mapActions(["getAllShots"])
+    }
   },
   mounted() {
     setTitle("Shots");
-
-    if (!this.allShots.length) {
-      this.getAllShots().then(data => {
-        this.filteredShots = data;
-
-        // apply filter if exist in route
-        const filter = this.$route?.query?.filter;
-        if (filter) {
-          this.applyFilter(filter);
-        }
-      });
-    }
-    this.filteredShots = this.allShots;
+    this.init();
   }
 };
 </script>

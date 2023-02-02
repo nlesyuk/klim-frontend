@@ -128,14 +128,13 @@ export default {
         return false;
       }
 
-      const res = this.$route.path.includes("commerce")
+      const sortedPhotos = this.$route.path.includes("commerce")
         ? photos.filter(v => v.categories.includes("commerce"))
         : photos;
 
-      return res.length ? res : this.allPhotos;
-      // return photos.sort((a, b) => b.order - a.order); // new add to the begin
-      console.log(photos.sort((a, b) => a.order - b.order));
-      return photos.sort((a, b) => a.order - b.order); // new add to the end
+      // return res.length ? res : this.allPhotos;
+      return sortedPhotos.sort((a, b) => b.order - a.order); // new add to the begin
+      // return sortedPhotos.sort((a, b) => a.order - b.order); // new add to the end
     },
     //
     photos() {
