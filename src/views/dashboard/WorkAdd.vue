@@ -143,13 +143,29 @@
 
           <!-- files: add -->
           <ul class="dashboard__list-imgs" v-else>
+            <!-- items -->
             <li v-for="(file, idx) in selectedImages" :key="idx">
               <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
               <button type="button" @click="removeSelectedImage(file.src)">
                 remove
               </button>
-              <img :src="file.src" alt="add" />
+              <p
+                :class="[
+                  'dashboard__size',
+                  {
+                    oversize:
+                      file.file.size / 1024 >= $options.allowedImageSizeInKb
+                  }
+                ]"
+              >
+                {{ getSize(file.file.size) }}
+              </p>
 
+              <p class="dashboard__img-name">{{ file.file.name }}</p>
+              <!-- img preview -->
+              <img :src="file.src" alt="image preview" />
+
+              <!-- order -->
               <label class="dashboard__label">
                 <span>Please select order of photos if need</span>
                 <select v-model="file.order">
@@ -181,28 +197,25 @@
                 </select>
               </label>
 
+              <!-- preview -->
               <label class="dashboard__label">
                 <input type="checkbox" v-model="file.isPreview" :value="true" />
                 <span class="inline">Is preview photo?</span>
               </label>
 
-              <label class="dashboard__label mb0">
+              <!-- radio -->
+              <label
+                v-for="format in photoFormat"
+                class="dashboard__label mb0"
+                :key="format"
+              >
                 <input
                   type="radio"
-                  :name="`format${idx}`"
-                  value="vertical"
+                  :name="`photo_format-${idx}`"
+                  :value="format"
                   v-model="file.format"
                 />
-                <span class="inline">vertical</span>
-              </label>
-              <label class="dashboard__label">
-                <input
-                  type="radio"
-                  :name="`format${idx}`"
-                  value="horizontal"
-                  v-model="file.format"
-                />
-                <span class="inline">horizontal</span>
+                <span class="inline">{{ format }}</span>
               </label>
             </li>
           </ul>
@@ -288,8 +301,11 @@ import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
 const VideosRepository = RepositoryFactory.get("videos");
 import { getHeightAndWidthFromDataUrl, getName } from "../../helper/index";
+import { allowedImageSizeInKb } from "../../helper/constants";
 
+console.log("aa", allowedImageSizeInKb);
 export default {
+  allowedImageSizeInKb,
   props: {
     work: {
       type: Object
@@ -322,7 +338,8 @@ export default {
       isLoading: false,
       isSuccess: false,
       clientErrors: [],
-      serverError: null
+      serverError: null,
+      photoFormat: ["vertical", "horizontal"]
     };
   },
   computed: {
@@ -398,22 +415,26 @@ export default {
       this.selectedImages = [];
       this.$emit("resetForm");
     },
-    getFiles() {
+    async getFiles() {
       const files = this.$refs.files.files;
+      console.log("files", files);
 
-      Array.from(files).forEach((file, idx) => {
-        getHeightAndWidthFromDataUrl(file).then(resolution => {
-          const format =
-            resolution.height > resolution.width ? "vertical" : "horizontal";
-          this.selectedImages.push({
-            file,
-            order: idx,
-            isPreview: false,
-            format,
-            src: URL.createObjectURL(file)
-          });
+      let idx = this.selectedImages?.length ?? 0;
+      for (const file of files) {
+        const resolution = await getHeightAndWidthFromDataUrl(file);
+        const format =
+          resolution.height > resolution.width ? "vertical" : "horizontal";
+
+        this.selectedImages.push({
+          file,
+          order: idx,
+          isPreview: false,
+          format,
+          src: URL.createObjectURL(file)
         });
-      });
+
+        idx++;
+      }
     },
     removeSelectedImage(src) {
       this.selectedImages = this.selectedImages.filter(v => v.src != src);
@@ -441,6 +462,17 @@ export default {
       }
     },
     getName: getName,
+    getSize(sizeInByte) {
+      let name = "Kb";
+      let size = Math.floor(sizeInByte / 1024); // get Kb
+      if (size >= 1024) {
+        name = "Mb";
+        size = size / 1024; // get Mb
+        size = size.toFixed(2);
+      }
+
+      return `${size} ${name}`;
+    },
 
     // send work to a server:
     async submit() {

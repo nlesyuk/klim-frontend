@@ -346,6 +346,8 @@ $btn-submit-hover: #1cdefb;
       margin: 0;
     }
   }
+
+  // add photo
   &__list {
     display: flex;
     justify-content: flex-end;
@@ -353,6 +355,7 @@ $btn-submit-hover: #1cdefb;
     position: absolute;
     z-index: 150;
     top: 5px;
+
     li {
       width: auto;
     }
@@ -363,9 +366,11 @@ $btn-submit-hover: #1cdefb;
     // 2
     &-imgs {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      // grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: repeat(auto-fill, 180px) 180px;
       grid-gap: 10px;
       position: relative;
+
       &--single {
         grid-template-columns: repeat(1, 1fr);
       }
@@ -631,5 +636,20 @@ $btn-submit-hover: #1cdefb;
         padding-left: 8px;
       }
     }
+  }
+
+  &__size {
+    display: inline-block;
+    color: grey;
+    padding: 0 4px;
+
+    &.oversize {
+      color: red;
+    }
+  }
+  &__img-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

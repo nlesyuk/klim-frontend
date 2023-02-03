@@ -75,3 +75,5 @@ export const photographerCategories = [
 export const categories = isCinematographerMode
   ? cinematographerCategories
   : photographerCategories;
+
+export const allowedImageSizeInKb = 1560;
