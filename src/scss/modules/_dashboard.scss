@@ -532,17 +532,17 @@ $btn-submit-hover: #1cdefb;
       left: 0;
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
       padding: 0.5rem;
       z-index: 2;
     }
 
     &__title {
       display: block;
-      font: 2rem/1.25 "Open Sans", sans-serif;
-      padding: 0.5rem;
-      border-radius: 5px;
-      background-color: rgba(0, 162, 255, 0.247);
+      font: 1.5rem/1.25 "Open Sans", sans-serif;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background-color: white;
     }
 
     &__btns {
