@@ -81,6 +81,7 @@
           ></VueEditor>
         </label>
 
+        <!-- upload photos 1 -->
         <!-- upload work -->
         <div class="dashboard__label">
           <span>Upload photos</span>
@@ -220,6 +221,7 @@
             </li>
           </ul>
         </div>
+        <!-- upload photos 1 -->
 
         <!-- work order -->
         <label class="dashboard__label">
@@ -338,7 +340,7 @@ export default {
       isSuccess: false,
       clientErrors: [],
       serverError: null,
-      photoFormat: ["vertical", "horizontal"]
+      photoFormat: ["vertical", "horizontal"] //
     };
   },
   computed: {
@@ -425,7 +427,7 @@ export default {
 
         this.selectedImages.push({
           file,
-          order: idx,
+          order: idx + 1,
           isPreview: false,
           format,
           src: URL.createObjectURL(file)

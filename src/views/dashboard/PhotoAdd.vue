@@ -91,61 +91,11 @@
         </label>
 
         <!-- files -->
-        <div class="dashboard__label">
-          <!-- upload -->
-          <span>Pleae upload photos</span>
-          <input type="file" multiple @change="getFiles" ref="files" />
-          <!-- add/edit -->
-          <ul class="dashboard__list-imgs">
-            <li v-for="(file, idx) in selectedImages" :key="idx">
-              <span class="dashboard__badge badge-yellow">{{ idx + 1 }}</span>
-              <button type="button" @click="removeSelectedImage(file)">
-                delete
-              </button>
-              <img :src="file.src" alt="preview" />
-
-              <label class="dashboard__label">
-                <span>Please select order of photos if need</span>
-                <select v-model="file.order">
-                  <option disabled selected value="null">
-                    Please choose order
-                  </option>
-                  <option
-                    v-for="(img, index) of images"
-                    :key="index"
-                    :value="index"
-                  >
-                    {{ index }}
-                  </option>
-                </select>
-              </label>
-              <!-- preview -->
-              <label class="dashboard__label">
-                <input type="checkbox" v-model="file.isPreview" :value="true" />
-                <span class="inline">Is preview photo?</span>
-              </label>
-              <!-- aspect retio -->
-              <label class="dashboard__label mb0">
-                <input
-                  type="radio"
-                  :name="`format${idx}`"
-                  value="vertical"
-                  v-model="file.format"
-                />
-                <span class="inline">vertical</span>
-              </label>
-              <label class="dashboard__label">
-                <input
-                  type="radio"
-                  :name="`format${idx}`"
-                  value="horizontal"
-                  v-model="file.format"
-                />
-                <span class="inline">horizontal</span>
-              </label>
-            </li>
-          </ul>
-        </div>
+        <UploadPhotos
+          :photo-collection="photoCollection"
+          :is-edit="isEdit"
+          @update="onImageUpdate"
+        />
 
         <!-- work order -->
         <label class="dashboard__label">
@@ -228,10 +178,12 @@
 <script>
 import PhotosGrid from "../../components/PhotosGrid";
 import { VueEditor } from "vue2-editor";
+import UploadPhotos from "./UploadPhotos";
 import { mapState } from "vuex";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
 const PhotosRepository = RepositoryFactory.get("photos");
+import { getHeightAndWidthFromDataUrl } from "../../helper/index";
 
 export default {
   props: {
@@ -245,7 +197,8 @@ export default {
   },
   components: {
     PhotosGrid,
-    VueEditor
+    VueEditor,
+    UploadPhotos
   },
   data() {
     return {
@@ -329,37 +282,40 @@ export default {
       this.choosedCategories = [];
       this.selectedImages = [];
     },
-    getFiles() {
+    async getFiles() {
       const files = this.$refs.files.files;
 
-      function getHeightAndWidthFromDataUrl(dataURL) {
-        // dataURL must be created by URL.createObjectURL(file)
-        return new Promise(resolve => {
-          const img = new Image();
-          img.onload = () => {
-            resolve({
-              height: img.height,
-              width: img.width
-            });
-          };
-          img.src = dataURL;
-        });
-      }
+      // Array.from(files).forEach(file => {
+      //   const src = URL.createObjectURL(file);
+      //   getHeightAndWidthFromDataUrl(src).then(resol => {
+      //     const format = resol.height > resol.width ? "vertical" : "horizontal";
+      //     const index = this.selectedImages.length ?? 1;
+      //     this.selectedImages.push({
+      //       src,
+      //       file,
+      //       order: index,
+      //       format,
+      //       isPreview: false
+      //     });
+      //   });
+      // });
 
-      Array.from(files).forEach(file => {
-        const src = URL.createObjectURL(file);
-        getHeightAndWidthFromDataUrl(src).then(resol => {
-          const format = resol.height > resol.width ? "vertical" : "horizontal";
-          const index = this.selectedImages.length ?? 1;
-          this.selectedImages.push({
-            src,
-            file,
-            order: index,
-            format,
-            isPreview: false
-          });
+      let idx = this.selectedImages?.length ?? 0;
+      for (const file of files) {
+        const resolution = await getHeightAndWidthFromDataUrl(file);
+        const format =
+          resolution.height > resolution.width ? "vertical" : "horizontal";
+
+        this.selectedImages.push({
+          file,
+          order: idx + 1,
+          isPreview: false,
+          format,
+          src: URL.createObjectURL(file)
         });
-      });
+
+        idx++;
+      }
     },
     removeSelectedImage(image) {
       if (this.isEdit) {
