@@ -37,7 +37,6 @@ export default {
       if (!photos?.length) {
         return [];
       }
-      console.log("router");
 
       const sorted = photos.sort((a, b) => b.order - a.order); // new add to the begin
       // return photos.sort((a, b) => a.order - b.order); // new add to the end

@@ -416,7 +416,6 @@ export default {
     },
     async getFiles() {
       const files = this.$refs.files.files;
-      console.log("files", files);
 
       let idx = this.selectedImages?.length ?? 0;
       for (const file of files) {

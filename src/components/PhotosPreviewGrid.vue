@@ -61,7 +61,7 @@ export default {
       const sortedPreviewPhotos = previewPhotos.sort(
         (a, b) => a.order - b.order
       );
-      console.log("sortedPreviewPhotos", sortedPreviewPhotos);
+
       return sortedPreviewPhotos?.length ? sortedPreviewPhotos?.[0].src : "";
     }
   }

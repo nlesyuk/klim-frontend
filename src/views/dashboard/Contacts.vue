@@ -265,7 +265,7 @@ export default {
         description,
         image
       } = contacts;
-      console.log("theme", theme);
+
       this.email = email;
       this.phone = phone;
       this.vimeo = vimeo;
