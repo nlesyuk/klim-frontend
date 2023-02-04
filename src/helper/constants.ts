@@ -57,6 +57,7 @@ export const menu = isCinematographerMode
 
 export const cinematographerCategories = [
   "all",
+  "film",
   "automotive",
   "fashion",
   "lifestyle",
