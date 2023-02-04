@@ -18,14 +18,18 @@
     </button>
 
     <Slides
-      v-if="slides && slides.length"
-      :slides="slides"
+      v-if="sortedSlides && sortedSlides.length"
+      :slides="sortedSlides"
       @delete="onDelete"
       @edit="onEdit"
     ></Slides>
-    <div v-else-if="slides && slides.length === 0" class="grid-empty">
+    <div
+      v-else-if="sortedSlides && sortedSlides.length === 0"
+      class="grid-empty"
+    >
       Don't have any items yet
     </div>
+
     <Spiner v-else />
   </section>
 </template>
@@ -54,7 +58,16 @@ export default {
       slides: state => state.slides.slides,
       videos: state => state.videos.videos,
       photos: state => state.photos.photos
-    })
+    }),
+    sortedSlides() {
+      const slides = this.slides;
+      if (slides) {
+        const sorted = slides.sort((a, b) => b.order - a.order); // new add to the begin
+        // const sorted = slides.sort((a, b) => a.order - b.order); // new add to the end
+        return sorted;
+      }
+      return slides;
+    }
   },
   methods: {
     ...mapActions(["getSlides", "getAllVideos", "getPhotos"]),

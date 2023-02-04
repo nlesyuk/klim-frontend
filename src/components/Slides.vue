@@ -12,6 +12,14 @@
         <h4 class="dashboard-slides__title">{{ item.title }}</h4>
         <div class="dashboard-slides__btns">
           <button
+            type="button"
+            class="dashboard__btn-inline"
+            title="order"
+            disabled
+          >
+            {{ item.order }}
+          </button>
+          <button
             type="submit"
             class="dashboard__btn-inline"
             @click="onEdit(item.id)"
@@ -31,15 +39,7 @@
             title="id"
             disabled
           >
-            {{ item.id }}
-          </button>
-          <button
-            type="button"
-            class="dashboard__btn-inline"
-            title="order"
-            disabled
-          >
-            {{ item.order }}
+            id:{{ item.id }}
           </button>
         </div>
       </div>

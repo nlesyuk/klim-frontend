@@ -4,12 +4,12 @@
     style="height: auto; margin-bottom: 20px;"
     @slide="onSlideChange"
   >
-    <slide v-for="(slide, idx) in allSlides" :key="idx" :index="idx">
+    <slide v-for="(slide, idx) in sortedSlides" :key="idx" :index="idx">
       <SlideComponent
         :source="slide"
         :slideId="idx"
         :currentSlide="currentSlide"
-        :allSlides="allSlides.length"
+        :allSlides="sortedSlides.length"
       />
     </slide>
     <hooper-navigation slot="hooper-addons"></hooper-navigation>
@@ -54,7 +54,16 @@ export default {
   computed: {
     ...mapState({
       allSlides: state => state.slides.slides
-    })
+    }),
+    sortedSlides() {
+      const slides = this.allSlides;
+      if (slides) {
+        const sorted = slides.sort((a, b) => b.order - a.order); // new add to the begin
+        // const sorted = slides.sort((a, b) => a.order - b.order); // new add to the end
+        return sorted;
+      }
+      return slides;
+    }
   },
   methods: {
     ...mapActions(["getSlides"]),
