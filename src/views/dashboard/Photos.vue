@@ -34,6 +34,16 @@
             <button
               type="button"
               class="dashboard__btn-inline"
+              title="order"
+              disabled
+            >
+              {{ item.order }}
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="dashboard__btn-inline"
               @click.prevent="remove(item.id)"
             >
               Remove
@@ -55,19 +65,10 @@
               title="id"
               disabled
             >
-              {{ item.id }}
+              id:{{ item.id }}
             </button>
           </li>
-          <li>
-            <button
-              type="button"
-              class="dashboard__btn-inline"
-              title="order"
-              disabled
-            >
-              {{ item.order }}
-            </button>
-          </li>
+
           <li>
             <span
               class="dashboard__badge badge-blue"
@@ -76,6 +77,9 @@
             >
               {{ category }}
             </span>
+          </li>
+          <li class="dashboard__badge badge-green color-black">
+            {{ getCategories(item.categories) }}
           </li>
         </ul>
       </PhotoPreview>
@@ -153,6 +157,12 @@ export default {
     },
     refresh() {
       this.getPhotos();
+    },
+    getCategories(arr) {
+      if (Array.isArray(arr)) {
+        return arr.join(", ");
+      }
+      return arr;
     },
     // edit
     edit(id) {
