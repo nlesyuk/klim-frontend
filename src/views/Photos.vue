@@ -37,9 +37,16 @@ export default {
       if (!photos?.length) {
         return [];
       }
+      console.log("router");
 
-      return photos.sort((a, b) => b.order - a.order); // new add to the begin
+      const sorted = photos.sort((a, b) => b.order - a.order); // new add to the begin
       // return photos.sort((a, b) => a.order - b.order); // new add to the end
+
+      if (this.$route.name === "commerce") {
+        return sorted.filter(item => item.categories?.includes("commerce"));
+      }
+
+      return sorted;
     }
   },
   methods: {
