@@ -161,7 +161,7 @@
             >
               {{ index }}
               <template v-if="index + 1 === allPhotoCollections && !isEdit">
-                (automate setted position)
+                (the position was set automatically)
               </template>
             </option>
           </select>
@@ -483,12 +483,11 @@ export default {
       this.title = title;
       this.order = order;
       this.credits = credits;
-      this.choosedCategories = [...categories];
+      this.choosedCategories = categories ? [...categories] : [];
       this.description = description;
       this.selectedImages = JSON.parse(JSON.stringify(photos));
     },
     update() {
-      // TODO: need handle update "categories"
       try {
         const formData = new FormData();
 
@@ -550,7 +549,7 @@ export default {
         formData.append("description", this.description);
         formData.append("photosInfo", JSON.stringify(photosInfo));
         if (this.choosedCategories) {
-          formData.append("categories", this.choosedCategories);
+          formData.append("categories", JSON.stringify(this.choosedCategories));
         }
 
         // return;

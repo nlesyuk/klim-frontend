@@ -301,9 +301,8 @@ import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import { RepositoryFactory } from "Repositories/RepositoryFactory.ts";
 const VideosRepository = RepositoryFactory.get("videos");
 import { getHeightAndWidthFromDataUrl, getName } from "../../helper/index";
-import { allowedImageSizeInKb } from "../../helper/constants";
+import { allowedImageSizeInKb } from "../../helper";
 
-console.log("aa", allowedImageSizeInKb);
 export default {
   allowedImageSizeInKb,
   props: {
