@@ -78,3 +78,5 @@ export const categories = isCinematographerMode
   : photographerCategories;
 
 export const allowedImageSizeInKb = 1560;
+
+export const photoFormat = ["vertical", "horizontal"]

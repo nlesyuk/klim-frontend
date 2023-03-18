@@ -119,7 +119,7 @@
 
         <!-- radio -->
         <label
-          v-for="format in photoFormat"
+          v-for="format in $options.photoFormat"
           class="dashboard__label mb0"
           :key="format"
         >
@@ -137,10 +137,16 @@
 </template>
 
 <script>
-import { getHeightAndWidthFromDataUrl, getName } from "../../helper/index";
+import {
+  getHeightAndWidthFromDataUrl,
+  getName,
+  getSize,
+  photoFormat
+} from "../../helper/index";
 
 export default {
   name: "UploadPhotos",
+  photoFormat,
   props: {
     photoCollection: {
       type: Object
@@ -151,17 +157,19 @@ export default {
     }
   },
   watch: {
-    images(v) {
-      console.log("update img", v);
+    images: {
+      deep: true,
+      handler() {
+        console.log("h updt");
+        this.onUpdate();
+      }
     }
   },
   data() {
     return {
-      // main
-      images: [],
-      removed: [],
-      // additional
-      photoFormat: ["vertical", "horizontal"]
+      images: []
+      // removed: [],
+      // updated: []
     };
   },
   methods: {
@@ -173,7 +181,9 @@ export default {
       for (const file of files) {
         const resolution = await getHeightAndWidthFromDataUrl(file);
         const format =
-          resolution.height > resolution.width ? "vertical" : "horizontal";
+          resolution.height > resolution.width
+            ? photoFormat[0] // vertical
+            : photoFormat[1]; // horizontal
 
         this.images.push({
           file,
@@ -194,20 +204,9 @@ export default {
       console.log("remove", image, this.images);
     },
     getName,
-    getSize(sizeInByte) {
-      let name = "Kb";
-      let size = Math.floor(sizeInByte / 1024); // get Kb
-      if (size >= 1024) {
-        name = "Mb";
-        size = size / 1024; // get Mb
-        size = size.toFixed(2);
-      }
-
-      return `${size} ${name}`;
-    },
+    getSize,
     onUpdate() {
-      const data = {};
-      this.$emit("update");
+      this.$emit("update", this.images);
     }
   }
 };

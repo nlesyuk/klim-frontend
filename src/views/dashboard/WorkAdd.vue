@@ -9,6 +9,7 @@
           * для корректного відображення всі фото мають бути одного розміру
         </p>
 
+        <!-- title -->
         <label
           :class="[
             'dashboard__label',
@@ -42,6 +43,7 @@
           </select>
         </label>
 
+        <!-- video id -->
         <label
           :class="[
             'dashboard__label',
@@ -63,6 +65,7 @@
           </strong>
         </label>
 
+        <!-- Description -->
         <label class="dashboard__label">
           <span>Description under title</span>
           <VueEditor
@@ -72,6 +75,7 @@
           ></VueEditor>
         </label>
 
+        <!-- Credits -->
         <label class="dashboard__label">
           <span>Credits</span>
           <VueEditor

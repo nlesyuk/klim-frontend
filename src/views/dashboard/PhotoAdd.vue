@@ -338,6 +338,10 @@ export default {
         }, 20 * 1000);
       }
     },
+    onImageUpdate(data) {
+      this.selectedImages = [...data];
+      // console.log("onImageUpdate", data);
+    },
 
     // send work to a server:
     submit() {
@@ -401,6 +405,9 @@ export default {
         );
         formData.append("photosInfo", photoInfo);
 
+        // ALERT: for test
+        console.log("create-formData", photoInfo);
+        return;
         this.isLoading = true;
         PhotosRepository.create(formData)
           .then(() => {
@@ -525,6 +532,8 @@ export default {
           });
       } catch (e) {
         this.serverError = e.message;
+        // eslint-disable-next-line no-console
+        console.error(e);
       }
     }
   },

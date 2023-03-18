@@ -90,3 +90,15 @@ class Theme {
 }
 
 export const themeInstance = new Theme();
+
+export function getSize(sizeInByte) {
+  let name = "Kb";
+  let size = Math.floor(sizeInByte / 1024); // get Kb
+  if (size >= 1024) {
+    name = "Mb";
+    size = size / 1024; // get Mb
+    size = Number(size.toFixed(2));
+  }
+
+  return `${size} ${name}`;
+}
