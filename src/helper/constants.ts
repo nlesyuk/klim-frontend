@@ -54,7 +54,7 @@ export const menuPhotographer = mainMenu
 export const menu = isCinematographerMode
   ? menuSinematographer
   : menuPhotographer;
-
+// Stepan
 export const cinematographerCategories = [
   "all",
   "film",
@@ -64,12 +64,12 @@ export const cinematographerCategories = [
   "personal",
   "commerce"
 ];
-
+// Anna
 export const photographerCategories = [
   "all",
   "automotive",
   "fashion",
-  "lifestyle",
+  "architecture and interior",
   "personal"
 ];
 
