@@ -90,7 +90,7 @@
     }
   }
   &__item {
-    background: var(--base-gradient);
+    // background: var(--base-gradient);
     position: relative;
     overflow: hidden;
     &:hover {
@@ -108,25 +108,25 @@
     min-width: 50px;
     min-height: 50px;
     position: relative;
-    &::after,
-    &::before {
-      content: "";
-      background: var(--base-gradient);
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    }
-    &::after {
-      content: "\26CC";
-      font-size: 28px;
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2;
-    }
+    // &::after,
+    // &::before {
+    //   content: "";
+    //   background: var(--base-gradient);
+    //   position: absolute;
+    //   top: 0;
+    //   bottom: 0;
+    //   left: 0;
+    //   right: 0;
+    // }
+    // &::after {
+    //   content: "\26CC";
+    //   font-size: 28px;
+    //   color: var(--accent);
+    //   display: flex;
+    //   align-items: center;
+    //   justify-content: center;
+    //   z-index: 2;
+    // }
   }
 
   &-empty {
