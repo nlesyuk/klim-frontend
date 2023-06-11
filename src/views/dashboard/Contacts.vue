@@ -114,7 +114,7 @@
         <button
           type="submit"
           class="dashboard__submit"
-          :disabled="!isAllowUpdate"
+          :disabled="!isDataTheSame"
         >
           {{ isContactAlreadyExist ? "Update" : "Create" }}
         </button>
@@ -175,36 +175,37 @@ export default {
       required
     },
     vimeo: {
-      required
+      // required
     },
     facebook: {
-      required
+      // required
     },
     telegram: {
-      required
+      // required
     },
     instagram: {
-      required
+      // required
     }
   },
   components: {
     VueEditor,
     ThemeToggle
   },
+  watch: {
+    contacts: {
+      deep: true,
+      immediate: true,
+      handler(v) {
+        console.log(v);
+      }
+    }
+  },
   computed: {
     ...mapState({
       contacts: state => state.general.contacts
     }),
-    isAllowUpdate() {
-      return (
-        this.email &&
-        this.phone &&
-        this.vimeo &&
-        this.theme &&
-        this.facebook &&
-        this.telegram &&
-        this.instagram
-      );
+    isDataTheSame() {
+      return true;
     },
     // base
     worksLength() {
@@ -319,15 +320,14 @@ export default {
     }
   },
   created() {
-    setTimeout(() => {
-      // not good but
+    this.$nextTick(() => {
       if (!this.contacts) {
         this.getContacts().then(contacts => {
           this.setContacts(contacts);
         });
       }
       this.setContacts(this.contacts);
-    }, 0);
+    });
   }
 };
 </script>

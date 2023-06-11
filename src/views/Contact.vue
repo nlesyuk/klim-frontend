@@ -21,7 +21,7 @@
             <a :href="`tel:${phone}`">{{ contacts.phone }}</a>
           </span>
           <div class="contact__text">
-            sociale media
+            social media
             <ul class="contact__social">
               <li>
                 <a :href="contacts.facebook" target="_blank">

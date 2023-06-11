@@ -37,7 +37,7 @@
     <!--  -->
     <h2
       class="dashboard__title dashboard__title--center dashboard__title--big-border"
-      v-if="isDasboardRoute"
+      v-if="isDashboardRoute"
     >
       Hello, {{ username }}!
     </h2>
@@ -51,7 +51,7 @@ import { menu } from "@/helper/constants";
 export default {
   menu,
   computed: {
-    isDasboardRoute() {
+    isDashboardRoute() {
       return this.$route.name === "dashboard";
     },
     currentUser() {
